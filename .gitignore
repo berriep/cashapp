@@ -40,3 +40,17 @@ htmlcov/
 # Backups
 *.bak
 *.backup
+
+# Large data files
+Recon_Tool/Documentation/*.csv
+**/Documentation/*.csv
+
+# Certificates and sensitive files
+*.pfx
+*.pem
+*.key
+*.der
+*.cer
+tokens/
+certificates/
+config/clients/production.json
