@@ -45,6 +45,31 @@ htmlcov/
 Recon_Tool/Documentation/*.csv
 **/Documentation/*.csv
 
+# Banking/Financial data files (SENSITIVE)
+# CAMT053 files
+*.xml
+!**/Documentation/*.xml
+**/Output/*.xml
+**/output/*.xml
+**/Ouput/*.xml
+BAI_Tool/Archive/Bank API/Autobank files/CPGE.txt
+
+# MT940 files
+*.swi
+*.sta
+*.940
+
+# Other banking formats
+*.pil
+rabo.000
+
+# JSON data files with transactions/balances
+**/rabobank_*.json
+**/balance_*.json
+**/transactions_*.json
+**/camt_*.json
+**/bai-insight-*.json
+
 # Certificates and sensitive files
 *.pfx
 *.pem
@@ -54,3 +79,5 @@ Recon_Tool/Documentation/*.csv
 tokens/
 certificates/
 config/clients/production.json
+auth_code.txt
+oauth_state.txt
