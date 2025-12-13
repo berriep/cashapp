@@ -1,0 +1,24 @@
+# Web Framework
+Flask==3.0.0
+Flask-Login==0.6.3
+Werkzeug==3.0.1
+
+# Database
+psycopg2-binary==2.9.9
+
+# Security
+bcrypt==4.1.2
+python-dotenv==1.0.0
+
+# Data Processing
+pandas==2.1.4
+plotly==5.18.0
+
+# PDF Generation
+reportlab==4.0.7
+
+# Production Server
+gunicorn==21.2.0
+
+# Scheduling (for Recon module)
+APScheduler==3.10.4

@@ -1,0 +1,46 @@
+﻿{
+    "account":  {
+                    "iban":  "NL08RABO0100929575",
+                    "currency":  "EUR"
+                },
+    "transactions":  {
+                         "booked":  [
+                                        {
+                                            "bookingDate":  "2025-09-01",
+                                            "valueDate":  "2025-09-01",
+                                            "raboBookingDateTime":  "2025-09-01T00:00:00.000000Z",
+                                            "entryReference":  "000000000000005476",
+                                            "transactionAmount":  {
+                                                                      "currency":  "EUR",
+                                                                      "amount":  "45,64"
+                                                                  },
+                                            "remittanceInformationUnstructured":  "Kosten                             Periode 01-08-2025 t/m 31-08-2025",
+                                            "raboDetailedTransactionType":  "633",
+                                            "raboTransactionTypeName":  "st",
+                                            "reasonCode":  "AG01",
+                                            "bankTransactionCode":  "PMNT-RCDT-ESCT",
+                                            "creditorAgent":  "RABONL2U",
+                                            "initiatingPartyName":  "CSV IMPORT",
+                                            "debtorAccount":  {
+                                                                  "iban":  "NL08RABO0100929575"
+                                                              },
+                                            "creditorAccount":  {
+                                                                    "iban":  "NL08RABO0100929575",
+                                                                    "currency":  "EUR"
+                                                                },
+                                            "creditorName":  "Rabobank",
+                                            "balanceAfterBooking":  {
+                                                                        "balanceAmount":  {
+                                                                                              "currency":  "EUR",
+                                                                                              "amount":  "37178,45"
+                                                                                          },
+                                                                        "balanceType":  "InterimBooked"
+                                                                    }
+                                        }
+                                    ],
+                         "_links":  {
+                                        "account":  "/accounts/-1379118728_14736985",
+                                        "next":  null
+                                    }
+                     }
+}

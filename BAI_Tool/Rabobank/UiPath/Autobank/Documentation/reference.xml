@@ -1,0 +1,82 @@
+     <Ntry>
+        <NtryRef>2911595</NtryRef>	=	entry_reference
+        <Amt Ccy="EUR">384.10</Amt>	= 	curreny + transaction_amount
+        <CdtDbtInd>CRDT</CdtDbtInd> =   CRDT if amount positive or DBIT if amount is negative
+        <Sts>BOOK</Sts>	= always BOOK if booked 
+        <BookgDt>
+          <Dt>2025-10-06</Dt> = booking_date
+        </BookgDt>
+        <ValDt>
+          <Dt>2025-10-06</Dt> = value_date
+        </ValDt>
+        <AcctSvcrRef>43011075189:CI49CT</AcctSvcrRef> = ??
+        <BkTxCd>
+          <Domn>
+            <Cd>PMNT</Cd> = ??
+            <Fmly>
+              <Cd>RCDT</Cd> = ??
+              <SubFmlyCd>ESCT</SubFmlyCd> = ??
+            </Fmly>
+          </Domn>
+          <Prtry>
+            <Cd>100</Cd> = rabo_detailed_transaction_type
+            <Issr>RABOBANK</Issr> = ??
+          </Prtry>
+        </BkTxCd>
+        <NtryDtls>
+          <TxDtls>
+            <Refs>
+              <AcctSvcrRef>OO9T005069862466</AcctSvcrRef> = batch_entry_reference
+              <InstrId>OO9T005069862466</InstrId> = batch_entry_reference ??
+              <EndToEndId>06-10-2025 00:07 7020056313469725</EndToEndId> = end_to_end_id
+            </Refs>
+            <AmtDtls>
+              <TxAmt>
+                <Amt Ccy="EUR">384.10</Amt> = 	curreny + transaction_amount
+              </TxAmt>
+              <PrtryAmt>
+                <Tp>IBS</Tp>
+                <Amt Ccy="EUR">384.10</Amt> = 	curreny + transaction_amount
+              </PrtryAmt>
+            </AmtDtls>
+            <BkTxCd>
+              <Domn>
+                <Cd>PMNT</Cd>
+                <Fmly>
+                  <Cd>RCDT</Cd>
+                  <SubFmlyCd>ESCT</SubFmlyCd>
+                </Fmly>
+              </Domn>
+              <Prtry>
+                <Cd>100</Cd>
+                <Issr>RABOBANK</Issr>
+              </Prtry>
+            </BkTxCd>
+            <RltdPties>
+              <Dbtr>
+                <Nm>I.L.B.M. Elzinga</Nm> debtor_name 
+              </Dbtr>
+              <DbtrAcct>
+                <Id>
+                  <IBAN>NL85RABO0105474967</IBAN> = debtor_iban
+                </Id>
+              </DbtrAcct>
+            </RltdPties>
+            <RltdAgts>
+              <DbtrAgt>
+                <FinInstnId>
+                  <BIC>RABONL2U</BIC> = debtor_agent
+                </FinInstnId>
+              </DbtrAgt>
+            </RltdAgts>
+            <Purp>
+              <Cd>EPAY</Cd> = purpose_code
+            </Purp>
+            <RmtInf>
+              <Ustrd>8988204469 7020056313469725 KV xui-16389167</Ustrd> = remittance_information_unstructured
+            </RmtInf>
+            <RltdDts>
+              <IntrBkSttlmDt>2025-10-06</IntrBkSttlmDt>
+            </RltdDts>
+          </TxDtls>
+        </NtryDtls>

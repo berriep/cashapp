@@ -1,0 +1,4 @@
+﻿AccountIban,AccountCurrency,BalanceType,BalanceAmount,BalanceCurrency,LastChangeDateTime,ReferenceDate
+NL31RABO0300087233,EUR,expected,"-4538860,77",EUR,2025-09-01T14:07:17Z,
+NL31RABO0300087233,EUR,closingBooked,"-3858031,65",EUR,,2025-09-01
+NL31RABO0300087233,EUR,interimBooked,"-4311917,73",EUR,2025-09-01T00:00:00Z,

@@ -1,0 +1,362 @@
+{% extends "base.html" %}
+
+{% block title %}Bank Statements - BAI Monitor{% endblock %}
+
+{% block content %}
+<h2 class="mb-4"><i class="bi bi-file-text"></i> Bank Statements</h2>
+
+<div class="card mb-4">
+    <div class="card-body">
+        <form method="GET" class="row g-3 align-items-end">
+            <div class="col-md-3">
+                <label for="iban" class="form-label">Account Number (IBAN) *</label>
+                <select class="form-select" name="iban" id="iban" required>
+                    <option value="">Select account...</option>
+                    {% for account in accounts %}
+                    <option value="{{ account.iban }}" {% if selected_iban == account.iban %}selected{% endif %}>
+                        {{ account.iban }}
+                    </option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="col-md-2">
+                <label for="date_from" class="form-label">From Date *</label>
+                <input type="date" class="form-control" name="date_from" id="date_from" value="{{ selected_date_from or '' }}" required>
+            </div>
+            <div class="col-md-2">
+                <label for="date_to" class="form-label">To Date *</label>
+                <input type="date" class="form-control" name="date_to" id="date_to" value="{{ selected_date_to or '' }}" required>
+            </div>
+            <div class="col-md-2">
+                <label class="form-label">&nbsp;</label>
+                <button type="submit" class="btn btn-primary w-100" style="min-width: 150px; max-width: 250px;"><i class="bi bi-search"></i> Generate Statement</button>
+            </div>
+            {% if summary %}
+            <div class="col-md-2">
+                <label class="form-label">&nbsp;</label>
+                <a href="{{ url_for('bai.bank_statements_pdf', iban=selected_iban, date_from=selected_date_from, date_to=selected_date_to) }}" class="btn btn-primary w-100" style="min-width: 150px; max-width: 250px;">
+                    <i class="bi bi-file-pdf"></i> Export to PDF
+                </a>
+            </div>
+            {% endif %}
+        </form>
+    </div>
+</div>
+
+{% if summary %}
+<div class="card mb-4">
+    <div class="card-header d-flex justify-content-between align-items-center">
+        <h5 class="mb-0"><i class="bi bi-bank"></i> Statement Summary</h5>
+    </div>
+    <div class="card-body">
+        <div class="row">
+            <div class="col-md-6">
+                <table class="table table-borderless table-sm">
+                    <tr>
+                        <td class="fw-bold">Name</td>
+                        <td>{{ summary.account_name or 'N/A' }}</td>
+                    </tr>
+                    <tr>
+                        <td class="fw-bold">Account Number</td>
+                        <td><code>{{ summary.iban }}</code></td>
+                    </tr>
+                    <tr>
+                        <td class="fw-bold">Currency</td>
+                        <td>{{ summary.currency or 'EUR' }}</td>
+                    </tr>
+                </table>
+            </div>
+            <div class="col-md-6">
+                <table class="table table-borderless table-sm">
+                    <tr>
+                        <td class="fw-bold">Statement creation date</td>
+                        <td>{{ summary.statement_date if summary.statement_date else '-' }}</td>
+                    </tr>
+                    <tr>
+                        <td class="fw-bold">From date</td>
+                        <td>{{ summary.date_from if summary.date_from else '-' }}</td>
+                    </tr>
+                    <tr>
+                        <td class="fw-bold">To Date</td>
+                        <td>{{ summary.date_to if summary.date_to else '-' }}</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        <hr>
+        <div class="row">
+            <div class="col-md-3">
+                <div class="text-center p-3 bg-light rounded">
+                    <div class="text-muted small">Opening Balance</div>
+                    <div class="h5 mb-0">{{ summary.opening_balance|nl_currency }}</div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="text-center p-3 bg-light rounded">
+                    <div class="text-muted small">Closing Balance</div>
+                    <div class="h5 mb-0">{{ summary.closing_balance|nl_currency }}</div>
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="text-center p-3 bg-danger bg-opacity-10 rounded filter-box" role="button" onclick="filterTransactions('debit')" style="cursor: pointer; transition: all 0.2s;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
+                    <div class="text-muted small">Total Debited <i class="bi bi-hand-index"></i></div>
+                    <div class="h5 mb-0 text-danger">{{ summary.total_debited|nl_currency }}</div>
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="text-center p-3 bg-success bg-opacity-10 rounded filter-box" role="button" onclick="filterTransactions('credit')" style="cursor: pointer; transition: all 0.2s;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
+                    <div class="text-muted small">Total Credited <i class="bi bi-hand-index"></i></div>
+                    <div class="h5 mb-0 text-success">{{ summary.total_credited|nl_currency }}</div>
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="text-center p-3 bg-info bg-opacity-10 rounded filter-box" role="button" onclick="filterTransactions('all')" style="cursor: pointer; transition: all 0.2s;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
+                    <div class="text-muted small">Transactions <i class="bi bi-hand-index"></i></div>
+                    <div class="h5 mb-0">{{ summary.transaction_count }}</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="card">
+    <div class="card-header d-flex justify-content-between align-items-center">
+        <h5 class="mb-0"><i class="bi bi-list"></i> Transactions</h5>
+        <div>
+            <span class="badge bg-secondary" id="transaction-count">{{ transactions|length }} transactions</span>
+            <span class="badge bg-primary ms-2" id="filter-indicator" style="display: none;">Filtered</span>
+        </div>
+    </div>
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-sm table-hover">
+                <thead class="table-light">
+                    <tr>
+                        <th>Value Date</th>
+                        <th>Type</th>
+                        <th>Counterparty</th>
+                        <th>Description</th>
+                        <th>Process Date</th>
+                        <th>End-to-End ID</th>
+                        <th class="text-end">Amount</th>
+                    </tr>
+                    <tr>
+                        <th></th>
+                        <th></th>
+                        <th><input type="text" class="form-control form-control-sm" id="filter-counterparty" placeholder="Filter counterparty..."></th>
+                        <th><input type="text" class="form-control form-control-sm" id="filter-description" placeholder="Filter description..."></th>
+                        <th></th>
+                        <th><input type="text" class="form-control form-control-sm" id="filter-e2e" placeholder="Filter E2E ID..."></th>
+                        <th><input type="text" class="form-control form-control-sm" id="filter-amount" placeholder="Filter amount (>, <, =)..."></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% if transactions %}
+                        {% for tx in transactions %}
+                        <tr class="transaction-row" data-type="{% if tx.transaction_amount < 0 %}debit{% else %}credit{% endif %}">
+                            <td>{{ tx.valuedate.strftime('%d-%m-%Y') if tx.valuedate else '-' }}</td>
+                            <td>
+                                {% if tx.rabo_transaction_type_name %}
+                                <span class="badge bg-info small">{{ tx.rabo_transaction_type_name }}</span>
+                                {% else %}
+                                <span class="badge bg-secondary small">{{ tx.rabo_detailed_transaction_type }}</span>
+                                {% endif %}
+                            </td>
+                            <td>
+                                {% if tx.transaction_amount < 0 %}
+                                    {# Negatief = uitgaand = toon creditor #}
+                                    {% if tx.creditor_iban %}
+                                    <div class="small">
+                                        <code>{{ tx.creditor_iban }}</code><br>
+                                        <span class="text-muted">{{ tx.creditor_name or '-' }}</span>
+                                    </div>
+                                    {% else %}
+                                    <span class="text-muted small">-</span>
+                                    {% endif %}
+                                {% else %}
+                                    {# Positief = inkomend = toon debtor #}
+                                    {% if tx.debtor_iban %}
+                                    <div class="small">
+                                        <code>{{ tx.debtor_iban }}</code><br>
+                                        <span class="text-muted">{{ tx.debtor_name or '-' }}</span>
+                                    </div>
+                                    {% else %}
+                                    <span class="text-muted small">-</span>
+                                    {% endif %}
+                                {% endif %}
+                            </td>
+                            <td>
+                                <div class="small" style="max-width: 250px; white-space: normal;">
+                                    {{ tx.description or '-' }}
+                                </div>
+                            </td>
+                            <td>{{ tx.processdate.strftime('%d-%m-%Y') if tx.processdate else '-' }}</td>
+                            <td><span class="text-muted small">{{ tx.end_to_end_id or '-' }}</span></td>
+                            <td class="text-end {% if tx.transaction_amount > 0 %}text-success{% else %}text-danger{% endif %}">
+                                <strong>{{ tx.transaction_amount|nl_currency }}</strong>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    {% else %}
+                        <tr>
+                            <td colspan="7" class="text-center text-muted py-4">
+                                <i class="bi bi-inbox"></i> No transactions found for the selected period
+                            </td>
+                        </tr>
+                    {% endif %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% elif selected_iban %}
+<div class="alert alert-warning">
+    <i class="bi bi-exclamation-triangle"></i> No statement data found for the selected account and date range.
+</div>
+{% else %}
+<div class="alert alert-info">
+    <i class="bi bi-info-circle"></i> Select an account and date range to generate a bank statement.
+</div>
+{% endif %}
+
+<script>
+let currentFilter = 'all';
+
+function filterTransactions(type) {
+    currentFilter = type;
+    const rows = document.querySelectorAll('.transaction-row');
+    const filterIndicator = document.getElementById('filter-indicator');
+    const transactionCount = document.getElementById('transaction-count');
+    let visibleCount = 0;
+    
+    // Remove active state from all filter boxes
+    document.querySelectorAll('.filter-box').forEach(box => {
+        box.style.boxShadow = '';
+        box.style.borderWidth = '';
+    });
+    
+    rows.forEach(row => {
+        if (type === 'all') {
+            row.style.display = '';
+            visibleCount++;
+        } else if (type === 'debit' && row.dataset.type === 'debit') {
+            row.style.display = '';
+            visibleCount++;
+        } else if (type === 'credit' && row.dataset.type === 'credit') {
+            row.style.display = '';
+            visibleCount++;
+        } else {
+            row.style.display = 'none';
+        }
+    });
+    
+    // Update counter
+    transactionCount.textContent = visibleCount + ' transactions';
+    
+    // Show/hide filter indicator
+    if (type === 'all') {
+        filterIndicator.style.display = 'none';
+    } else {
+        filterIndicator.style.display = 'inline-block';
+        filterIndicator.textContent = type === 'debit' ? 'Showing Debits' : 'Showing Credits';
+    }
+    
+    // Highlight active filter box
+    event.target.closest('.filter-box').style.boxShadow = '0 0 0 3px rgba(13, 110, 253, 0.25)';
+}
+
+// Text filter functionality with wildcard support
+function applyTextFilters() {
+    const counterpartyFilter = document.getElementById('filter-counterparty').value.toLowerCase();
+    const descriptionFilter = document.getElementById('filter-description').value.toLowerCase();
+    const e2eFilter = document.getElementById('filter-e2e').value.toLowerCase();
+    const amountFilter = document.getElementById('filter-amount').value.toLowerCase();
+    
+    const rows = document.querySelectorAll('.transaction-row');
+    const transactionCount = document.getElementById('transaction-count');
+    let visibleCount = 0;
+    
+    rows.forEach(row => {
+        // Skip if hidden by debit/credit filter
+        if (row.style.display === 'none' && currentFilter !== 'all') {
+            return;
+        }
+        
+        const cells = row.getElementsByTagName('td');
+        const counterpartyText = cells[2].textContent.toLowerCase();
+        const descriptionText = cells[3].textContent.toLowerCase();
+        const e2eText = cells[5].textContent.toLowerCase();
+        const amountText = cells[6].textContent.toLowerCase();
+        
+        // Helper function to match with wildcard support
+        function matchesFilter(text, filter) {
+            if (!filter) return true;
+            
+            // Convert wildcard * to regex .*
+            const regexPattern = filter
+                .replace(/[.*+?^${}()|[\]\\]/g, '\\$&') // Escape special chars
+                .replace(/\\\*/g, '.*'); // Convert \* back to .*
+            
+            const regex = new RegExp(regexPattern, 'i');
+            return regex.test(text);
+        }
+        
+        // Helper function for amount comparison
+        function matchesAmountFilter(amountText, filter) {
+            if (!filter) return true;
+            
+            // Extract numeric value from formatted amount (e.g., "€ 1.234,56" -> 1234.56)
+            const numericValue = parseFloat(amountText.replace(/[^0-9,-]/g, '').replace('.', '').replace(',', '.'));
+            
+            // Check for comparison operators
+            if (filter.startsWith('>')) {
+                const compareValue = parseFloat(filter.substring(1).trim());
+                return !isNaN(compareValue) && numericValue > compareValue;
+            } else if (filter.startsWith('<')) {
+                const compareValue = parseFloat(filter.substring(1).trim());
+                return !isNaN(compareValue) && numericValue < compareValue;
+            } else if (filter.startsWith('=')) {
+                const compareValue = parseFloat(filter.substring(1).trim());
+                return !isNaN(compareValue) && Math.abs(numericValue - compareValue) < 0.01;
+            } else {
+                // Default: wildcard text matching
+                return matchesFilter(amountText, filter);
+            }
+        }
+        
+        const matches = 
+            matchesFilter(counterpartyText, counterpartyFilter) &&
+            matchesFilter(descriptionText, descriptionFilter) &&
+            matchesFilter(e2eText, e2eFilter) &&
+            matchesAmountFilter(amountText, amountFilter);
+        
+        if (matches) {
+            // Only show if also matches debit/credit filter
+            if (currentFilter === 'all' || 
+                (currentFilter === 'debit' && row.dataset.type === 'debit') ||
+                (currentFilter === 'credit' && row.dataset.type === 'credit')) {
+                row.style.display = '';
+                visibleCount++;
+            }
+        } else {
+            row.style.display = 'none';
+        }
+    });
+    
+    transactionCount.textContent = visibleCount + ' transactions';
+}
+
+// Add event listeners to filter inputs
+document.addEventListener('DOMContentLoaded', function() {
+    ['filter-counterparty', 'filter-description', 'filter-e2e', 'filter-amount'].forEach(id => {
+        const input = document.getElementById(id);
+        if (input) {
+            input.addEventListener('input', applyTextFilters);
+        }
+    });
+});
+</script>
+
+{% endblock %}
+
+

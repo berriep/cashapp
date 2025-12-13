@@ -1,0 +1,24 @@
+version: '3.8'
+
+services:
+  bai-monitor:
+    build: .
+    container_name: bai-monitor
+    ports:
+      - "5000:5000"
+    environment:
+      - FLASK_ENV=production
+      - FLASK_APP=app.main
+    env_file:
+      - .env
+    volumes:
+      - ./app:/app/app
+      - ./config:/app/config
+      - ./logs:/app/logs
+    restart: unless-stopped
+    networks:
+      - bai-network
+
+networks:
+  bai-network:
+    driver: bridge

@@ -1,0 +1,134 @@
+﻿{% extends "base_simple.html" %}
+
+{% block title %}CashApp - Finance Platform{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row mb-4">
+        <div class="col-12">
+            <h1><i class="bi bi-building"></i> Welcome to CashApp</h1>
+            <p class="lead">Unified Finance Platform for Transaction Monitoring & Reconciliation</p>
+            <hr>
+        </div>
+    </div>
+
+    <div class="row">
+        <!-- BAI Monitor Module - Only show if user has access -->
+        {% if current_user.is_admin or current_user.has_bai_access %}
+        <div class="col-md-6 mb-4">
+            <div class="card h-100 shadow-sm">
+                <div class="card-body">
+                    <h3 class="card-title">
+                        <i class="bi bi-bank text-primary"></i> BAI Monitor
+                    </h3>
+                    <p class="card-text">
+                        Real-time transaction monitoring, balance tracking, and data quality analysis for all bank accounts.  
+                    </p>
+                    <ul class="list-unstyled">
+                        <li><i class="bi bi-check-circle text-success"></i> Transaction Overview</li>
+                        <li><i class="bi bi-check-circle text-success"></i> Balance Reconciliation</li>
+                        <li><i class="bi bi-check-circle text-success"></i> Data Quality Tracking</li>
+                        <li><i class="bi bi-check-circle text-success"></i> Missing Data Detection</li>
+                        <li><i class="bi bi-check-circle text-success"></i> Bank Statements</li>
+                    </ul>
+                    <a href="{{ url_for('bai.dashboard') }}" class="btn btn-primary btn-lg w-100 mt-3">
+                        <i class="bi bi-box-arrow-in-right"></i> Open BAI Dashboard
+                    </a>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+
+        <!-- Reconciliation Module - Only show if user has access -->
+        {% if current_user.is_admin or current_user.has_recon_access %}
+        <div class="col-md-6 mb-4">
+            <div class="card h-100 shadow-sm">
+                <div class="card-body">
+                    <h3 class="card-title">
+                        <i class="bi bi-check2-square text-success"></i> Reconciliation
+                    </h3>
+                    <p class="card-text">
+                        Automated reconciliation workflows, matching engine, and reporting for financial data validation.     
+                    </p>
+                    <ul class="list-unstyled">
+                        <li><i class="bi bi-check-circle text-success"></i> Automated Matching</li>
+                        <li><i class="bi bi-check-circle text-success"></i> Manual Review Interface</li>
+                        <li><i class="bi bi-check-circle text-success"></i> Scheduled Jobs</li>
+                        <li><i class="bi bi-check-circle text-success"></i> Reconciliation Reports</li>
+                        <li><i class="bi bi-check-circle text-success"></i> Exception Management</li>
+                    </ul>
+                    <a href="{{ url_for('recon.dashboard') }}" class="btn btn-success btn-lg w-100 mt-3">
+                        <i class="bi bi-box-arrow-in-right"></i> Open Recon Dashboard
+                    </a>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+
+        <!-- No Access Message -->
+        {% if not (current_user.is_admin or current_user.has_bai_access or current_user.has_recon_access) %}
+        <div class="col-12">
+            <div class="alert alert-warning" role="alert">
+                <h4 class="alert-heading"><i class="bi bi-exclamation-triangle"></i> No Module Access</h4>
+                <p>You don't have access to any modules yet. Please contact your administrator to request access.</p>
+                <hr>
+                <p class="mb-0">
+                    <a href="{{ url_for('shared.logout') }}" class="btn btn-sm btn-outline-warning">
+                        <i class="bi bi-box-arrow-right"></i> Logout
+                    </a>
+                </p>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+
+    <!-- Quick Stats Row - Only show BAI quick links if has BAI access -->
+    {% if current_user.is_admin or current_user.has_bai_access %}
+    <div class="row mt-4">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header bg-light">
+                    <h5 class="mb-0"><i class="bi bi-speedometer2"></i> Quick Access - BAI Monitor</h5>
+                </div>
+                <div class="card-body">
+                    <div class="row text-center">
+                        <div class="col-md-3 mb-3">
+                            <a href="{{ url_for('bai.transaction_details') }}" class="text-decoration-none">
+                                <div class="p-3 border rounded">
+                                    <i class="bi bi-list-ul fs-1 text-info"></i>
+                                    <p class="mb-0 mt-2">Transactions</p>
+                                </div>
+                            </a>
+                        </div>
+                        <div class="col-md-3 mb-3">
+                            <a href="{{ url_for('bai.balances') }}" class="text-decoration-none">
+                                <div class="p-3 border rounded">
+                                    <i class="bi bi-cash-stack fs-1 text-success"></i>
+                                    <p class="mb-0 mt-2">Balances</p>
+                                </div>
+                            </a>
+                        </div>
+                        <div class="col-md-3 mb-3">
+                            <a href="{{ url_for('bai.bank_statements') }}" class="text-decoration-none">
+                                <div class="p-3 border rounded">
+                                    <i class="bi bi-file-text fs-1 text-primary"></i>
+                                    <p class="mb-0 mt-2">Statements</p>
+                                </div>
+                            </a>
+                        </div>
+                        <div class="col-md-3 mb-3">
+                            <a href="{{ url_for('bai.reports') }}" class="text-decoration-none">
+                                <div class="p-3 border rounded">
+                                    <i class="bi bi-graph-up fs-1 text-warning"></i>
+                                    <p class="mb-0 mt-2">Reports</p>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

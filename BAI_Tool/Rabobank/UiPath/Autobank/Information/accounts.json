@@ -1,0 +1,340 @@
+﻿{
+  "accounts": [
+    {
+      "_links": {
+        "account": "/accounts/dAnfccdkcArHnf2GGitF2wkgIsCxFqPTr591PnXkru0",
+        "balances": "/accounts/dAnfccdkcArHnf2GGitF2wkgIsCxFqPTr591PnXkru0/balances",
+        "transactions": "/accounts/dAnfccdkcArHnf2GGitF2wkgIsCxFqPTr591PnXkru0/transactions"
+      },
+      "currency": "EUR",
+      "iban": "NL14RABO0118337572",
+      "ownerName": "Sandur Vastgoed B.V.",
+      "resourceId": "dAnfccdkcArHnf2GGitF2wkgIsCxFqPTr591PnXkru0",
+      "status": "enabled"
+    },
+    {
+      "_links": {
+        "account": "/accounts/7sQw23GGV67fhNsks4uNjTsrtonMhWtUTCQOIIwE-4s",
+        "balances": "/accounts/7sQw23GGV67fhNsks4uNjTsrtonMhWtUTCQOIIwE-4s/balances",
+        "transactions": "/accounts/7sQw23GGV67fhNsks4uNjTsrtonMhWtUTCQOIIwE-4s/transactions"
+      },
+      "currency": "EUR",
+      "iban": "NL50RABO0101000502",
+      "ownerName": "Center Parcs Germany Holding BV",
+      "resourceId": "7sQw23GGV67fhNsks4uNjTsrtonMhWtUTCQOIIwE-4s",
+      "status": "enabled"
+    },
+    {
+      "_links": {
+        "account": "/accounts/6G6jpny-ElzjAtO2wuKJWC92JMn-U-aJigg1zqFghsA",
+        "balances": "/accounts/6G6jpny-ElzjAtO2wuKJWC92JMn-U-aJigg1zqFghsA/balances",
+        "transactions": "/accounts/6G6jpny-ElzjAtO2wuKJWC92JMn-U-aJigg1zqFghsA/transactions"
+      },
+      "currency": "EUR",
+      "iban": "NL08RABO0100929575",
+      "ownerName": "Pierre & Vacances Center Parcs Vast",
+      "resourceId": "6G6jpny-ElzjAtO2wuKJWC92JMn-U-aJigg1zqFghsA",
+      "status": "enabled"
+    },
+    {
+      "_links": {
+        "account": "/accounts/-wltbi77Ho_S-VQvFtQyh7D1p2Y5MwaN_1kwG1wRcAQ",
+        "balances": "/accounts/-wltbi77Ho_S-VQvFtQyh7D1p2Y5MwaN_1kwG1wRcAQ/balances",
+        "transactions": "/accounts/-wltbi77Ho_S-VQvFtQyh7D1p2Y5MwaN_1kwG1wRcAQ/transactions"
+      },
+      "currency": "EUR",
+      "iban": "NL59RABO0144437813",
+      "ownerName": "SUNPARKS BV INZ VERHUUR",
+      "resourceId": "-wltbi77Ho_S-VQvFtQyh7D1p2Y5MwaN_1kwG1wRcAQ",
+      "status": "enabled"
+    },
+    {
+      "_links": {
+        "account": "/accounts/Hmr8JPhOF8aG5Wjpmw6_gcYvWFlEp4sXPaDR_eTnddw",
+        "balances": "/accounts/Hmr8JPhOF8aG5Wjpmw6_gcYvWFlEp4sXPaDR_eTnddw/balances",
+        "transactions": "/accounts/Hmr8JPhOF8aG5Wjpmw6_gcYvWFlEp4sXPaDR_eTnddw/transactions"
+      },
+      "currency": "EUR",
+      "iban": "NL32RABO0189753498",
+      "ownerName": "Vacansoleil Maeva B.V.",
+      "resourceId": "Hmr8JPhOF8aG5Wjpmw6_gcYvWFlEp4sXPaDR_eTnddw",
+      "status": "enabled"
+    },
+    {
+      "_links": {
+        "account": "/accounts/Y8rbnVEon9xt69bEsLiD5LOd2s7-flNgM28kz3-riS4",
+        "balances": "/accounts/Y8rbnVEon9xt69bEsLiD5LOd2s7-flNgM28kz3-riS4/balances",
+        "transactions": "/accounts/Y8rbnVEon9xt69bEsLiD5LOd2s7-flNgM28kz3-riS4/transactions"
+      },
+      "currency": "EUR",
+      "iban": "NL44RABO3461512648",
+      "ownerName": "Sandur Vastgoed B.V.",
+      "resourceId": "Y8rbnVEon9xt69bEsLiD5LOd2s7-flNgM28kz3-riS4",
+      "status": "enabled"
+    },
+    {
+      "_links": {
+        "account": "/accounts/KU2N-K7A_Zaj2R-IX0IErJycpjIlVRxBOMpf2fTfST8",
+        "balances": "/accounts/KU2N-K7A_Zaj2R-IX0IErJycpjIlVRxBOMpf2fTfST8/balances",
+        "transactions": "/accounts/KU2N-K7A_Zaj2R-IX0IErJycpjIlVRxBOMpf2fTfST8/transactions"
+      },
+      "currency": "EUR",
+      "iban": "NL48RABO0300002343",
+      "ownerName": "Center Parcs Europe B.V",
+      "resourceId": "KU2N-K7A_Zaj2R-IX0IErJycpjIlVRxBOMpf2fTfST8",
+      "status": "enabled"
+    },
+    {
+      "_links": {
+        "account": "/accounts/fGVPYVeqDmdgFrhesjOIRXPDBtl-17JFEWOyfjwcLO8",
+        "balances": "/accounts/fGVPYVeqDmdgFrhesjOIRXPDBtl-17JFEWOyfjwcLO8/balances",
+        "transactions": "/accounts/fGVPYVeqDmdgFrhesjOIRXPDBtl-17JFEWOyfjwcLO8/transactions"
+      },
+      "currency": "EUR",
+      "iban": "NL95RABO0320289338",
+      "ownerName": "Center Parcs Europe B.V.",
+      "resourceId": "fGVPYVeqDmdgFrhesjOIRXPDBtl-17JFEWOyfjwcLO8",
+      "status": "enabled"
+    },
+    {
+      "_links": {
+        "account": "/accounts/LnHa4bIcSnQ_mD9YMXvfiXX04-v-EkeDKHksPEag5fU",
+        "balances": "/accounts/LnHa4bIcSnQ_mD9YMXvfiXX04-v-EkeDKHksPEag5fU/balances",
+        "transactions": "/accounts/LnHa4bIcSnQ_mD9YMXvfiXX04-v-EkeDKHksPEag5fU/transactions"
+      },
+      "currency": "EUR",
+      "iban": "NL49RABO0101012063",
+      "ownerName": "PV Distribution",
+      "resourceId": "LnHa4bIcSnQ_mD9YMXvfiXX04-v-EkeDKHksPEag5fU",
+      "status": "enabled"
+    },
+    {
+      "_links": {
+        "account": "/accounts/1H_Wg4SQsGNc8_ojs4WwPgPbneKEFNYVn2P-h4Q9Saw",
+        "balances": "/accounts/1H_Wg4SQsGNc8_ojs4WwPgPbneKEFNYVn2P-h4Q9Saw/balances",
+        "transactions": "/accounts/1H_Wg4SQsGNc8_ojs4WwPgPbneKEFNYVn2P-h4Q9Saw/transactions"
+      },
+      "currency": "EUR",
+      "iban": "NL12RABO0330208888",
+      "ownerName": "Center Parcs Europe B.V",
+      "resourceId": "1H_Wg4SQsGNc8_ojs4WwPgPbneKEFNYVn2P-h4Q9Saw",
+      "status": "enabled"
+    },
+    {
+      "_links": {
+        "account": "/accounts/-T9QkKzrDUfouuBS0Eynsdlj1zlC2lZ60wHQ3j3gkrM",
+        "balances": "/accounts/-T9QkKzrDUfouuBS0Eynsdlj1zlC2lZ60wHQ3j3gkrM/balances",
+        "transactions": "/accounts/-T9QkKzrDUfouuBS0Eynsdlj1zlC2lZ60wHQ3j3gkrM/transactions"
+      },
+      "currency": "EUR",
+      "iban": "NL84RABO0100902987",
+      "ownerName": "Center Parcs Netherlands B.V. Park Zandvoort",
+      "resourceId": "-T9QkKzrDUfouuBS0Eynsdlj1zlC2lZ60wHQ3j3gkrM",
+      "status": "enabled"
+    },
+    {
+      "_links": {
+        "account": "/accounts/LqxMLaYt0Id2Qm_Dsksn-PVVXx1sA9cUlXrIVe4qLmo",
+        "balances": "/accounts/LqxMLaYt0Id2Qm_Dsksn-PVVXx1sA9cUlXrIVe4qLmo/balances",
+        "transactions": "/accounts/LqxMLaYt0Id2Qm_Dsksn-PVVXx1sA9cUlXrIVe4qLmo/transactions"
+      },
+      "currency": "EUR",
+      "iban": "NL39RABO0300002408",
+      "ownerName": "Center Parcs Netherlands B.V. De Kempervennen",
+      "resourceId": "LqxMLaYt0Id2Qm_Dsksn-PVVXx1sA9cUlXrIVe4qLmo",
+      "status": "enabled"
+    },
+    {
+      "_links": {
+        "account": "/accounts/fla0Tfp8dvlULlRbWbXz6dNnUud8HjtNKfZA-osTfMk",
+        "balances": "/accounts/fla0Tfp8dvlULlRbWbXz6dNnUud8HjtNKfZA-osTfMk/balances",
+        "transactions": "/accounts/fla0Tfp8dvlULlRbWbXz6dNnUud8HjtNKfZA-osTfMk/transactions"
+      },
+      "currency": "EUR",
+      "iban": "NL98RABO0300031319",
+      "ownerName": "Center Parcs Europe B.V.",
+      "resourceId": "fla0Tfp8dvlULlRbWbXz6dNnUud8HjtNKfZA-osTfMk",
+      "status": "enabled"
+    },
+    {
+      "_links": {
+        "account": "/accounts/lJuF0Ryx4kIykzAW0ZtaMYlH3v5_uMCzhXHtHpCT_fY",
+        "balances": "/accounts/lJuF0Ryx4kIykzAW0ZtaMYlH3v5_uMCzhXHtHpCT_fY/balances",
+        "transactions": "/accounts/lJuF0Ryx4kIykzAW0ZtaMYlH3v5_uMCzhXHtHpCT_fY/transactions"
+      },
+      "currency": "EUR",
+      "iban": "NL70RABO0300002432",
+      "ownerName": "Center Parcs Netherlands B.V. Het Heijderbos",
+      "resourceId": "lJuF0Ryx4kIykzAW0ZtaMYlH3v5_uMCzhXHtHpCT_fY",
+      "status": "enabled"
+    },
+    {
+      "_links": {
+        "account": "/accounts/KSJ411kqI08ta-Q4eS5vNcNxEo8LMHPlRJrHNQ7lMPg",
+        "balances": "/accounts/KSJ411kqI08ta-Q4eS5vNcNxEo8LMHPlRJrHNQ7lMPg/balances",
+        "transactions": "/accounts/KSJ411kqI08ta-Q4eS5vNcNxEo8LMHPlRJrHNQ7lMPg/transactions"
+      },
+      "currency": "EUR",
+      "iban": "NL29RABO0300002394",
+      "ownerName": "Center Parcs Netherlands B.V. De Huttenheugte",
+      "resourceId": "KSJ411kqI08ta-Q4eS5vNcNxEo8LMHPlRJrHNQ7lMPg",
+      "status": "enabled"
+    },
+    {
+      "_links": {
+        "account": "/accounts/wkF2I1gmbzfhm_zhP79562SLKNGy2KB4aZx324kmtCQ",
+        "balances": "/accounts/wkF2I1gmbzfhm_zhP79562SLKNGy2KB4aZx324kmtCQ/balances",
+        "transactions": "/accounts/wkF2I1gmbzfhm_zhP79562SLKNGy2KB4aZx324kmtCQ/transactions"
+      },
+      "currency": "EUR",
+      "iban": "NL94RABO0123735637",
+      "ownerName": "CP PARTICIPATIONS B.V.",
+      "resourceId": "wkF2I1gmbzfhm_zhP79562SLKNGy2KB4aZx324kmtCQ",
+      "status": "enabled"
+    },
+    {
+      "_links": {
+        "account": "/accounts/vxdetWqXnOu872jPcPoIEQr1nCqjZs4dVSv9SUseeIA",
+        "balances": "/accounts/vxdetWqXnOu872jPcPoIEQr1nCqjZs4dVSv9SUseeIA/balances",
+        "transactions": "/accounts/vxdetWqXnOu872jPcPoIEQr1nCqjZs4dVSv9SUseeIA/transactions"
+      },
+      "currency": "EUR",
+      "iban": "NL19RABO0364594292",
+      "ownerName": "Sandur Exploitatie B.V.",
+      "resourceId": "vxdetWqXnOu872jPcPoIEQr1nCqjZs4dVSv9SUseeIA",
+      "status": "enabled"
+    },
+    {
+      "_links": {
+        "account": "/accounts/PHDA2bSyPDbtJZSmeF9mnECOOUyK0te1zcAqg3puSF4",
+        "balances": "/accounts/PHDA2bSyPDbtJZSmeF9mnECOOUyK0te1zcAqg3puSF4/balances",
+        "transactions": "/accounts/PHDA2bSyPDbtJZSmeF9mnECOOUyK0te1zcAqg3puSF4/transactions"
+      },
+      "currency": "EUR",
+      "iban": "NL65RABO0306817063",
+      "ownerName": "PV-CP China Holding B.V.",
+      "resourceId": "PHDA2bSyPDbtJZSmeF9mnECOOUyK0te1zcAqg3puSF4",
+      "status": "enabled"
+    },
+    {
+      "_links": {
+        "account": "/accounts/qQHO0RoQsK6YstxwewOz7b8fy4WJTHM3LE-dCInL7gI",
+        "balances": "/accounts/qQHO0RoQsK6YstxwewOz7b8fy4WJTHM3LE-dCInL7gI/balances",
+        "transactions": "/accounts/qQHO0RoQsK6YstxwewOz7b8fy4WJTHM3LE-dCInL7gI/transactions"
+      },
+      "currency": "EUR",
+      "iban": "NL31RABO0300087233",
+      "ownerName": "Center Parcs Europe B.V.",
+      "resourceId": "qQHO0RoQsK6YstxwewOz7b8fy4WJTHM3LE-dCInL7gI",
+      "status": "enabled"
+    },
+    {
+      "_links": {
+        "account": "/accounts/jHx4yzhjYvndKaGhkh_bFnUNc-YpqWlH4ZGLbd9tdys",
+        "balances": "/accounts/jHx4yzhjYvndKaGhkh_bFnUNc-YpqWlH4ZGLbd9tdys/balances",
+        "transactions": "/accounts/jHx4yzhjYvndKaGhkh_bFnUNc-YpqWlH4ZGLbd9tdys/transactions"
+      },
+      "currency": "EUR",
+      "iban": "NL92RABO0300002424",
+      "ownerName": "Center Parcs Netherlands B.V. De Eemhof",
+      "resourceId": "jHx4yzhjYvndKaGhkh_bFnUNc-YpqWlH4ZGLbd9tdys",
+      "status": "enabled"
+    },
+    {
+      "_links": {
+        "account": "/accounts/6jfHPUeHDU8ObCTfxyFDE4laTH-spT0hoHMPIsUVV5k",
+        "balances": "/accounts/6jfHPUeHDU8ObCTfxyFDE4laTH-spT0hoHMPIsUVV5k/balances",
+        "transactions": "/accounts/6jfHPUeHDU8ObCTfxyFDE4laTH-spT0hoHMPIsUVV5k/transactions"
+      },
+      "currency": "EUR",
+      "iban": "NL90RABO0100925189",
+      "ownerName": "Center Parcs NL Holding B.V.",
+      "resourceId": "6jfHPUeHDU8ObCTfxyFDE4laTH-spT0hoHMPIsUVV5k",
+      "status": "enabled"
+    },
+    {
+      "_links": {
+        "account": "/accounts/Z4Ds5Lm29ZbgDtOwU8LuOsJr2Y8-N8BKKqDPBHT_usQ",
+        "balances": "/accounts/Z4Ds5Lm29ZbgDtOwU8LuOsJr2Y8-N8BKKqDPBHT_usQ/balances",
+        "transactions": "/accounts/Z4Ds5Lm29ZbgDtOwU8LuOsJr2Y8-N8BKKqDPBHT_usQ/transactions"
+      },
+      "currency": "EUR",
+      "iban": "NL11RABO0369111435",
+      "ownerName": "CENTER PARCS EUROPE B.V.",
+      "resourceId": "Z4Ds5Lm29ZbgDtOwU8LuOsJr2Y8-N8BKKqDPBHT_usQ",
+      "status": "enabled"
+    },
+    {
+      "_links": {
+        "account": "/accounts/aYVCa88bJIDbvh-DZDIpXMAMw9rUULyWbyJDZc-cwxk",
+        "balances": "/accounts/aYVCa88bJIDbvh-DZDIpXMAMw9rUULyWbyJDZc-cwxk/balances",
+        "transactions": "/accounts/aYVCa88bJIDbvh-DZDIpXMAMw9rUULyWbyJDZc-cwxk/transactions"
+      },
+      "currency": "EUR",
+      "iban": "NL37RABO0100902960",
+      "ownerName": "Center Parcs Netherlands B.V. Limburgse Peel",
+      "resourceId": "aYVCa88bJIDbvh-DZDIpXMAMw9rUULyWbyJDZc-cwxk",
+      "status": "enabled"
+    },
+    {
+      "_links": {
+        "account": "/accounts/0xGBwfWCHAiVMT0ggCYquRNEfvBChx5_KiAV6sHi_aY",
+        "balances": "/accounts/0xGBwfWCHAiVMT0ggCYquRNEfvBChx5_KiAV6sHi_aY/balances",
+        "transactions": "/accounts/0xGBwfWCHAiVMT0ggCYquRNEfvBChx5_KiAV6sHi_aY/transactions"
+      },
+      "currency": "EUR",
+      "iban": "NL35RABO0100924530",
+      "ownerName": "Center Parcs Netherlands B.V.",
+      "resourceId": "0xGBwfWCHAiVMT0ggCYquRNEfvBChx5_KiAV6sHi_aY",
+      "status": "enabled"
+    },
+    {
+      "_links": {
+        "account": "/accounts/5Dro4H7kahdOfE0fDZRUAjwAiBOK7SpuORVZ2Fdi-Y4",
+        "balances": "/accounts/5Dro4H7kahdOfE0fDZRUAjwAiBOK7SpuORVZ2Fdi-Y4/balances",
+        "transactions": "/accounts/5Dro4H7kahdOfE0fDZRUAjwAiBOK7SpuORVZ2Fdi-Y4/transactions"
+      },
+      "currency": "EUR",
+      "iban": "NL51RABO0300002386",
+      "ownerName": "Center Parcs Netherlands B.V. Het Meerdal",
+      "resourceId": "5Dro4H7kahdOfE0fDZRUAjwAiBOK7SpuORVZ2Fdi-Y4",
+      "status": "enabled"
+    },
+    {
+      "_links": {
+        "account": "/accounts/Wq4VO1bhNI2CrKOmUFg0sh8CPPmWIOgABRkZLE1pP6o",
+        "balances": "/accounts/Wq4VO1bhNI2CrKOmUFg0sh8CPPmWIOgABRkZLE1pP6o/balances",
+        "transactions": "/accounts/Wq4VO1bhNI2CrKOmUFg0sh8CPPmWIOgABRkZLE1pP6o/transactions"
+      },
+      "currency": "EUR",
+      "iban": "NL18RABO0144437678",
+      "ownerName": "SUNPARKS BV INZ VERHUUR",
+      "resourceId": "Wq4VO1bhNI2CrKOmUFg0sh8CPPmWIOgABRkZLE1pP6o",
+      "status": "enabled"
+    },
+    {
+      "_links": {
+        "account": "/accounts/eFS5LobP3d58zr35BJN782sgBF7pQ5Qh4xi8DxTuAHg",
+        "balances": "/accounts/eFS5LobP3d58zr35BJN782sgBF7pQ5Qh4xi8DxTuAHg/balances",
+        "transactions": "/accounts/eFS5LobP3d58zr35BJN782sgBF7pQ5Qh4xi8DxTuAHg/transactions"
+      },
+      "currency": "EUR",
+      "iban": "NL30RABO0100929567",
+      "ownerName": "Center Parcs Development B.V.",
+      "resourceId": "eFS5LobP3d58zr35BJN782sgBF7pQ5Qh4xi8DxTuAHg",
+      "status": "enabled"
+    },
+    {
+      "_links": {
+        "account": "/accounts/zaVHBIB6Euj_H_PV4qL4s_CiWqTtKxAQkFru0UbnHL8",
+        "balances": "/accounts/zaVHBIB6Euj_H_PV4qL4s_CiWqTtKxAQkFru0UbnHL8/balances",
+        "transactions": "/accounts/zaVHBIB6Euj_H_PV4qL4s_CiWqTtKxAQkFru0UbnHL8/transactions"
+      },
+      "currency": "EUR",
+      "iban": "NL06RABO0100902936",
+      "ownerName": "Center Parcs Netherlands B.V. Port Zelande",
+      "resourceId": "zaVHBIB6Euj_H_PV4qL4s_CiWqTtKxAQkFru0UbnHL8",
+      "status": "enabled"
+    }
+  ]
+}

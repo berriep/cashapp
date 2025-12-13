@@ -1,0 +1,112 @@
+﻿# Admin routes
+@shared_bp.route('/admin')
+@login_required
+def admin():
+    '''Admin dashboard - redirect to users'''
+    if not current_user.is_admin:
+        flash('Access denied. Admin privileges required.', 'danger')
+        return redirect(url_for('shared.dashboard'))
+    return redirect(url_for('shared.admin_users'))
+
+@shared_bp.route('/admin/users')
+@login_required
+def admin_users():
+    '''User management page'''
+    if not current_user.is_admin:
+        flash('Access denied. Admin privileges required.', 'danger')
+        return redirect(url_for('shared.dashboard'))
+    
+    users = User.get_all_users()
+    return render_template('admin/users.html', users=users)
+
+@shared_bp.route('/admin/users/create', methods=['GET', 'POST'])
+@login_required
+def admin_create_user():
+    '''Create new user'''
+    if not current_user.is_admin:
+        flash('Access denied. Admin privileges required.', 'danger')
+        return redirect(url_for('shared.dashboard'))
+    
+    if request.method == 'POST':
+        username = request.form.get('username')
+        password = request.form.get('password')
+        email = request.form.get('email')
+        full_name = request.form.get('full_name')
+        is_admin = request.form.get('is_admin') == 'on'
+        
+        if not username or not password:
+            flash('Username and password are required', 'danger')
+        else:
+            try:
+                User.create_user(username, password, email, full_name, is_admin)
+                flash(f'User {username} created successfully', 'success')
+                return redirect(url_for('shared.admin_users'))
+            except Exception as e:
+                flash(f'Error creating user: {str(e)}', 'danger')
+    
+    return render_template('admin/create_user.html')
+
+@shared_bp.route('/admin/users/<int:user_id>/edit', methods=['GET', 'POST'])
+@login_required
+def admin_edit_user(user_id):
+    '''Edit user'''
+    if not current_user.is_admin:
+        flash('Access denied. Admin privileges required.', 'danger')
+        return redirect(url_for('shared.dashboard'))
+    
+    if request.method == 'POST':
+        email = request.form.get('email')
+        full_name = request.form.get('full_name')
+        is_admin = request.form.get('is_admin') == 'on'
+        is_active = request.form.get('is_active') == 'on'
+        
+        try:
+            User.update_user(user_id, email=email, full_name=full_name, is_admin=is_admin, is_active=is_active)
+            flash('User updated successfully', 'success')
+            return redirect(url_for('shared.admin_users'))
+        except Exception as e:
+            flash(f'Error updating user: {str(e)}', 'danger')
+    
+    users = User.get_all_users()
+    user = next((u for u in users if u['id'] == user_id), None)
+    if not user:
+        flash('User not found', 'danger')
+        return redirect(url_for('shared.admin_users'))
+    
+    return render_template('admin/edit_user.html', user=user)
+
+@shared_bp.route('/admin/users/<int:user_id>/delete', methods=['POST'])
+@login_required
+def admin_delete_user(user_id):
+    '''Delete user'''
+    if not current_user.is_admin:
+        flash('Access denied. Admin privileges required.', 'danger')
+        return redirect(url_for('shared.dashboard'))
+    
+    try:
+        User.delete_user(user_id)
+        flash('User deleted successfully', 'success')
+    except Exception as e:
+        flash(f'Error deleting user: {str(e)}', 'danger')
+    
+    return redirect(url_for('shared.admin_users'))
+
+@shared_bp.route('/admin/users/<int:user_id>/change-password', methods=['POST'])
+@login_required
+def admin_change_password(user_id):
+    '''Change user password'''
+    if not current_user.is_admin:
+        flash('Access denied. Admin privileges required.', 'danger')
+        return redirect(url_for('shared.dashboard'))
+    
+    new_password = request.form.get('new_password')
+    if not new_password:
+        flash('Password is required', 'danger')
+    else:
+        try:
+            User.change_password(user_id, new_password)
+            flash('Password changed successfully', 'success')
+        except Exception as e:
+            flash(f'Error resetting password: {str(e)}', 'danger')
+    
+    return redirect(url_for('shared.admin_users'))

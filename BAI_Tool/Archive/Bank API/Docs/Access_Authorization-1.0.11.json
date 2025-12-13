@@ -1,0 +1,372 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "description": "Services needed to obtain tokens for OAuth 2.0 secured API's\n\n  ###### Error codes and their causes\n\n  In addition to the response codes that apply to all API's\n  the OAuth provider API's has some special error situations which are briefly explained below.\n  For more information regarding error handling see the page on error handling.\n  <table>\n    <tr>\n      <th>Situation</th>\n      <th>Results</th>\n    </tr>\n    <tr>\n      <td>Invalid redirect_uri query parameter provided</th>\n      <td>\n        This returns a HTTP 200 with an error message. See the page with\n        error explanations for more details.\n      </td>\n    </tr>\n    <tr>\n      <td>\n          The authorization server encountered an unexpected condition that prevented it from fulfilling the request\n      </td>\n      <td>\n          This returns a HTTP 302 redirect to the redirect_uri with query parameter `/?error=server_error`\n      </td>\n    </tr>\n    <tr>\n      <td>\n          The resource owner or authorization server denied the request.\n      </td>\n      <td>\n          This returns a HTTP 302 redirect to the\n          redirect_uri with query parameter `/?error=access_denied`\n      </td>\n    </tr>\n     <tr>\n        <td>\n            The requested scope is invalid, unknown, or malformed.\n        </td>\n        <td>\n            This returns a HTTP 302 redirect to the redirect_uri\n            with query parameter `/?error=invalid_scope`\n        </td>\n      </tr>\n  </table>\n\n  Next to the error query parameter that is added to the redirect uri during an error flow, a additional optional\n  query parameter called error_description can be added which a more human readable explanation on what went wrong.\n",
+    "version": "1.0.11",
+    "title": "Access Authorization",
+    "x-ibm-name": "access-authorization"
+  },
+  "host": "oauth.rabobank.nl",
+  "basePath": "/openapi/oauth2-premium",
+  "schemes": [
+    "https"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "security": [
+    {
+      "clientID": []
+    }
+  ],
+  "paths": {
+    "/authorize": {
+      "get": {
+        "summary": "endpoint for Authorization Code and Implicit grants",
+        "description": "Before you can request an access token you need to redirect your user to this endpoint to obtain consent. After giving consent the user will be redirected back to the \"OAuth Redirect URI\" that you provided in your application settings.",
+        "operationId": "GET-authorize",
+        "produces": [
+          "text/html"
+        ],
+        "parameters": [
+          {
+            "name": "response_type",
+            "in": "query",
+            "description": "The value `code` indicates the authorization grant flow. Other response types are currently not supported.",
+            "required": true,
+            "type": "string",
+            "enum": [
+              "code"
+            ]
+          },
+          {
+            "name": "scope",
+            "in": "query",
+            "description": "A space-separated list of scopes. Scopes represent permissions to resources which your application requests from the user. Your application can request multiple scopes using a space-separated list.",
+            "required": true,
+            "type": "string",
+            "x-example": "bip.payments.write"
+          },
+          {
+            "name": "client_id",
+            "in": "query",
+            "description": "This ID uniquely identifies your registered application. The client_id is registered at Rabobank Developer Portal.",
+            "required": true,
+            "type": "string",
+            "x-example": "3b912432-fb24-49dc-a28b-62f699215e8e"
+          },
+          {
+            "name": "redirect_uri",
+            "in": "query",
+            "description": "We do not support dynamic redirect URIs. Please make sure that you have provided the \"OAuth Redirect URI\" in your application settings. If you use this parameter it has to be exactly the same as the value in your application settings.",
+            "required": false,
+            "type": "string",
+            "x-example": "https://developer.rabobank.nl/"
+          },
+          {
+            "name": "state",
+            "in": "query",
+            "description": "An opaque value used by the client to maintain state between the request and callback. The authorization server includes this value as a request parameter when redirecting the user back to the redirect URI of the client. The parameter SHOULD be used for preventing cross-site request forgery.",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "security": [
+          {
+            "clientID": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "An HTML form for authentication or authorization of this request."
+          },
+          "302": {
+            "description": "Redirect to the clients redirect_uri containing one of the following: **authorization code** for Authorization code grant, **access token** for Implicity grant or **error** in case of errors, such as the user has denied the request."
+          },
+          "400": {
+            "description": "Invalid request has been sent. Please make sure you are providing all the required parameters.",
+            "schema": {
+              "$ref": "#/definitions/error_400_response"
+            }
+          },
+          "401": {
+            "description": "The server denied your request. Most common causes are the following: The required client id or client secret has not been successfully provided. The application is not registered with the plan that is used. The application is not active. The TLS certificate was not provided in the developer portal. The TLS certificate does not match the one provided in the developer portal, or no certificate was added to the API call.",
+            "schema": {
+              "$ref": "#/definitions/error_401_response"
+            }
+          },
+          "404": {
+            "description": "The API URL was not found. Please make sure you are calling the correct endpoint.",
+            "schema": {
+              "$ref": "#/definitions/error_404_response"
+            }
+          },
+          "405": {
+            "description": "The API URL was found, but no operation was found that supports the requested HTTP verb. Please make sure you are using the correct HTTP request method.",
+            "schema": {
+              "$ref": "#/definitions/error_405_response"
+            }
+          },
+          "406": {
+            "description": "The API cannot produce any responses that are supported by the application. Please make sure your Accept header is set accordingly."
+          },
+          "429": {
+            "description": "The rate limit has been exceeded for the plan or operation being used."
+          },
+          "500": {
+            "description": "An error occurred while executing this request. Please try again later and contact support if the error persists."
+          },
+          "503": {
+            "description": "An error occurred while executing this request. Please try again later and contact support if the error persists."
+          }
+        }
+      }
+    },
+    "/token": {
+      "post": {
+        "summary": "Request Access Tokens",
+        "description": "This endpoint allows requesting an access token following one of the flows below:\n- Authorization Code (exchange code for access token)\n- Refresh Token (exchange refresh token for a new access token)\n\n\nThe table below indicates the required parameters for each specific grant_type options.\nEmpty cells indicate a parameter is ignored for that specific grant type.\n\n\nClient authentication:\nConfidential clients should authenticate using HTTP Basic Authentication,\nwhere the username is the client_id and password is the client_secret.\n\n\n|                      | Authorization code | Refresh token |\n|----------------------|--------------------|---------------|\n| grant_type           | authorization_code | refresh_token |\n| code                 | required           |               |\n| redirect_uri         | optional           |               |\n| refresh_token        |                    | required      |\n",
+        "operationId": "POST-token",
+        "consumes": [
+          "application/x-www-form-urlencoded"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "grant_type",
+            "in": "formData",
+            "description": "Type of grant",
+            "required": true,
+            "type": "string",
+            "enum": [
+              "authorization_code",
+              "refresh_token"
+            ]
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "description": "To authenticate your application you need to use HTTP Basic Authentication. Which means you need to base64 encode the following string \"YOUR_CLIENT_ID:YOUR_CLIENT_SECRET\" and add it to the Authorization header.",
+            "required": true,
+            "type": "string",
+            "x-example": "Authorization: Basic NGU5YmYwMDAtNDA3Zi00MWYwLTkyMWEtOWZkZTE3M2E2ODc0OkNMSUVOVF9TRUNSRVQ="
+          },
+          {
+            "name": "code",
+            "in": "formData",
+            "description": "Authorization code provided by the /oauth2-premium/authorize endpoint",
+            "required": true,
+            "type": "string",
+            "x-example": "ABJ8y_wUHJTh4mkhYsfvRNddL9C-9LkGn4OzZS_Lw0Y0dAcZOJ5SFDxhV7D_bX4KWV9FVA3URXkxqTRYWVYY5LCXNHSDNna5QSU4 zRmAT0za0MAgfSD0_S4QAT-mH3gsnHKI0fb-219hWBznTMHeDpLKgD63IxQ9curwzeN44YWvuk3E6ljvD9MW6p2nF1O0JkeYwGGDaAGpyH9wilqLS sCA4gDQIydWL2Rz_v3egNzzzYVVAo54GNTKboDAwYueqLTyZ7bAHGO_mTSmIAByIwr0XNCLCowj2RHgJxOd9W1ULjZg9QbF2Pr53TKJXMCEaTSnI 1NcxpwSwv_GwbAYUOcSVPbTQJv4HNWgQ8luGR3jXYeW7X3TTqTlz1t8O5JjfRKSmqZsiaZkFhMucOoFpZBJSUp91AJIMp3_MyEMIxUvYImToggst PK7AkNUIxcQSipauAImiyGWGXPXJMcJumjUVt3MTCOqnRGX8gzVZo-0KLLGIGE4eIlEsmA7Zy0aoNI2"
+          },
+          {
+            "name": "redirect_uri",
+            "in": "formData",
+            "description": "Required only if the redirect_uri parameter was included in the authorization request /oauth2-premium/authorize; their values MUST be identical.",
+            "required": false,
+            "type": "string",
+            "x-example": "https://developer.rabobank.nl/"
+          },
+          {
+            "name": "refresh_token",
+            "in": "formData",
+            "description": "The refresh token that the client wants to exchange for a new access token (refresh_token grant_type)",
+            "required": false,
+            "type": "string",
+            "x-example": "ABJTkj0N8co3pHpV9vZJGtd1m3ao4222_SzmGgmRoLYaMqKzl4UftP0s5rFqusBVe6j603NVlUyAKmHk6P1qm6tP6LHXd137oWVz t7CjS8hrO5amKNz6ETkmqZOUZcEH9qoW26Zby3eqkwDYQGAb3Sh2TfMxkg3djoMZWmpNk4g62Bhcb2Y4JlWRf8uIKi1I29acI0X06kwDEJRD0co3 fJVPB63t1QYHDCoviPjGzaZMDxk6VRiZeWuJCLLY4kS9nmDrgHAhR8Bks4TEGjoFgB0vqnJ1GXkLKTmFK-CselHhRR5F-mkjiFZVVrpf0X3uqTMD jmv1hlRUlyNqomfDIppWc2kiv7mOyv4HmuQWoWqMOhw3AvkTQVxYVFvTVvTwWWV1FbZb8cnMnOcu4xlRZUVMbjSuEw-UJj3Q-1OygZo4_I7znvGc cVTtT8YDjFnPWdLHRM3mn4U1DF96zrEYXTHPgtDFjD9z0BbiN2cimOs630jFeM-vOOoEeX1YF5PCKDzn4buV93lPGrNWRhl1E2Pc7a_PInFHHeZs 9Kmu7yVvow2"
+          }
+        ],
+        "security": [],
+        "responses": {
+          "200": {
+            "description": "json document containing token, etc.",
+            "schema": {
+              "$ref": "#/definitions/access_token_response"
+            }
+          },
+          "400": {
+            "description": "Bad request  - Missing / invalid parameter or authorization code invalid / expired.",
+            "schema": {
+              "$ref": "#/definitions/error_400_response"
+            }
+          },
+          "401": {
+            "description": "Unauthorized - Authorization header or refresh token is invalid.",
+            "schema": {
+              "$ref": "#/definitions/error_401_response"
+            }
+          },
+          "404": {
+            "description": "The API URL was not found. Please make sure you are calling the correct endpoint.",
+            "schema": {
+              "$ref": "#/definitions/error_404_response"
+            }
+          },
+          "405": {
+            "description": "The API URL was found, but no operation was found that supports the requested HTTP verb. Please make sure you are using the correct HTTP request method.",
+            "schema": {
+              "$ref": "#/definitions/error_405_response"
+            }
+          },
+          "429": {
+            "description": "The rate limit has been exceeded for the plan or operation being used."
+          },
+          "500": {
+            "description": "An error occurred while executing this request. Please try again later and contact support if the error persists."
+          },
+          "503": {
+            "description": "An error occurred while executing this request. Please try again later and contact support if the error persists."
+          }
+        }
+      }
+    }
+  },
+  "securityDefinitions": {
+    "clientID": {
+      "description": "",
+      "type": "apiKey",
+      "name": "client_id",
+      "in": "query"
+    }
+  },
+  "definitions": {
+    "access_token_response": {
+      "type": "object",
+      "required": [
+        "access_token",
+        "expires_in",
+        "token_type"
+      ],
+      "properties": {
+        "token_type": {
+          "type": "string",
+          "enum": [
+            "bearer"
+          ]
+        },
+        "access_token": {
+          "type": "string",
+          "x-example": "AAIkNzE1NDEzNDgtNTk0NS00ODljLWI5ODctM2QxZTY0ZWM1MzY5sseXICNKGv722yXB5Q16juPkn35vOkZGnBIPS5T5GUmswExIuRazAjb8DU25FcmkvR9a-VyFZ1xnmjdihJv4cbJV8QdvteEHGvIsfIX36NW0Ybgc4dphffUkwqUjagTaTPeGkxYSKBw_iSnQ3paNGBaTIvY1NO18Pp_PbWNpZa-GcUznf03Eizc7VIugBZmjhpv1fILWK-dqxLxHYRS2aBV46Sjkai5qy7pLlgzzNGZUUyXhNaxbzs8gWKe5bIBHbP4O8Rd_tH1ICNswWwTS--9jiPNbRe1L9KYa9XCm3RY"
+        },
+        "expires_in": {
+          "type": "integer",
+          "description": "The time in seconds left before the access token expires. Make sure to always use the expiry time from this response for each access token instead of hardcoding it, so that there is no consumer impact if this value changes.",
+          "x-example": 86400
+        },
+        "consented_on": {
+          "type": "integer",
+          "description": "Epoch timestamp in seconds of the time when the consent was given.",
+          "x-example": 1607249404
+        },
+        "scope": {
+          "type": "string",
+          "description": "The scopes for consent has been given.",
+          "x-example": "bip.payments.write 52807440-2c6a-4b23-9e17-ee34ea43b2f4_bip.payments.write"
+        },
+        "refresh_token": {
+          "type": "string",
+          "x-example": "AAIubtGDe9DOXl4IYFw5AZXMxr5A8d-_7i9TBAMEgbtkaFXiqzrqT2y3XTvuTEwhb5NB8INQEMTCpyJygVFDi_UoxkmFy6mobKgyzaHs79em4bWsHMFBDbJRsaM_6yMwPNI95nciF0LaGenXeczeGjpVVO4dfpEizFnclp0Z3eRgb8PckdNhNnUlJnHwEjpYHiPOOYfx_qmytKIG3QEY486Bi0FkYM6ZDP0yhucshj-9I6oDaRBPaHM9pgEBdwa-fuxc0q7t_wRS2I-H7p1M0rlvydDNWPYmRU_RduvT2th3joOrEg5_0ijWGgiC2Iw3PQc"
+        },
+        "refresh_token_expires_in": {
+          "type": "integer",
+          "description": "The time in seconds left before the refresh token expires. Make sure to always use the expiry time from this response for each refresh token instead of hardcoding it, so that there is no consumer impact if this value changes.",
+          "x-example": 2592000
+        },
+        "metadata": {
+          "type": "string",
+          "description": "The metadata containing the consentId for the given consent. This consentId can be used to retrieve the consent from the consent Details API. This property will be returned only if the grant_type is authorization_code",
+          "x-example": "a:consentId b75f5ee4-6b25-41af-bb9c-31128d09151b"
+        }
+      },
+      "additionalProperties": {}
+    },
+    "error_404_response": {
+      "properties": {
+        "httpCode": {
+          "type": "string",
+          "example": "404"
+        },
+        "httpMessage": {
+          "type": "string",
+          "example": "Not Found"
+        },
+        "moreInformation": {
+          "type": "string",
+          "example": "No resources match requested URI"
+        }
+      }
+    },
+    "error_405_response": {
+      "properties": {
+        "httpCode": {
+          "type": "string",
+          "example": "405"
+        },
+        "httpMessage": {
+          "type": "string",
+          "example": "Method Not Allowed"
+        },
+        "moreInformation": {
+          "type": "string",
+          "example": "the method is not allowed for the requested URL"
+        }
+      }
+    },
+    "error_400_response": {
+      "type": "object",
+      "required": [
+        "error"
+      ],
+      "properties": {
+        "error": {
+          "type": "string",
+          "example": "invalid_grant",
+          "enum": [
+            "invalid_grant",
+            "unknown",
+            "invalid_request"
+          ]
+        }
+      },
+      "additionalProperties": {}
+    },
+    "error_401_response": {
+      "type": "object",
+      "required": [
+        "error"
+      ],
+      "properties": {
+        "error": {
+          "type": "string",
+          "example": "invalid_client",
+          "enum": [
+            "invalid_client",
+            "invalid_grant"
+          ]
+        }
+      },
+      "additionalProperties": {}
+    }
+  },
+  "x-ibm-configuration": {
+    "cors": {
+      "enabled": true
+    },
+    "enforced": false,
+    "phase": "realized",
+    "type": "rest",
+    "testable": false,
+    "servers": [
+      {
+        "url": "https://oauth.rabobank.nl/openapi/oauth2-premium",
+        "description": "",
+        "type": [
+          "production",
+          "development"
+        ]
+      }
+    ]
+  }
+}

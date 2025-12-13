@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rabobank OAuth2 Callback</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .header {
+            color: #ff6200;
+            margin-bottom: 20px;
+        }
+        .code-box {
+            background: #f8f9fa;
+            border: 2px solid #e9ecef;
+            border-radius: 4px;
+            padding: 15px;
+            margin: 15px 0;
+            font-family: monospace;
+            font-size: 14px;
+            word-break: break-all;
+        }
+        .success {
+            color: #28a745;
+            background: #d4edda;
+            border: 1px solid #c3e6cb;
+            padding: 10px;
+            border-radius: 4px;
+            margin: 15px 0;
+        }
+        .error {
+            color: #dc3545;
+            background: #f8d7da;
+            border: 1px solid #f5c6cb;
+            padding: 10px;
+            border-radius: 4px;
+            margin: 15px 0;
+        }
+        .copy-btn {
+            background: #ff6200;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-left: 10px;
+        }
+        .copy-btn:hover {
+            background: #e55a00;
+        }
+        .instructions {
+            background: #e3f2fd;
+            border-left: 4px solid #2196f3;
+            padding: 15px;
+            margin: 20px 0;
+        }
+        .command {
+            background: #2d2d2d;
+            color: #f8f8f2;
+            padding: 10px;
+            border-radius: 4px;
+            font-family: monospace;
+            margin: 10px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 class="header">🔑 Rabobank OAuth2 Callback</h1>
+        
+        <div id="content">
+            <p>Processing authorization response...</p>
+        </div>
+    </div>
+
+    <script>
+        // Parse URL parameters
+        function getUrlParams() {
+            const params = new URLSearchParams(window.location.search);
+            return {
+                code: params.get('code'),
+                state: params.get('state'),
+                error: params.get('error'),
+                error_description: params.get('error_description')
+            };
+        }
+
+        // Copy text to clipboard
+        function copyToClipboard(text) {
+            navigator.clipboard.writeText(text).then(() => {
+                alert('Authorization code copied to clipboard!');
+            }).catch(err => {
+                console.error('Could not copy text: ', err);
+            });
+        }
+
+        // Process the callback
+        function processCallback() {
+            const params = getUrlParams();
+            const content = document.getElementById('content');
+
+            if (params.error) {
+                // Handle error
+                content.innerHTML = `
+                    <div class="error">
+                        <h3>❌ Authorization Failed</h3>
+                        <p><strong>Error:</strong> ${params.error}</p>
+                        ${params.error_description ? `<p><strong>Description:</strong> ${params.error_description}</p>` : ''}
+                    </div>
+                    <div class="instructions">
+                        <h4>What to do next:</h4>
+                        <ol>
+                            <li>Check your client configuration</li>
+                            <li>Ensure your certificates are valid</li>
+                            <li>Try generating a new consent URL</li>
+                            <li>Contact support if the problem persists</li>
+                        </ol>
+                    </div>
+                `;
+            } else if (params.code) {
+                // Success - show authorization code
+                content.innerHTML = `
+                    <div class="success">
+                        <h3>✅ Authorization Successful!</h3>
+                        <p>You have successfully granted permission for BAI account access.</p>
+                    </div>
+                    
+                    <h4>Authorization Code:</h4>
+                    <div class="code-box" id="authCode">${params.code}</div>
+                    <button class="copy-btn" onclick="copyToClipboard('${params.code}')">📋 Copy Code</button>
+                    
+                    ${params.state ? `
+                    <h4>State Parameter:</h4>
+                    <div class="code-box">${params.state}</div>
+                    ` : ''}
+                    
+                    <div class="instructions">
+                        <h4>📖 Next Steps:</h4>
+                        <ol>
+                            <li><strong>Copy the authorization code</strong> above (click the Copy button)</li>
+                            <li><strong>Open PowerShell</strong> in your project directory</li>
+                            <li><strong>Run the exchange command:</strong></li>
+                        </ol>
+                        
+                        <div class="command">
+                            .\\Simple-Exchange.ps1 -AuthCode "${params.code}"
+                        </div>
+                        
+                        <p><strong>Or alternatively:</strong></p>
+                        
+                        <div class="command">
+                            dotnet run -- --auth-code="${params.code}"
+                        </div>
+                        
+                        <p><strong>⚠️ Important:</strong> Use this authorization code within 10 minutes as it expires quickly!</p>
+                    </div>
+                `;
+            } else {
+                // No parameters - probably direct access
+                content.innerHTML = `
+                    <div class="instructions">
+                        <h3>🔗 OAuth2 Callback Endpoint</h3>
+                        <p>This page is the callback endpoint for Rabobank OAuth2 authorization.</p>
+                        <p>To get an authorization code:</p>
+                        <ol>
+                            <li>Run the consent generator: <code>.\\Generate-Consent.ps1</code></li>
+                            <li>Complete the authorization in your browser</li>
+                            <li>You will be redirected back here with the authorization code</li>
+                        </ol>
+                        
+                        <p><strong>Current URL:</strong> ${window.location.href}</p>
+                    </div>
+                `;
+            }
+        }
+
+        // Process callback when page loads
+        window.onload = processCallback;
+    </script>
+</body>
+</html>

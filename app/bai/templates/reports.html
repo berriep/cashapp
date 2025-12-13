@@ -1,0 +1,123 @@
+{% extends "base.html" %}
+
+{% block title %}Reports - BAI Monitor{% endblock %}
+
+{% block content %}
+<h2 class="mb-4"><i class="bi bi-file-earmark-pdf"></i> Reports</h2>
+
+<div class="row">
+    <!-- Reconciliation Report -->
+    <div class="col-md-6 mb-4">
+        <div class="card h-100">
+            <div class="card-header bg-primary text-white">
+                <h5><i class="bi bi-check2-all"></i> Reconciliation Report</h5>
+            </div>
+            <div class="card-body">
+                <p>Detailed overview of balance reconciliation including:</p>
+                <ul>
+                    <li>Opening vs Closing balance per day/IBAN</li>
+                    <li>Transaction totals (credit/debit)</li>
+                    <li>Difference analysis and status</li>
+                    <li>API audit status (balances/transactions)</li>
+                </ul>
+                <a href="{{ url_for('bai.reconciliation_report') }}" class="btn btn-primary">
+                    <i class="bi bi-arrow-right-circle"></i> View Report
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Export Transactions -->
+    <div class="col-md-6 mb-4">
+        <div class="card h-100">
+            <div class="card-header bg-success text-white">
+                <h5><i class="bi bi-download"></i> Export Transactions</h5>
+            </div>
+            <div class="card-body">
+                <p>Download an overview of all transactions in CSV format.</p>
+                <form method="POST" action="/api/export-transactions">
+                    <div class="mb-3">
+                        <label for="export-days" class="form-label">Period</label>
+                        <select class="form-select" name="days" id="export-days">
+                            <option value="1">Last 1 day</option>
+                            <option value="7">Last 7 days</option>
+                            <option value="14">Last 14 days</option>
+                            <option value="30" selected>Last 30 days</option>
+                            <option value="90">Last 90 days</option>
+                        </select>
+                    </div>
+                    <button type="submit" class="btn btn-success">
+                        <i class="bi bi-filetype-csv"></i> Download CSV
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <!-- PDF Report -->
+    <div class="col-md-6 mb-4">
+        <div class="card h-100">
+            <div class="card-header bg-info text-white">
+                <h5><i class="bi bi-file-pdf"></i> PDF Report</h5>
+            </div>
+            <div class="card-body">
+                <p>Generate a PDF report with charts and summary.</p>
+                <form method="POST" action="/api/generate-pdf">
+                    <div class="mb-3">
+                        <label for="pdf-days" class="form-label">Period</label>
+                        <select class="form-select" name="days" id="pdf-days">
+                            <option value="1">Last 1 day</option>
+                            <option value="7" selected>Last 7 days</option>
+                            <option value="14">Last 14 days</option>
+                            <option value="30">Last 30 days</option>
+                        </select>
+                    </div>
+                    <button type="submit" class="btn btn-info">
+                        <i class="bi bi-file-earmark-pdf"></i> Generate PDF
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scheduled Reports -->
+    <div class="col-md-6 mb-4">
+        <div class="card h-100">
+            <div class="card-header bg-warning">
+                <h5><i class="bi bi-calendar-check"></i> Scheduled Reports</h5>
+            </div>
+            <div class="card-body">
+                <p>Set up automatic daily or weekly reports via email.</p>
+                
+                <div class="alert alert-warning" role="alert">
+                    <i class="bi bi-exclamation-triangle"></i> 
+                    <strong>Email configuration required</strong><br>
+                    First add SMTP settings to .env file to enable email reports.
+                </div>
+
+                <form>
+                    <div class="mb-3">
+                        <label for="email" class="form-label">Email Address</label>
+                        <input type="email" class="form-control" id="email" placeholder="example@company.com" disabled>
+                    </div>
+                    <div class="mb-3">
+                        <label for="frequency" class="form-label">Frequency</label>
+                        <select class="form-select" id="frequency" disabled>
+                            <option>Daily</option>
+                            <option>Weekly</option>
+                            <option>Monthly</option>
+                        </select>
+                    </div>
+                    <button type="submit" class="btn btn-secondary" disabled>
+                        <i class="bi bi-calendar-check"></i> Schedule
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+

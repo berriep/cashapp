@@ -1,0 +1,15 @@
+{
+  "ClientId": "50db03679d4c3297574c26b6aab1894e",
+  "ClientSecret": "f0f9927a93943253218861d661e8f71e",
+  "TokenUrl": "https://oauth-sandbox.rabobank.nl/openapi/sandbox/oauth2-premium/token",
+  "ApiBaseUrl": "https://api-sandbox.rabobank.nl/openapi/sandbox/payments/insight",
+  "CertificatePath": "Cert_Premium/certificate.pem",
+  "PrivateKeyPath": "Cert_Premium/private.key",
+  "AuthCodeFile": "auth_code.txt",
+  "TokenFile": "tokens.json",
+  "AccountIds": {
+    "NL52RABO0125618484": "Wp-xhZMGEWRIIgVjPwTC1aKJJ0VCRZ_4bScUVXof7e0",
+    "NL80RABO1127000002": "hBS4MQ0Oc4LLJRiUiE_R94_-zoU4B2vwnPkXmsGh_bA"
+  },
+  "DefaultAccountId": "Wp-xhZMGEWRIIgVjPwTC1aKJJ0VCRZ_4bScUVXof7e0"
+}

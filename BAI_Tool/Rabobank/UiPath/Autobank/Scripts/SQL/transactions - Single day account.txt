@@ -1,0 +1,4 @@
+  SELECT *
+  FROM bai_rabobank_transactions
+  WHERE audit_id = '[TX_AUDIT_ID]'
+  ORDER BY rabo_booking_datetime;

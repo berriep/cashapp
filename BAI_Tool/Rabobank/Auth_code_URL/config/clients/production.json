@@ -1,0 +1,31 @@
+{
+  "clientName": "production-client",
+  "environment": "production",
+  "apiConfig": {
+    "clientId": "b53367ddf9c83b9e0dde68d2fe1d88a1",
+    "clientSecret": "f0f9927a93943253218861d661e8f71e",
+    "tokenUrl": "https://oauth.rabobank.nl/openapi/oauth2-premium/token",
+    "apiBaseUrl": "https://api.rabobank.nl/openapi/payments/insight",
+    "redirectUri": "https://developer.rabobank.nl/",
+    "customHeaders": {}
+  },
+  "certificates": {
+    "certificatePath": "Cert_Premium/certificate.pem",
+    "privateKeyPath": "Cert_Premium/private.key",
+    "validateServerCertificate": true
+  },
+  "accounts": {
+    "defaultAccountId": "YOUR_PRODUCTION_ACCOUNT_ID",
+    "accountMappings": {
+      "YOUR_PRODUCTION_IBAN": "YOUR_PRODUCTION_ACCOUNT_ID"
+    }
+  },
+  "settings": {
+    "tokenRefreshThresholdMinutes": 5,
+    "maxRetryAttempts": 3,
+    "timeoutSeconds": 30,
+    "enableDetailledLogging": true,
+    "tokenStoragePath": "tokens",
+    "enableAutomaticTokenRefresh": true
+  }
+}

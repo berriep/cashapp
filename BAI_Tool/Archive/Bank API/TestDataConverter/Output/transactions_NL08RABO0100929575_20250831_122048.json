@@ -1,0 +1,15 @@
+﻿{
+    "account":  {
+                    "iban":  "NL08RABO0100929575",
+                    "currency":  "EUR"
+                },
+    "transactions":  {
+                         "booked":  [
+
+                                    ],
+                         "_links":  {
+                                        "account":  "/accounts/-1379118728_14661013",
+                                        "next":  null
+                                    }
+                     }
+}

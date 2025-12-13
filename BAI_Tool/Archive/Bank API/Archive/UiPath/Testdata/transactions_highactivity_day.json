@@ -1,0 +1,145 @@
+{
+  "account": {
+    "currency": "EUR",
+    "iban": "NL52RABO0125618484"
+  },
+  "transactions": {
+    "_links": {
+      "account": "/accounts/Wp-xhZMGEWRIIgVjPwTC1aKJJ0VCRZ_4bScUVXof7e0"
+    },
+    "booked": [
+      {
+        "transactionId": "TX2025082901",
+        "bookingDate": "2025-08-29",
+        "valueDate": "2025-08-29",
+        "transactionAmount": {
+          "amount": "3000.00",
+          "currency": "EUR"
+        },
+        "creditorName": "Freelance Client A",
+        "remittanceInformationUnstructured": "Project payment August"
+      },
+      {
+        "transactionId": "TX2025082902",
+        "bookingDate": "2025-08-29",
+        "valueDate": "2025-08-29",
+        "transactionAmount": {
+          "amount": "1500.00",
+          "currency": "EUR"
+        },
+        "creditorName": "Side Business Income",
+        "remittanceInformationUnstructured": "Consulting services"
+      },
+      {
+        "transactionId": "TX2025082903",
+        "bookingDate": "2025-08-29",
+        "valueDate": "2025-08-29",
+        "transactionAmount": {
+          "amount": "-45.60",
+          "currency": "EUR"
+        },
+        "debtorName": "Coffee Shop Chain",
+        "remittanceInformationUnstructured": "Daily coffee purchases"
+      },
+      {
+        "transactionId": "TX2025082904",
+        "bookingDate": "2025-08-29",
+        "valueDate": "2025-08-29",
+        "transactionAmount": {
+          "amount": "-12.50",
+          "currency": "EUR"
+        },
+        "debtorName": "Public Transport",
+        "remittanceInformationUnstructured": "Day pass"
+      },
+      {
+        "transactionId": "TX2025082905",
+        "bookingDate": "2025-08-29",
+        "valueDate": "2025-08-29",
+        "transactionAmount": {
+          "amount": "-150.00",
+          "currency": "EUR"
+        },
+        "debtorName": "Grocery Store XYZ",
+        "remittanceInformationUnstructured": "Weekly shopping"
+      },
+      {
+        "transactionId": "TX2025082906",
+        "bookingDate": "2025-08-29",
+        "valueDate": "2025-08-29",
+        "transactionAmount": {
+          "amount": "-89.99",
+          "currency": "EUR"
+        },
+        "debtorName": "Online Store",
+        "remittanceInformationUnstructured": "Office supplies"
+      },
+      {
+        "transactionId": "TX2025082907",
+        "bookingDate": "2025-08-29",
+        "valueDate": "2025-08-29",
+        "transactionAmount": {
+          "amount": "-25.00",
+          "currency": "EUR"
+        },
+        "debtorName": "Pharmacy",
+        "remittanceInformationUnstructured": "Prescriptions"
+      },
+      {
+        "transactionId": "TX2025082908",
+        "bookingDate": "2025-08-29",
+        "valueDate": "2025-08-29",
+        "transactionAmount": {
+          "amount": "-750.00",
+          "currency": "EUR"
+        },
+        "debtorName": "Insurance Company",
+        "remittanceInformationUnstructured": "Quarterly premium"
+      },
+      {
+        "transactionId": "TX2025082909",
+        "bookingDate": "2025-08-29",
+        "valueDate": "2025-08-29",
+        "transactionAmount": {
+          "amount": "-200.00",
+          "currency": "EUR"
+        },
+        "debtorName": "Fuel Station",
+        "remittanceInformationUnstructured": "Car refuel"
+      },
+      {
+        "transactionId": "TX2025082910",
+        "bookingDate": "2025-08-29",
+        "valueDate": "2025-08-29",
+        "transactionAmount": {
+          "amount": "-35.50",
+          "currency": "EUR"
+        },
+        "debtorName": "Bookstore",
+        "remittanceInformationUnstructured": "Technical books"
+      },
+      {
+        "transactionId": "TX2025082911",
+        "bookingDate": "2025-08-29",
+        "valueDate": "2025-08-29",
+        "transactionAmount": {
+          "amount": "-15.60",
+          "currency": "EUR"
+        },
+        "debtorName": "Food Delivery",
+        "remittanceInformationUnstructured": "Lunch delivery"
+      },
+      {
+        "transactionId": "TX2025082912",
+        "bookingDate": "2025-08-29",
+        "valueDate": "2025-08-29",
+        "transactionAmount": {
+          "amount": "-75.50",
+          "currency": "EUR"
+        },
+        "debtorName": "Charity Organization",
+        "remittanceInformationUnstructured": "Monthly donation"
+      }
+    ]
+  }
+}

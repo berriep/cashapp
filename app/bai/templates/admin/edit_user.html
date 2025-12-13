@@ -1,0 +1,86 @@
+{% extends "base.html" %}
+
+{% block title %}Edit User - BAI Monitor{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-8 offset-md-2">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h2><i class="bi bi-pencil"></i> Edit User: {{ user.username }}</h2>
+            <a href="{{ url_for('bai.admin_users') }}" class="btn btn-secondary">
+                <i class="bi bi-arrow-left"></i> Back
+            </a>
+        </div>
+
+        <div class="card">
+            <div class="card-body">
+                <form method="POST">
+                    <div class="mb-3">
+                        <label for="username" class="form-label">Username</label>
+                        <input type="text" class="form-control" id="username" value="{{ user.username }}" disabled>
+                        <small class="text-muted">Username cannot be changed</small>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="full_name" class="form-label">Full Name</label>
+                        <input type="text" class="form-control" id="full_name" name="full_name" 
+                               value="{{ user.full_name or '' }}">
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="email" class="form-label">Email</label>
+                        <input type="email" class="form-control" id="email" name="email" 
+                               value="{{ user.email or '' }}">
+                    </div>
+
+                    <div class="mb-3 form-check">
+                        <input type="checkbox" class="form-check-input" id="is_admin" name="is_admin"
+                               {% if user.is_admin %}checked{% endif %}>
+                        <label class="form-check-label" for="is_admin">
+                            <i class="bi bi-shield-check text-danger"></i> Admin Rights
+                        </label>
+                    </div>
+
+                    <div class="mb-3 form-check">
+                        <input type="checkbox" class="form-check-input" id="is_active" name="is_active"
+                               {% if user.is_active %}checked{% endif %}>
+                        <label class="form-check-label" for="is_active">
+                            <i class="bi bi-check-circle text-success"></i> Account Active
+                        </label>
+                        <br>
+                        <small class="text-muted">Inactive accounts cannot login</small>
+                    </div>
+
+                    <hr>
+
+                    <div class="d-grid gap-2">
+                        <button type="submit" class="btn btn-primary">
+                            <i class="bi bi-check-circle"></i> Save
+                        </button>
+                        <a href="{{ url_for('bai.admin_users') }}" class="btn btn-secondary">
+                            Cancel
+                        </a>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <div class="card mt-3">
+            <div class="card-header bg-info text-white">
+                <h5><i class="bi bi-info-circle"></i> User Information</h5>
+            </div>
+            <div class="card-body">
+                <dl class="row mb-0">
+                    <dt class="col-sm-4">Created:</dt>
+                    <dd class="col-sm-8">{{ user.created_at.strftime('%d-%m-%Y %H:%M') }}</dd>
+                    
+                    <dt class="col-sm-4">Last Login:</dt>
+                    <dd class="col-sm-8">{{ user.last_login.strftime('%d-%m-%Y %H:%M') if user.last_login else 'Never' }}</dd>
+                </dl>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+

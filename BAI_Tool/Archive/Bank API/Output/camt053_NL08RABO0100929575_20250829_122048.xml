@@ -1,0 +1,116 @@
+﻿<?xml version="1.0" encoding="utf-16"?>
+<Document xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="urn:iso:std:iso:20022:tech:xsd:camt.053.001.02">
+  <BkToCstmrStmt>
+    <GrpHdr>
+      <MsgId>STMT20250829001</MsgId>
+      <CreDtTm>2025-09-03T15:50:08</CreDtTm>
+    </GrpHdr>
+    <Stmt>
+      <Id>STMT20250829</Id>
+      <CreDtTm>2025-09-03T15:50:08</CreDtTm>
+      <Acct>
+        <Id>
+          <IBAN>NL08RABO0100929575</IBAN>
+        </Id>
+        <Ccy>EUR</Ccy>
+        <Ownr>
+          <Nm>Account Holder</Nm>
+        </Ownr>
+      </Acct>
+      <Bal>
+        <Tp>OPBD</Tp>
+        <Amt Ccy="EUR">33063.89</Amt>
+        <CdtDbtInd>CRDT</CdtDbtInd>
+        <Dt>2025-08-29</Dt>
+      </Bal>
+      <Ntry>
+        <Amt Ccy="EUR">8045.33</Amt>
+        <CdtDbtInd>CRDT</CdtDbtInd>
+        <Sts>BOOK</Sts>
+        <BookgDt>2025-08-29</BookgDt>
+        <ValDt>2025-08-29</ValDt>
+        <NtryDtls>
+          <TxDtls>
+            <Refs>
+              <EndToEndId>000000000000005472</EndToEndId>
+            </Refs>
+            <RltdPties>
+              <Cdtr>
+                <Nm>CSV IMPORT</Nm>
+              </Cdtr>
+            </RltdPties>
+          </TxDtls>
+        </NtryDtls>
+      </Ntry>
+      <Ntry>
+        <Amt Ccy="EUR">3155.00</Amt>
+        <CdtDbtInd>CRDT</CdtDbtInd>
+        <Sts>BOOK</Sts>
+        <BookgDt>2025-08-29</BookgDt>
+        <ValDt>2025-08-29</ValDt>
+        <NtryDtls>
+          <TxDtls>
+            <Refs>
+              <EndToEndId>000000000000005473</EndToEndId>
+            </Refs>
+            <RltdPties>
+              <Cdtr>
+                <Nm>CSV IMPORT</Nm>
+              </Cdtr>
+            </RltdPties>
+          </TxDtls>
+        </NtryDtls>
+      </Ntry>
+      <Ntry>
+        <Amt Ccy="EUR">12.10</Amt>
+        <CdtDbtInd>CRDT</CdtDbtInd>
+        <Sts>BOOK</Sts>
+        <BookgDt>2025-08-29</BookgDt>
+        <ValDt>2025-08-29</ValDt>
+        <NtryDtls>
+          <TxDtls>
+            <Refs>
+              <EndToEndId>000000000000005474</EndToEndId>
+            </Refs>
+            <RltdPties>
+              <Cdtr>
+                <Nm>CSV IMPORT</Nm>
+              </Cdtr>
+            </RltdPties>
+            <RmtInf>
+              <Ustrd>250513961</Ustrd>
+            </RmtInf>
+          </TxDtls>
+        </NtryDtls>
+      </Ntry>
+      <Ntry>
+        <Amt Ccy="EUR">1210.00</Amt>
+        <CdtDbtInd>CRDT</CdtDbtInd>
+        <Sts>BOOK</Sts>
+        <BookgDt>2025-08-29</BookgDt>
+        <ValDt>2025-08-29</ValDt>
+        <NtryDtls>
+          <TxDtls>
+            <Refs>
+              <EndToEndId>000000000000005475</EndToEndId>
+            </Refs>
+            <RltdPties>
+              <Cdtr>
+                <Nm>CSV IMPORT</Nm>
+              </Cdtr>
+            </RltdPties>
+            <RmtInf>
+              <Ustrd>557000660/1026883</Ustrd>
+            </RmtInf>
+          </TxDtls>
+        </NtryDtls>
+      </Ntry>
+      <Bal>
+        <Tp>CLBD</Tp>
+        <Amt Ccy="EUR">33063.89</Amt>
+        <CdtDbtInd>CRDT</CdtDbtInd>
+        <Dt>2025-08-29</Dt>
+      </Bal>
+    </Stmt>
+  </BkToCstmrStmt>
+</Document>

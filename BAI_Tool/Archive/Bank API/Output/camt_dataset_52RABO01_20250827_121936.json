@@ -1,0 +1,46 @@
+{
+  "Account": {
+    "currency": "EUR",
+    "iban": "NL52RABO0125618484"
+  },
+  "DateFrom": "2024-06-01T00:00:00",
+  "DateTo": "2024-06-30T00:00:00",
+  "OpeningBalance": {
+    "balanceAmount": {
+      "amount": "100",
+      "currency": "EUR"
+    },
+    "balanceType": "expected",
+    "lastChangeDateTime": "2023-02-01T14:07:17Z",
+    "referenceDate": null
+  },
+  "ClosingBalance": {
+    "balanceAmount": {
+      "amount": "100",
+      "currency": "EUR"
+    },
+    "balanceType": "expected",
+    "lastChangeDateTime": "2023-02-01T14:07:17Z",
+    "referenceDate": null
+  },
+  "CurrentExpected": null,
+  "CurrentInterimBooked": null,
+  "Transactions": {
+    "account": {
+      "currency": "EUR",
+      "iban": "NL52RABO0125618484"
+    },
+    "transactions": {
+      "_links": {
+        "account": "/accounts/Wp-xhZMGEWRIIgVjPwTC1aKJJ0VCRZ_4bScUVXof7e0",
+        "next": null
+      },
+      "booked": []
+    }
+  },
+  "OpeningAmount": 100.0,
+  "ClosingAmount": 100.0,
+  "TransactionSum": 0.0,
+  "TransactionCount": 0,
+  "IsBalanceValid": true
+}

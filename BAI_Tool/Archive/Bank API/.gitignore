@@ -1,0 +1,23 @@
+# Ignore sensitive files
+tokens.json
+*.log
+
+# Ignore build artifacts
+bin/
+obj/
+*.user
+*.suo
+*.cache
+
+# Ignore OS files
+.DS_Store
+Thumbs.db
+
+# Ignore IDE files
+.vs/
+.vscode/
+*.swp
+*.swo
+
+# Keep certificates but warn about them
+# Note: These are already in Cert_Premium/ folder

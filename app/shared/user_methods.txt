@@ -1,0 +1,44 @@
+﻿    @staticmethod
+    def create_user(username, password, email=None, full_name=None, is_admin=False):
+        '''Create new user in database'''
+        from app.shared.database import shared_db
+        password_hash = bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt()).decode('utf-8')
+        shared_db.execute_query(
+            '''INSERT INTO rpa_data.bai_monitor_users (username, password_hash, email, full_name, is_admin, is_active)
+            VALUES (%s, %s, %s, %s, %s, TRUE)''',
+            (username, password_hash, email, full_name, is_admin),
+            fetch=False
+        )
+
+    @staticmethod
+    def update_user(user_id, email=None, full_name=None, is_admin=False, is_active=True):
+        '''Update user in database'''
+        from app.shared.database import shared_db
+        shared_db.execute_query(
+            '''UPDATE rpa_data.bai_monitor_users 
+            SET email = %s, full_name = %s, is_admin = %s, is_active = %s
+            WHERE id = %s''',
+            (email, full_name, is_admin, is_active, user_id),
+            fetch=False
+        )
+
+    @staticmethod
+    def delete_user(user_id):
+        '''Delete user from database (soft delete - set is_active to FALSE)'''
+        from app.shared.database import shared_db
+        shared_db.execute_query(
+            'UPDATE rpa_data.bai_monitor_users SET is_active = FALSE WHERE id = %s',
+            (user_id,),
+            fetch=False
+        )
+
+    @staticmethod
+    def change_password(user_id, new_password):
+        '''Change user password'''
+        from app.shared.database import shared_db
+        password_hash = bcrypt.hashpw(new_password.encode('utf-8'), bcrypt.gensalt()).decode('utf-8')
+        shared_db.execute_query(
+            'UPDATE rpa_data.bai_monitor_users SET password_hash = %s WHERE id = %s',
+            (password_hash, user_id),
+            fetch=False
+        )

@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OPS Dashboard - BAI Monitor</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+    <link href="{{ url_for('static', filename='css/style.css') }}" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reactflow@11/dist/style.css">
+    <style>
+        body {
+            background-color: #f5f7fa;
+        }
+        
+        #ops-flow-container {
+            height: 650px;
+            border: 1px solid #e5e7eb;
+            border-radius: 8px;
+            background: #fafbfc;
+        }
+        
+        .status-card {
+            margin-bottom: 1rem;
+        }
+        
+        .status-indicator {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            display: inline-block;
+            margin-right: 8px;
+        }
+        
+        .status-green { 
+            background-color: #10b981; 
+            box-shadow: 0 0 8px rgba(16, 185, 129, 0.5);
+        }
+        
+        .status-yellow { 
+            background-color: #f59e0b; 
+            box-shadow: 0 0 8px rgba(245, 158, 11, 0.5);
+        }
+        
+        .status-red { 
+            background-color: #ef4444; 
+            box-shadow: 0 0 8px rgba(239, 68, 68, 0.5);
+        }
+        
+        .card {
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        
+        .card-header {
+            background-color: #fff;
+            border-bottom: 2px solid #e9ecef;
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-dark bg-dark navbar-expand-lg">
+        <div class="container-fluid">
+            <span class="navbar-brand mb-0 h1">
+                <i class="bi bi-diagram-3"></i> BAI Monitor - OPS Dashboard
+            </span>
+            <div class="ms-auto">
+                <a href="{{ url_for('bai.dashboard') }}" class="btn btn-outline-light btn-sm me-2">
+                    <i class="bi bi-arrow-left"></i> Back to BAI
+                </a>
+                <a href="{{ url_for('shared.dashboard') }}" class="btn btn-outline-light btn-sm">
+                    <i class="bi bi-house"></i> CashApp Home
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container-fluid mt-4">
+        <div class="row">
+            <!-- React Flow Canvas -->
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h5 class="mb-0">
+                            <i class="bi bi-arrow-left-right"></i> Data Flow Pipeline
+                        </h5>
+                        <small class="text-muted">Real-time view of data flow from Bank → CashApp → Export Systems</small>
+                    </div>
+                    <div class="card-body p-0">
+                        <div id="ops-flow-container"></div>
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- React & React Flow from CDN -->
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/reactflow@11/dist/umd/index.js"></script>
+    
+    <!-- OPS Dashboard JavaScript -->
+    <script src="{{ url_for('bai.static', filename='js/ops_dashboard.js') }}?v=2"></script>
+</body>
+</html>

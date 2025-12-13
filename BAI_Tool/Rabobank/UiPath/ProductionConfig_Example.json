@@ -1,0 +1,11 @@
+{
+  "ApiBaseUrl": "https://api.rabobank.nl/openapi/payments/insight",
+  "PfxCertificatePath": "C:\\Users\\uipath\\BAI\\Certificate Production\\api_rabo_PRODUCTION.pfx",
+  "PfxPassword": "EPsBGVecfWa9jGb6Bd3B",
+  "ClientId": "b53367ddf9c83b9e0dde68d2fe1d88a1",
+  "_comment_certificate": "Production certificate Serial: 044CB89A91BC353709DAC64E493AD451",
+  "_comment_pfx": "Use api_rabo_PRODUCTION.pfx (exported from server Certificate Manager)",
+  "_comment_validation": "Script will automatically verify correct certificate Serial Number",
+  "_comment_servers": "Deploy to eucceisapp51 (source) and eucceisapp50 (target)",
+  "_comment_status": "Certificate already registered in Rabobank Developer Portal"
+}

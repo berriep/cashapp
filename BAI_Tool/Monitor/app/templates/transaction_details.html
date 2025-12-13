@@ -1,0 +1,263 @@
+{% extends "base.html" %}
+
+{% block title %}Transaction Details - BAI Monitor{% endblock %}
+
+{% block content %}
+<h2 class="mb-4"><i class="bi bi-receipt"></i> Transaction Details</h2>
+
+<div class="card mb-4">
+    <div class="card-body">
+        <form method="GET" class="row g-3">
+            <div class="col-md-12 mb-2">
+                <label class="form-label fw-bold">Quick filters:</label>
+                <div class="btn-group" role="group">
+                    <button type="submit" name="days" value="1" class="btn btn-sm {% if selected_days == 1 %}btn-primary{% else %}btn-outline-primary{% endif %}">1 day</button>
+                    <button type="submit" name="days" value="7" class="btn btn-sm {% if selected_days == 7 %}btn-primary{% else %}btn-outline-primary{% endif %}">7 days</button>
+                    <button type="submit" name="days" value="14" class="btn btn-sm {% if selected_days == 14 %}btn-primary{% else %}btn-outline-primary{% endif %}">14 days</button>
+                    <button type="submit" name="days" value="30" class="btn btn-sm {% if selected_days == 30 %}btn-primary{% else %}btn-outline-primary{% endif %}">30 days</button>
+                </div>
+            </div>
+            
+            <div class="col-md-3">
+                <label for="date_from" class="form-label">From date</label>
+                <input type="date" class="form-control" name="date_from" id="date_from" value="{{ selected_date_from or '' }}">
+            </div>
+            <div class="col-md-3">
+                <label for="date_to" class="form-label">To date</label>
+                <input type="date" class="form-control" name="date_to" id="date_to" value="{{ selected_date_to or '' }}">
+            </div>
+            <div class="col-md-4">
+                <label for="iban" class="form-label">Account(s)</label>
+                <select class="form-select" name="iban" id="iban" multiple size="5">
+                    {% for account in accounts %}
+                    <option value="{{ account.iban }}" {% if selected_ibans and account.iban in selected_ibans %}selected{% endif %}>
+                        {{ account.iban }}
+                    </option>
+                    {% endfor %}
+                </select>
+                <small class="text-muted">Hold Ctrl/Cmd to select multiple</small>
+            </div>
+            <div class="col-md-2">
+                <label class="form-label">&nbsp;</label>
+                <button type="submit" class="btn btn-primary w-100"><i class="bi bi-search"></i> Filter</button>
+            </div>
+            
+            <div class="col-md-3">
+                <label for="amount_min" class="form-label">Amount min (€)</label>
+                <input type="number" step="0.01" class="form-control" name="amount_min" id="amount_min" value="{{ selected_amount_min or '' }}" placeholder="E.g. -1000">
+            </div>
+            <div class="col-md-3">
+                <label for="amount_max" class="form-label">Amount max (€)</label>
+                <input type="number" step="0.01" class="form-control" name="amount_max" id="amount_max" value="{{ selected_amount_max or '' }}" placeholder="E.g. 1000">
+            </div>
+            <div class="col-md-6">
+                <label for="counterparty" class="form-label">Counterparty (IBAN or name)</label>
+                <input type="text" class="form-control" name="counterparty" id="counterparty" value="{{ selected_counterparty or '' }}" placeholder="E.g. NL12RABO or Albert Heijn">
+            </div>
+        </form>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <h5 class="mb-0"><i class="bi bi-table"></i> Transactions (max. 10,000)</h5>
+                <span class="badge bg-secondary" id="transaction-count">{{ transactions|length }} results</span>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-sm table-striped table-hover">
+                        <thead>
+                            <tr>
+                                <th>Date</th>
+                                <th>IBAN</th>
+                                <th class="text-end">Amount</th>
+                                <th>Counterparty</th>
+                                <th>Description</th>
+                                <th>Type</th>
+                                <th>Reference</th>
+                            </tr>
+                            <tr>
+                                <th></th>
+                                <th></th>
+                                <th><input type="text" class="form-control form-control-sm" id="filter-amount" placeholder="Filter amount (>, <, =)..."></th>
+                                <th><input type="text" class="form-control form-control-sm" id="filter-counterparty" placeholder="Filter counterparty..."></th>
+                                <th><input type="text" class="form-control form-control-sm" id="filter-description" placeholder="Filter description..."></th>
+                                <th></th>
+                                <th><input type="text" class="form-control form-control-sm" id="filter-reference" placeholder="Filter reference..."></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% if transactions %}
+                                {% for tx in transactions %}
+                                <tr class="transaction-row">
+                                    <td>{{ tx.booking_date.strftime('%d-%m-%Y') if tx.booking_date else '-' }}</td>
+                                    <td><code class="small">{{ tx.iban }}</code></td>
+                                    <td class="text-end {% if tx.transaction_amount > 0 %}text-success{% else %}text-danger{% endif %}">
+                                        <strong>{{ tx.transaction_amount|nl_currency }}</strong>
+                                    </td>
+                                    <td>
+                                        {% if tx.transaction_amount > 0 %}
+                                            {# Credit - toon debtor #}
+                                            {% if tx.debtor_iban %}
+                                                <div class="small">
+                                                    <code>{{ tx.debtor_iban }}</code><br>
+                                                    <span class="text-muted">{{ tx.debtor_name or '-' }}</span>
+                                                </div>
+                                            {% else %}
+                                                <span class="text-muted">No debtor info</span>
+                                            {% endif %}
+                                        {% else %}
+                                            {# Debit - toon creditor #}
+                                            {% if tx.creditor_iban %}
+                                                <div class="small">
+                                                    <code>{{ tx.creditor_iban }}</code><br>
+                                                    <span class="text-muted">{{ tx.creditor_name or '-' }}</span>
+                                                </div>
+                                            {% else %}
+                                                <span class="text-muted">No creditor info</span>
+                                            {% endif %}
+                                        {% endif %}
+                                    </td>
+                                    <td>
+                                        <div class="small" style="max-width: 300px;">
+                                            {{ tx.remittance_information_unstructured or '-' }}
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <span class="badge bg-info small">{{ tx.rabo_detailed_transaction_type or tx.rabo_transaction_type_name or 'Unknown' }}</span>
+                                    </td>
+                                    <td>
+                                        <div class="small text-muted">
+                                            {% if tx.entry_reference %}
+                                                Entry: {{ tx.entry_reference }}<br>
+                                            {% endif %}
+                                            {% if tx.end_to_end_id %}
+                                                E2E: {{ tx.end_to_end_id }}
+                                            {% endif %}
+                                        </div>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            {% else %}
+                                <tr>
+                                    <td colspan="7" class="text-center text-muted py-4">
+                                        <i class="bi bi-inbox"></i> No transactions found for the selected filters
+                                    </td>
+                                </tr>
+                            {% endif %}
+                        </tbody>
+                    </table>
+                </div>
+                
+                {% if transactions|length >= 10000 %}
+                <div class="alert alert-warning mt-3">
+                    <i class="bi bi-exclamation-triangle"></i> 
+                    <strong>Note:</strong> Maximum 10,000 transactions are shown. Use more specific filters to see all relevant data.
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row mt-4">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-body">
+                <h6 class="card-title"><i class="bi bi-info-circle"></i> Explanation</h6>
+                <ul class="small mb-0">
+                    <li><strong>Counterparty:</strong> For credit (incoming) the debtor is shown, for debit (outgoing) the creditor</li>
+                    <li><strong>References:</strong> Entry reference = unique transaction ID, End-to-End ID = payment order reference</li>
+                    <li><strong>Filters:</strong> Dates are exclusive (to date not included). Use quick filters for recent overview</li>
+                    <li><strong>Colors:</strong> Green = incoming (credit), Red = outgoing (debit)</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+// Text filter functionality with wildcard support
+function applyTextFilters() {
+    const amountFilter = document.getElementById('filter-amount').value.toLowerCase();
+    const counterpartyFilter = document.getElementById('filter-counterparty').value.toLowerCase();
+    const descriptionFilter = document.getElementById('filter-description').value.toLowerCase();
+    const referenceFilter = document.getElementById('filter-reference').value.toLowerCase();
+    
+    const rows = document.querySelectorAll('.transaction-row');
+    const transactionCount = document.getElementById('transaction-count');
+    let visibleCount = 0;
+    
+    rows.forEach(row => {
+        const cells = row.getElementsByTagName('td');
+        const amountText = cells[2].textContent.toLowerCase();
+        const counterpartyText = cells[3].textContent.toLowerCase();
+        const descriptionText = cells[4].textContent.toLowerCase();
+        const referenceText = cells[6].textContent.toLowerCase();
+        
+        // Helper function to match with wildcard support
+        function matchesFilter(text, filter) {
+            if (!filter) return true;
+            
+            // Convert wildcard * to regex .*
+            const regexPattern = filter
+                .replace(/[.*+?^${}()|[\]\\]/g, '\\$&') // Escape special chars
+                .replace(/\\\*/g, '.*'); // Convert \* back to .*
+            
+            const regex = new RegExp(regexPattern, 'i');
+            return regex.test(text);
+        }
+        
+        // Helper function for amount comparison
+        function matchesAmountFilter(amountText, filter) {
+            if (!filter) return true;
+            
+            // Extract numeric value from formatted amount (e.g., "€ 1.234,56" -> 1234.56)
+            const numericValue = parseFloat(amountText.replace(/[^0-9,-]/g, '').replace('.', '').replace(',', '.'));
+            
+            // Check for comparison operators
+            if (filter.startsWith('>')) {
+                const compareValue = parseFloat(filter.substring(1).trim());
+                return !isNaN(compareValue) && numericValue > compareValue;
+            } else if (filter.startsWith('<')) {
+                const compareValue = parseFloat(filter.substring(1).trim());
+                return !isNaN(compareValue) && numericValue < compareValue;
+            } else if (filter.startsWith('=')) {
+                const compareValue = parseFloat(filter.substring(1).trim());
+                return !isNaN(compareValue) && Math.abs(numericValue - compareValue) < 0.01;
+            } else {
+                // Default: wildcard text matching
+                return matchesFilter(amountText, filter);
+            }
+        }
+        
+        const matches = 
+            matchesAmountFilter(amountText, amountFilter) &&
+            matchesFilter(counterpartyText, counterpartyFilter) &&
+            matchesFilter(descriptionText, descriptionFilter) &&
+            matchesFilter(referenceText, referenceFilter);
+        
+        if (matches) {
+            row.style.display = '';
+            visibleCount++;
+        } else {
+            row.style.display = 'none';
+        }
+    });
+    
+    transactionCount.textContent = visibleCount + ' results';
+}
+
+// Add event listeners to filter inputs
+document.addEventListener('DOMContentLoaded', function() {
+    ['filter-amount', 'filter-counterparty', 'filter-description', 'filter-reference'].forEach(id => {
+        const input = document.getElementById(id);
+        if (input) {
+            input.addEventListener('input', applyTextFilters);
+        }
+    });
+});
+</script>
+{% endblock %}

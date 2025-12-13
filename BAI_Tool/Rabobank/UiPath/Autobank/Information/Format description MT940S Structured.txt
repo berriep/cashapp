@@ -1,0 +1,967 @@
+August 2019
+Rabo Direct Connect, 
+SWIFT FileAct and 
+Rabo Internetbanking 
+(Professional)
+Format description 
+MT940 Structured 
+version 1.5.3
+Rabobank Format description MT940 Structured August 2019 | Version 1.5.3 2
+Contents
+1. MT940 CUSTOMER STATEMENT MESSAGE 3
+1.1 General information 3
+1.2 Format structure 4
+1.3 Schematic representation 4
+2. TECHNICAL DESCRIPTION 6
+3. FIELD 86: DESCRIPTION 17
+3.1 Considerations 17
+3.2 Field 86: SEPA Credit Transfer and non-SEPA transfer scenarios 19
+3.3 Field 86: SEPA Direct Debit and non-SEPA collection scenarios 20
+APPENDIX 1: TRANSACTION TYPE CODES 21
+APPENDIX 2: REASON RETURN CODES 22
+APPENDIX 3: EXPECTED CHANGES 23
+CHANGE LOG 24
+Rabobank Format description MT940 Structured August 2019 | Version 1.5.3 3
+1. MT940 Customer Statement Message
+1.1 General information
+The official name for this export format is “MT940 Customer Statement Message”, an international 
+format that is used as the digital equivalent of the official paper statements. On the statement the 
+opening balance and closing balance listed on the entry date as well as specific data of all bookings 
+on the account.
+The MT940 Structured as supplied by Rabobank is not fully compliant with SWIFT. For example, the 
+message starts with the tag :940: and the message size is not limited to the prescribed 2.000 characters
+of the SWIFT MT940 base message.
+The statement does not contain transaction lines (field 61 and 86) if there are no transactions for the 
+specific entry date. The message supplied by Rabobank is always closed with field 62F, 64 or 65. 
+The following table describes the characteristics of the MT940S per channel:
+RIB (Pro) RDC/SWIFT FileAct
+Layout file name - Actual dowload:
+MT940S_O_download date_
+time.swi
+- Selection/calender:
+MT940S_A_download date_
+time.swi
+<MT940S_Date_Time_ContractId_
+StatementTransportAgreement.zip>
+Number of accounts in 1 file. 1 or more accounts - 1 or more Rabobank accounts 
+(customer’s choice). 
+- only 1 Multibank or 1 RNB account 
+per file (.zip). 
+Sequence accounts in 1 file. In accordance to the 
+sequence in RIB (Pro)
+In accordance to the sequence of 
+IBAN
+Number of statements in 1 file 1 or more statements 1 or more statements
+Selection period statements in 
+1 file
+1 or more bookdates 1 bookdate
+Selection period transactions in 
+1 statement
+1 bookdate 1 bookdate
+If applicable transactions are shown not-cumulated in the MT940 Structured. This applies to accounts 
+held at local branches of Rabobank and to Corporate accounts which are held at WRR (former 
+Rabobank International).
+The MT940 Structured is available for Rabobank ‘s current accounts, savings accounts, Multibank
+accounts (non-Rabobank accounts) and Rabo Network Banking (RNB) accounts (accounts held at our 
+Rabobank branches in Germany, Belgium and the United Kingdom).
+Rabobank’s current accounts are accounts held at local branches of Rabobank or Corporate accounts 
+held at WRR former Rabobank International. 
+For Multibank and RNB accounts, no statement is provided by Rabobank when the Rabobank has not 
+received an incoming SWIFT MT940 for that particular date.
+This format description of MT940 Structured only applies to exports of Rabo Internetbanking (Professional), Rabo Direct Connect and SWIFT FileAct.
+This document is not applicable for the MT940 Structured of RIB Online accounting.
+Rabobank Format description MT940 Structured August 2019 | Version 1.5.3 4
+1.2 Format structure
+Each SWIFT MT940-message starts with a fixed header-record (:940:) followed by record 20, 25, 28C, 60F, 
+61 (0-n). Each record 61 contains record 86 (0-6), 62F and (optional) record 64 and 65.
+MT940 Structured provides an opening and closing balance and the associated intermediate bookings. 
+For this format exporting book balances is required which means that only complete book days can be 
+exported. Each block of information in a customer statement message is preceded by a field (label, tag). 
+The contents of the field may consist of different elements. The file begins with a fixed value of “940”. 
+Each statement in the file begins with field-20 and ends with the following field-20 or when the end of 
+file is reached. The sequence of fields within a single message is described in Chapter 2. Within one 
+statement a group consisting of field-61 and field-86 can occur multiple times. Code words within field86 are separated by a slash (/). These codes are used to create structure in field 86 to separate the different information.
+1.3 Schematic representation
+The image in this paragraph shows the file structure of the MT940:
+Rabobank Format description MT940 Structured August 2019 | Version 1.5.3 5
+Rabobank Format description MT940 Structured August 2019 | Version 1.5.3 6
+2. Technical description
+Field/
+Subfield
+Mandatory 
+/ Optional
+Description / 
+Fieldname
+Length
+[ ] = optional
+d = numeric with decimals
+n = numeric
+x = alphanumeric
+! = fixed length
+a = text
+c = values code list
+Content Rabobank account: description Multibank/RNB account: description
+940 M File header 5!x :940: Not SWIFT-compliant. Not SWIFT-compliant.
+20 M Transaction reference number
+Recordcode 4!x :20: Is used. Is used.
+Reference 16x Is filled with value <940><S> followed 
+by the bookdate of the statement in 
+notation <YYMMDD>.
+Example “940S190624”. 
+Is filled with the content of field-20 from 
+the incoming SWIFT MT940.
+21 O Related reference Is not used. Is not used.
+25 M Identification of account
+Record code 4!x :25: Is used. Is used.
+Account number 35x <IBAN><space><Currency>
+If available account number is shown in 
+IBAN including the currency of the account.
+This field is filled with the account 
+number (IBAN / BBAN) as registered at 
+Rabobank and will be enriched with the 
+currency code from mid October 2019.
+The notation of this field will be: 
+<IBAN/BBAN><space><currency code>
+For example:
+DE89370400440532013000 EUR
+FR1420041010050500013M02606 GBP
+Rabobank Format description MT940 Structured August 2019 | Version 1.5.3 7
+Field/
+Subfield
+Mandatory 
+/ Optional
+Description / 
+Fieldname
+Length
+[ ] = optional
+d = numeric with decimals
+n = numeric
+x = alphanumeric
+! = fixed length
+a = text
+c = values code list
+Content Rabobank account: description Multibank/RNB account: description
+021000021 USD
+Note: when the accountnumber has a 
+length of 35 positions, only the first 34 
+positions of the accountnumber are 
+reported.
+28C M Statement / Sequence number
+Record code 5!x :28C: Is used. Is used.
+Statement number 5n The statement number is filled with 
+<year year><bookdate number>
+<year year> wil be changed annually 
+with “+1”and the <bookdate number> 
+is resetted every year and starts with 
+‘001’. 
+For example:
+1 January 2019: ‘19001’
+1 January 2020: ‘20001’
+The statement number is filled with the 
+content from field-28C of the incoming 
+SWIFT MT940.
+Separation [/] Is not used. Is not used.
+Sequence number [2!n] Is not used. Is not used.
+60F M Opening balance
+Record code 5!x :60F: Is used. Is used.
+Debit / Credit 1!a Value D and C Is used. This is filled with the debet/credit indicator from field-60F of the incoming 
+SWIFT MT940.
+Rabobank Format description MT940 Structured August 2019 | Version 1.5.3 8
+Field/
+Subfield
+Mandatory 
+/ Optional
+Description / 
+Fieldname
+Length
+[ ] = optional
+d = numeric with decimals
+n = numeric
+x = alphanumeric
+! = fixed length
+a = text
+c = values code list
+Content Rabobank account: description Multibank/RNB account: description
+Date 6!n <YYMMDD> The date is equal to the bookdate of the 
+closing balance of the previous statement.
+This is filled with the date from field- 60F 
+of the incoming SWIFT MT940.
+Currency code 3!x ISO currency code Currency of the account. This is filled with the currency code 
+from field- 60F of the incoming SWIFT 
+MT940.
+Amount 15!d The number of decimals is 
+in accordance to ISO4217. 
+The decimal separator, a 
+comma, is included in the 
+fixed length of 15. The 
+amount will be filled with 
+leading zeros.
+For example: 
+(EUR) 000000000032,00
+(KWD) 00000000001,000 
+(JPY) 00000123456789, 
+Is used. Is used.
+61 O [0-n] Statement line
+Record code 4!x :61: Is used. Is used.
+Sub 1 M Value date 6!n <YYMMDD> Value date of the transaction. This subfield is filled with the value date 
+from field-61 sub-1 of the incoming 
+SWIFT MT940.
+Sub 2 O Entry date [4!n] <MMDD> Is not used. The entry date is filled with the date 
+from field-61 sub-2 of the incoming 
+SWIFT MT940.
+When the entry date is not available, the 
+Rabobank Format description MT940 Structured August 2019 | Version 1.5.3 9
+Field/
+Subfield
+Mandatory 
+/ Optional
+Description / 
+Fieldname
+Length
+[ ] = optional
+d = numeric with decimals
+n = numeric
+x = alphanumeric
+! = fixed length
+a = text
+c = values code list
+Content Rabobank account: description Multibank/RNB account: description
+entry date is filled with the date from 
+field-62F.
+Sub 3 M Debit / Credit 2a Value D, C, RD and RC Value D and C. Value D, C, RD and RC.
+This subfield is filled with the content 
+from field-61 sub-3 of the incoming 
+SWIFT MT940.
+Sub 4 O Funds code [1!a] Is not used. The funds code is filled if available in 
+field-61 sub-4 of the incoming SWIFT 
+MT940.
+Sub 5 M Amount 15!d The number of decimals is 
+in accordance to ISO4217. 
+The decimal separator, a 
+comma, is included in the 
+fixed length of 15. The 
+amount will be filled with 
+leading zeros.
+For example: 
+(EUR) 000000000032,00
+(KWD) 00000000001,000 
+(JPY) 00000123456789,
+Is used. Is used.
+Sub 6 M Transaction type 
+Identification code
+1!a3!c This subfield is filled with 
+<N><transaction type code>.
+The code may be incomplete. For the 
+correct code, refer to codeword 'TRCD' 
+in field 86.
+More information about transaction 
+type codes of Rabobank, see Appendix 
+1.
+This subfield is filled with the content 
+from field-61 sub-6 of the incoming 
+SWIFT MT940.
+Rabobank Format description MT940 Structured August 2019 | Version 1.5.3 10
+Field/
+Subfield
+Mandatory 
+/ Optional
+Description / 
+Fieldname
+Length
+[ ] = optional
+d = numeric with decimals
+n = numeric
+x = alphanumeric
+! = fixed length
+a = text
+c = values code list
+Content Rabobank account: description Multibank/RNB account: description
+Sub 7 M Reference for the 
+account owner
+16x In case of non-SEPA transactions this 
+subfield is filled with the transaction 
+reference.
+In case of a SEPA transaction, fhis field 
+specifies the reference which is available 
+in field 86 on the first position. 
+Used values:
+‘EREF’: end-to-end reference 
+‘MARF’: mandate reference
+‘PREF’: batch reference
+‘NONREF’: non-SEPA transaction
+Note: When <MARF> is present, EREF 
+may also be available in field 86.
+This subfield is filled with the 
+content from field-61 sub-7 of the incoming SWIFT MT940.
+Sub 8 O Reference of the account 
+servicing institution
+[//16x] This subfield is filled with a unique 
+Rabobank reference number.
+This subfield is filled if available with the 
+content from field-61 sub-8 of the incoming SWIFT MT940.
+Sub 9 O Additional information [34x] This subfield contains the counterparty 
+account number. This can also be a 
+savings account. 
+It is filled in the following order:
+ IBAN or
+ NON-IBAN or
+ If there is no counterparty 
+ account number available then it is 
+filled with 10 zeros.
+This subfield is filled if available with the 
+content from field-61 sub-9 of the incoming SWIFT MT940.
+Rabobank Format description MT940 Structured August 2019 | Version 1.5.3 11
+Field/
+Subfield
+Mandatory 
+/ Optional
+Description / 
+Fieldname
+Length
+[ ] = optional
+d = numeric with decimals
+n = numeric
+x = alphanumeric
+! = fixed length
+a = text
+c = values code list
+Content Rabobank account: description Multibank/RNB account: description
+Sub 9 starts on a new line according to 
+SWIFT.
+86 O [0-6] Information to account 
+owner
+6*65x Rabobank uses code words to 
+structure the provided information 
+to the account owner.
+Remittance information provided by the 
+customer will not be supplemented by 
+Rabobank with (SEPA) information. 
+(SEPA) information can be derived from 
+the code words in field 86
+This field is filled with the content from 
+field-86 of the incoming SWIFT MT940.
+Code words used by Rabobank do not 
+apply for Multibank accounts. 
+Usage and meaning of code words 
+used by non-Rabobank are unknown for 
+Rabobank.
+Recordcode 4!x :86: Is used. Is used.
+Mandate reference 35x /MARF/ The mandate reference is preceded by 
+/MARF/.
+-
+End-to-End reference 35x /EREF/ The End-to-End Id is preceded by 
+/EREF/.
+-
+Batch reference 35x /PREF/ The batch reference of a SEPA batch is 
+preceded by /PREF/.
+Return reason 4!c /RTRN/ Return reason code, please refer to 
+Appendix 2 for the most relevant codes 
+and their description.
+-
+Counterparty /BENM/ or /ORDP/ Code preceding counterparty data. -
+Rabobank Format description MT940 Structured August 2019 | Version 1.5.3 12
+Field/
+Subfield
+Mandatory 
+/ Optional
+Description / 
+Fieldname
+Length
+[ ] = optional
+d = numeric with decimals
+n = numeric
+x = alphanumeric
+! = fixed length
+a = text
+c = values code list
+Content Rabobank account: description Multibank/RNB account: description
+ Name 70x /NAME/1 Counterparty name. -
+ Id 35x /ID/ Counterparty Id, unless the Id is the 
+Creditor Id. Creditor Id may be available 
+after code /CSID/.
+-
+Remittance information 390x /REMI/1 Remittance information can be 
+present in a structured and/or 
+unstructured form. 
+If unstructured the value is be 
+placed after /REMI/. 
+If structured, it is followed by the 
+four codes below. 
+Remittance information provided by the 
+customer will not be supplemented by 
+Rabobank with (SEPA) information. 
+(SEPA) information can be derived from 
+the code words in field 86
+-
+Structured remittance 
+information
+CDTRREFTP//CD/SCOR/ 
+ISSR/CUR/CDTRREF/<pay
+ment reference>
+CDTRREFTP//CD/SCOR/
+CDTRREF/<payment reference>
+CDTRREFTP//ISSR/CUR/
+Structured payment reference 
+(=betalingskenmerk). 
+CD = if present, this is filled with ‘SCOR’.
+ISSR = if present, it can be filled with:
+- ‘CUR’ = issuer NL- payment reference;
+- ‘ISO’ = issuer international payment 
+reference; 
+- ‘BBA’ = issuer Belgian payment reference;
+-
+ 
+1 Only applicable for MT940S of savings accounts: in case of a non-SEPA savings transaction, the name of the counterparty is not preceded with /ORDP//NAME/ or /BENM//NAME/ but with code word /REMI/. For example: 
+/REMI/ Bouwbedrijf H. JanssenAanvullen saldo spaarrekening
+Rabobank Format description MT940 Structured August 2019 | Version 1.5.3 13
+Field/
+Subfield
+Mandatory 
+/ Optional
+Description / 
+Fieldname
+Length
+[ ] = optional
+d = numeric with decimals
+n = numeric
+x = alphanumeric
+! = fixed length
+a = text
+c = values code list
+Content Rabobank account: description Multibank/RNB account: description
+CDTRREF/<payment reference>
+CDTRREFTP//CDTRREF/
+<payment reference>
+- <own> = issuer of own payment reference.
+Creditor ID 35x /CSID/ Creditor Identifier. -
+Ultimate counterparty /ULTD/ of /ULTB/ -
+ Name 70x /NAME/ Name of the ultimate counterparty. -
+ Id 35x /ID/ ID of the ultimate counterparty. -
+Purpose /PURP/ Purpose of the transaction. -
+Purpose code 4!c /CD/ Purpose code.
+The purpose code is incorrectly filled 
+with the category purpose code. 
+Unknown when this will be filled with 
+the purpose code.
+-
+Transaction type code 4c /TRCD/ The 3- and 4- numerical transaction 
+type code will be shown. More information about transaction type codes of 
+Rabobank, see Appendix 1.
+-
+Interbank settlement date 10 /ISDT/ Notation: CCYY-MM-DD. 
+For example: ‘2018-04-09’
+-
+Instructed amount 3!a15d /OCMT/ The instructed amount and currency 
+will be shown if the booked amount 
+differs from the instructed amount. 
+For example: ‘USD100,00’
+-
+Rabobank Format description MT940 Structured August 2019 | Version 1.5.3 14
+Field/
+Subfield
+Mandatory 
+/ Optional
+Description / 
+Fieldname
+Length
+[ ] = optional
+d = numeric with decimals
+n = numeric
+x = alphanumeric
+! = fixed length
+a = text
+c = values code list
+Content Rabobank account: description Multibank/RNB account: description
+Echange rate 12d /EXCH/ The exchange rate of the incoming and 
+outgoing transaction will be shown. 
+The rate is displayed as "1 currency unit 
+of the account currency in relation to 
+the currency of the instructed amount. 
+-
+Charges [3!a]15d /CHGS1/
+/CHGS2/
+/CHGS3/
+/CHGS4/
+/CHGS5/
+The deducted charges which are 
+charged by the (foreign) banks.
+The order in which codewords are 
+shown is the same as the processing of 
+the transaction by the banks.
+For example: USD5,00
+-
+Initiating party /INIT/ -
+ Name 70x /NAME/ The name of the initiating part y who 
+has initiated the payment. 
+-
+62F M Closing Balance
+Field code 5!x :62F: Is used. Is used.
+Debit / Credit 1!a Value D and C Is used. This is filled with the debet/creditindicator from field-62F of the 
+incoming SWIFT MT940.
+Date 6!n <YYMMDD> Is used. This is filled with the date from 
+field-62F of the incoming SWIFT MT940.
+Currency code 3!a ISO currency code Currency of the account. Currency of the account.
+Amount 15!d The number of decimals is
+in accordance to ISO4217. 
+The decimal separator, a 
+Is used. Is used.
+Rabobank Format description MT940 Structured August 2019 | Version 1.5.3 15
+Field/
+Subfield
+Mandatory 
+/ Optional
+Description / 
+Fieldname
+Length
+[ ] = optional
+d = numeric with decimals
+n = numeric
+x = alphanumeric
+! = fixed length
+a = text
+c = values code list
+Content Rabobank account: description Multibank/RNB account: description
+comma, is included in the 
+fixed length of 15. The 
+amount will be filled with 
+leading zeros.
+For example: 
+(EUR) 000000000032,00
+(KWD) 00000000001,000 
+(JPY) 00000123456789,
+64 O Closing (available) value balance Is used. Is used.
+Field code 4!x :64: Is used. Is used.
+Debit / Credit 1!a Value D and C Is used. This is filled with the debet/creditindicator from field-64 of the 
+incoming SWIFT MT940.
+Date 6!n <YYMMDD> Is equal to the bookdate of the statement.
+This is filled with the date from 
+field-64 of the incoming SWIFT MT940.
+Currency code 3!a ISO currency code Currency of the account. Currency of the account.
+Amount 15!d The number of decimals is 
+in accordance to ISO4217. 
+The decimal separator, a 
+comma, is included in the 
+fixed length of 15. The 
+amount will be filled with 
+leading zeros.
+For example: 
+(EUR) 000000000032,00
+Is used. Is used.
+Rabobank Format description MT940 Structured August 2019 | Version 1.5.3 16
+Field/
+Subfield
+Mandatory 
+/ Optional
+Description / 
+Fieldname
+Length
+[ ] = optional
+d = numeric with decimals
+n = numeric
+x = alphanumeric
+! = fixed length
+a = text
+c = values code list
+Content Rabobank account: description Multibank/RNB account: description
+(KWD) 00000000001,000 
+(JPY) 00000123456789,
+65 O [0-4] Forward (available) value balance
+(total 4 days in the future) 
+Is used. Is used.
+Field code 4!x :65: Is used. Is used.
+Debit / Credit 1!a Value D and C Is used. This is filled with the debet/creditindicator from field-65 of the 
+incoming SWIFT MT940.
+Date 6!n <YYMMDD> Is used. This is filled with the date from 
+field-65 of the incoming SWIFT MT940.
+Currency code 3!a ISO currency code Currency of the account. Currency of the account.
+Amount 15!d The number of decimals is 
+in accordance to ISO4217. 
+The decimal separator, a 
+comma, is included in the 
+fixed length of 15. The 
+amount will be filled with 
+leading zeros.
+For example: 
+(EUR) 000000000032,00
+(KWD) 00000000001,000 
+(JPY) 00000123456789,
+Is used. Is used.
+86 O Information to Account 
+Owner
+6*65 Is not used. Is not used.
+Rabobank Format description MT940 Structured August 2019 | Version 1.5.3 17
+3. Field 86: Description
+Information described in this chapter is only applicable for Rabobank (savings) accounts.
+3.1 Considerations
+ Codes and descriptions are only reported if the information is present in the transaction.
+ Descriptions and code words are separated with slashes. 
+For example: /MARF/12345678/EREF/2456425/...
+ Information in field 86 is filled continuously in 6 strings of 65 positions. 
+For example:
+/MARF/ABCDEFGHIJKLMNOPQRSTUVWXYZABCDEFGHI/EREF/ABCDEFGHIJK
+LMNOPQ RSTUVWXYABCDEFGHI/BENM//NAME/ABCDEFGHIJKLMNOPQRSTUVWXY
+ZABCDEFGHGHI/REMI/ABCDEFGHIJKLMNOPQRSTUVWXYZABCDEFGHIABCDEFGH
+IJKLMNOPQRSTU VWXYZABCDEFGHIABCDEFGHIJKLMNOPQRSTUVWXYZABCDEFG
+HIABCDEFGHIJKLMNOP QRSTUVWXYZABCDEFG/CSID/ABCDEFGHIJKLMNOPQRS
+TUVWXYZABCDEFGHI
+ Field 86 is built up to 6 x 65 positions. In case there is more information available than field’s 
+maximum, the order of feedback is according to the order in which they are listed in the 
+tables, see chapter 3.2 and 3.3.
+ Unstructured Remittance Information (=URI) and Structured Remittance Information (=SRI) 
+can occur both in field 86. 
+For example: 
+/REMI/<Unstructured Remittance Information>/CDTRREFTP//CD/SCOR/ISSR2
+/C
+UR/CDTRREF/<Structured Remittance Information>
+ In case of structured remittance information the following presentation are possible, dependent 
+on the provided information at initiation: 
+/REMI//CDTRREFTP//CD/SCOR/ISSR2
+/CUR/CDTRREF/<payment reference>
+/REMI//CDTRREFTP//CD/SCOR/CDTRREF/<payment reference>
+/REMI//CDTRREFTP//ISSR2
+/CUR/CDTRREF/<payment reference>
+/REMI//CDTRREFTP//CDTRREF/<payment reference>
+ Spaces at the end of each description line (provided by the customer) may be omitted.
+ SDD-initiation: Only value batch booking TRUE is permitted at Rabobank. Rabobank follows 
+gross booking method.
+ SCT-initiation: single OR batch transactions. If batch booking TRUE Rabobank follows gross 
+booking method. 
+ Batch booking FALSE ensures individual transaction processing.
+ In case field 86 starts with ‘:’ (= colon) or ‘–‘ (=hyphen) on the first position of a new line (except for 
+line-1), this will be replaced by one space.
+Regarding MT940S of savings accounts:
+ For SEPA savings transactions the name of the counterparty is preceded with the code words
+/BENM //NAME/ or /ORDP//NAME/.
+ For other savings transactions the name of the counterparty can be found in remittance
+information (/ REMI/). For example “/REMI/VOF RavesteinOpbouw reservering”.
+ SEPA information of savings transactions is not available. 
+ 
+2
+In the example ISSR is filled with CUR. Other values, BBA, ISO and <own> are also allowed.
+Rabobank Format description MT940 Structured August 2019 | Version 1.5.3 18
+The structure of field-86 is dependant on the transaction type and it’s reporting information. 
+In the table below the possible scenarios are listed and are only applicable for Rabobank current 
+accounts. 
+Scenario
+1a Reporting of a SEPA 
+debit, account was 
+debited because:
+you have made a SEPA payment from your account.
+1b you have made a SEPA batch payment from your account (batch booking TRUE).
+2 a counterparty has debited your account via a SEPA direct debit.
+3 a previous SEPA credit has been returned.
+4 a previous SEPA direct debit has been returned.
+5 Reporting of a SEPA 
+credit, account was 
+credited because:
+a counterparty has made a SEPA payment to your account.
+6 you have debited a counteroarty’s account via a SEPA direct debit.
+7 a previous outgoing SEPA credit transfer has been returned to your account.
+8 you have been debited via a SEPA direct debit previously, this direct 
+debit is returned.
+9a Reporting of a nonSEPA debit
+you have made a non-SEPA payment from your account.
+9b a counterparty has debited your account via a non-SEPA direct debit.
+10a Reporting of a nonSEPA credit
+a counterparty has made a non-SEPA payment to your account.
+10b you have debited a counterparty’s account via a non-SEPA direct debit.
+Rabobank Format description MT940 Structured August 2019 | Version 1.5.3 19
+3.2 Field 86: SEPA Credit Transfer and non-SEPA transfer scenarios 
+This table shows for each scenario which code words may be present for SEPA, returned SEPA en nonSEPA transactions. 
+Description Content
+1a
+SCT 
+debit
+1b
+SCT 
+debit
+3
+Reversal
+SCT 
+debit 
+5
+SCT 
+credit
+7
+Reversal
+SCT 
+credit
+9
+CT 
+(nonSEPA)
+debit
+11
+CT 
+(nonSEPA)
+credit
+Single Batch Single Single Single Single Single
+Field code :86:       
+End-to-end ID /EREF/       
+Payment Info ID /PREF/       
+Transaction type code /TRCD/       
+Return code /RTRN/       
+Name of the counterparty /BENM//NAME/¹
+/ORDP//NAME/¹
+BENM  ORDP ORDP BENM BENM ORDP
+Identification of the counterparty /ID/¹       
+Remittance information /REMI/       
+Structured remittance information /REMI//CDTRREFTP/
+/CD/
+/ISSR/
+/CDTRREF/
+      
+Instructed amount /OCMT/       
+Exchange rate /EXCH/       
+Charges /CHGS1/
+/CHGS2/
+/CHGS3/
+/CHGS4/
+/CHGS5/
+      
+Name of the ultimate counterparty /ULTD//NAME/¹
+/ULTB//NAME/¹
+      
+Identification of the ultimate counterparty
+/ID/¹       
+Purpose code /PURP//CD/       
+Initiating party name /INIT//NAME/       
+Vereveningsdatum /ISDT/       
+¹If information of the (ultimate) counterparty (name and/or identification) is available, it is preceded by BENM, ORDP, ULTD or ULTB. 
+E.g. name and identification is available: /BENM//NAME/Janssen/ID/123456
+E.g. only identification is available: /BENM//ID/123456
+Rabobank Format description MT940 Structured August 2019 | Version 1.5.3 20
+3.3 Field 86: SEPA Direct Debit and non-SEPA collection scenarios
+This table shows for each scenario which code words may be present for SEPA Direct Debit, returned 
+SEPA Direct Debit en non-SEPA direct debit transactions. 
+¹If information of the (ultimate) counterparty (name and/or identification) is available, it is preceded by BENM, ORDP, ULTD or ULTB. 
+E.g. name and identification is available: /BENM//NAME/Janssen/ID/123456
+E.g. only identification is available: /BENM//ID/123456
+Description Content
+2
+SDD 
+debit
+4
+Reversal
+SDD 
+debit
+6
+SDD 
+credit
+8
+Reversal
+SDD 
+credit
+10
+DD (nonSEPA)
+debit
+12
+DD (nonSEPA)
+credit
+Single Single Batch Single Single Single
+Field code :86:      
+Mandate reference /MARF/      
+End-to-end ID /EREF/      
+Payment Info ID /PREF/      
+Transaction type code /TRCD/      
+Return code /RTRN/      
+Name of the counterparty /BENM//NAME/¹
+/ORDP//NAME/¹
+ORDP BENM  ORDP ORDP BENM
+Identification of the counterparty /ID/¹      
+Remittance information /REMI/      
+Structured remittance information /REMI//CDTRREFTP/
+/CD/
+/ISSR/
+/CDTRREF/
+     
+Creditor ID /CSID/      
+Name of the ultimate counterparty /ULTD//NAME/¹
+/ULTB//NAME/¹
+     
+Identification of the ultimate counterparty /ID/¹      
+Purpose Code /PURP//CD/      
+Rabobank Format description MT940 Structured August 2019 | Version 1.5.3 21
+Appendix 1: Transaction type codes
+Information described in this appendix is only applicable for Rabobank accounts.
+The transaction type code is filled in field 61 sub-6. For Rabobank accounts, this is filled with a 
+3-numerict code that precedes with the letter N (= non-SWIFT transfer).
+By extending the transaction type coding with 4-numerical codes, the coding does not always fit in 
+subfield 6. For example, transaction type code 2065 does not fit in this subfield. The first position has 
+been left out which now shows code N065. The transaction type is therefore no longer unequivocal 
+because the original code 065 has a different meaning than code 2065.
+Code word TRCD will show the 3- and 4-numerical transaction type code. Field 61 sub-6 remains filled 
+but the code may be incomplete due to the maximum format length of 3.
+An overview of the transaction type codes, extended with the 4-numerical codes, can be found on the 
+download page of:
+ Rabo Internetbanking (Professional): www.rabobank.nl/seb-en under section ‘Transaction 
+reporting’.
+ Rabo Direct Connect: https://www.rabobank.com/rdc see section “Export formats’.
+ SWIFT FileAct: https://www.rabobank.com/swift see section “Export formats’.
+Please note: the transaction type codes are the Rabobank’s own codes. Rabobank is entitled to adjust 
+these transaction codes and descriptions at any time without prior notice.
+Rabobank Format description MT940 Structured August 2019 | Version 1.5.3 22
+Appendix 2: Reason return codes
+If a SEPA Credit Transfer, Direct Debit or non-SEPA payment is rejected or returned, a reason/return
+code is provided. This table contains frequent reason codes with description.
+Return 
+reason code 
+Description 
+AC01 Account number incorrect.
+AC04 Account number closed.
+AC06 Euro Direct Debit blocked. 
+AC13 Debtor account is a consumer 
+account.
+AG01 Administrative reason.
+AG02 Invalid file format.
+AGNT Incorrect BIC bank beneficiary.
+AM04 Administrative reason.
+AM05 Duplicate order.
+BE04 Address beneficiary missing.
+BE05 Remitter unknown.
+CURR Incorrect currency.
+CUST Debtor cancellation.
+CUTA Rejected.
+DUPL Duplicate order.
+FF01 Invalid file format. 
+FF05 Direct debit type is not correct.
+FOCR Cancellation request.
+MD01 No mandate.
+MD02 Incorrect mandate.
+MD06 Return of funds requested by 
+end customer.
+MD07 Administrative reason.
+MS02 Refused by debtor.
+MS03 Refused by bank.
+PC01 Technical reason.
+PC02 Technical reason.
+PC03 Technical reason.
+RC01 BIC incorrect.
+R001 Order not allowed.
+R002 Order too late or too early.
+R003 Account not found.
+Return 
+reason code 
+Description 
+R004 Not allowed on G-account.
+RR01 Administrative reason.
+RR02 No name and address debtor.
+RR03 No name and address creditor.
+RR04 Administrative reason.
+SL01 Administrative reason.
+TECH Technical reason.
+TM01 Received after cut-off time.
+UPAY Order not allowed.
+Rabobank Format description MT940 Structured August 2019 | Version 1.5.3 23
+Appendix 3: Expected changes
+The table below contains the expected changes of the MT940 Structured which is available via Rabo 
+Internetbanking (Professional), Rabo Direct Connect and SWIFT FileAct.
+Field Name Description of change Expected 
+implementation
+61-7 Reference for the account 
+owner
+For non-SEPA transactions this subfield will be 
+filled with the transaction reference. 
+Implemented in 
+January 2019
+61-8 Reference of the account 
+servicing institution
+This subfield will be filled with an unique 
+Rabobank reference number.
+Implemented in 
+January 2019
+86 Information to account owner New code word ‘TRCD’ to show the 3- and 4-
+numerical transaction type code.
+Implemented in 
+January 2019
+86 Information to account owner New code word ‘OCMT’ to show the instructed amount.
+Implemented in 
+January 2019
+86 Information to account owner New code word ‘EXCH’ to show the exchange 
+rate. 
+Implemented in 
+January 2019
+86 Information to account owner New code word ‘CHGS1’, ‘CHGS2’, ‘CHGS3’, 
+‘CHGS4’ en ‘CHGS5’ to show the deducted 
+charges.
+Implemented in 
+January 2019
+86 Information to account owner New code word ‘ISDT’ to show the interbank 
+settlement date.
+Implemented in 
+January 2019
+86 Information to account owner New code word ‘INIT//NAME’ to show the 
+name of the initiating party.
+Implemented in 
+January 2019
+86 Information to account owner Extension of the described scenarios in 
+paragraph 3.2 and 3.3. Changes are marked in 
+yellow.
+Implemented in 
+January 2019
+86 Information to account owner Cancelled: effective from 01-01-2019
+codeword ADDR will no longer be used.
+Removed on 
+01-01-2019
+86 Information to account owner Change in structured remittance information. 
+- Code (CD) and Issuer (ISSR) are absent in 
+case they are not provided at initiation.
+- Issuer (ISSR), issuer of payment reference is
+extended with value CUR, ISO, BBA and ‘own’ 
+name.
+Implemented in 
+January 2019
+-- Filename MT940S Change in filename for MT940S downloaded 
+via RIB (Pro) only for format versions implemented from January 2019.
+Implemented in 
+January 2019
+20 Transaction reference 
+number
+For Multibank and RNB accounts, this field will 
+be filled with the content of field 20 from the
+incoming SWIFT MT940.
+Implemented in 
+January 2019
+25 Identification of account For Multibank and RNB accounts: account
+number will be enriched with currency code 
+preceded with one space. 
+Mid October 
+2019
+Rabobank Format description MT940 Structured August 2019 | Version 1.5.3 24
+4. Change log
+Title: Format description MT940 Structured
+Rabo Direct Connect, Swift FileAct and Rabo Internetbanking (Professional)
+Version: 1.5.2
+Date: 06-08-2019
+On behalf of: Rabo Direct Connect, Swift FileAct and Rabo Internetbanking (Professional)
+Date Version Change Change reason
+08-11-2018 1.1.1 Chapter 1: layout file name RIB changed. Implemented in 
+January 2019.
+08-11-2018 1.1.1 Changed field 86 structured remittance information:
+- Code and issuer are filled if they are provided at initiation. 
+- Issuer (of the payment reference) values are extended. Possible values are CUR, ISO, BBA and an own name. 
+Implemented in 
+January 2019.
+08-11-2018 1.1.1 Chapter 3.3 table changed. Structured remittance information added for Direct Debit.
+Adjustment
+08-11-2018 1.1.1 Appendix 3 Expected changes: 
+- Change of filename for MT942S downloaded via RIB .
+- Change of structured remittance information.
+- Field 20 for Multibank/RNB
+Change
+27-06-2019 1.5.2 Version numbering synchronized with Dutch version. Notification
+27-06-2019 1.5.2 Format description updated with realized implementation. Notification
+27-06-2019 1.5.2 Field 25 Identification of account changed: 
+For Multibank accounts this field is filled with the account 
+number as registered by Rabobank and does not contain the 
+currency code. 
+Correction
+27-06-2019 1.5.2 Chapter 3.1 Expected changes changed: 
+In case field 86 starts with ‘:’ (= colon) or ‘–‘ (=hyphen) on the 
+first position of a new line (except line 1), this will be replaced 
+by one space.
+Change
+06-08-2019 1.5.3 Field 25 Identification of account changed:
+For Multibank and RNB accounts the account number will be 
+enriched with the currency code preceded with one space. 
+Expected mid 
+October 2019.

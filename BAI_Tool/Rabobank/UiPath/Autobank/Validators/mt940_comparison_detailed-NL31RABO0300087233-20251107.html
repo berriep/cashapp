@@ -1,0 +1,109 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>MT940 File Comparison Report</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; background-color: #f5f5f5; }
+        .container { max-width: 1200px; margin: 0 auto; background-color: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+        h1 { color: #2c3e50; border-bottom: 3px solid #3498db; padding-bottom: 10px; }
+        h2 { color: #34495e; margin-top: 30px; border-left: 4px solid #3498db; padding-left: 15px; }
+        .summary { background-color: #ecf0f1; padding: 15px; border-radius: 5px; margin: 20px 0; }
+        .summary-item { display: inline-block; margin: 10px 20px; }
+        .summary-number { font-size: 24px; font-weight: bold; display: block; }
+        .good { color: #27ae60; }
+        .bad { color: #e74c3c; }
+        .warning { color: #f39c12; }
+        .neutral { color: #34495e; }
+        table { width: 100%; border-collapse: collapse; margin: 15px 0; }
+        th, td { padding: 12px; text-align: left; border-bottom: 1px solid #ddd; }
+        th { background-color: #3498db; color: white; }
+        .match { background-color: #d5f4e6; }
+        .no-match { background-color: #f8d7da; }
+        .missing { background-color: #fff3cd; }
+        .transaction { margin: 15px 0; padding: 15px; border: 1px solid #ddd; border-radius: 5px; }
+        .transaction.error { border-left: 5px solid #e74c3c; background-color: #fdf2f2; }
+        .transaction.missing { border-left: 5px solid #f39c12; background-color: #fffbf0; }
+        .transaction.good { border-left: 5px solid #27ae60; background-color: #f0fff4; }
+        .differences { margin-top: 10px; }
+        .difference { background-color: #fff; padding: 5px; margin: 2px 0; border-radius: 3px; border-left: 3px solid #e74c3c; }
+        .note { font-style: italic; color: #7f8c8d; font-size: 0.9em; }
+        .generated { color: #9b59b6; font-weight: bold; }
+        .mt940-field { font-family: monospace; background-color: #f8f9fa; padding: 2px 4px; border-radius: 3px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>MT940 File Comparison Report</h1>
+        
+        <div class="summary">
+            <h2>Summary</h2>
+            <div class="summary-item">
+                <span class="summary-number neutral">7</span>
+                Original Statements
+            </div>
+            <div class="summary-item">
+                <span class="summary-number neutral">7</span>
+                Generated Statements
+            </div>
+            <div class="summary-item">
+                <span class="summary-number neutral">29</span>
+                Original Transactions
+            </div>
+            <div class="summary-item">
+                <span class="summary-number neutral">29</span>
+                Generated Transactions
+            </div>
+            <div class="summary-item">
+                <span class="summary-number good">29</span>
+                Matching
+            </div>
+            <div class="summary-item">
+                <span class="summary-number bad">0</span>
+                Missing
+            </div>
+            <div class="summary-item">
+                <span class="summary-number warning">0</span>
+                Extra
+            </div>
+            <div class="summary-item">
+                <span class="summary-number warning">5</span>
+                With Differences
+            </div>
+            <div class="summary-item">
+                <span class="summary-number bad">0</span>
+                Real Errors
+            </div>
+            <div class="summary-item">
+                <span class="summary-number neutral">5</span>
+                Cosmetic Only
+            </div>
+        </div>
+
+        <h2>Statement Comparison</h2><div class='transaction good'><strong>Statement: <span class='mt940-field'>:20:940S251107</span></strong><br/></div><h2>Transaction Comparison - Real Errors Only</h2><p><strong>Real errors (excluding cosmetic):</strong> 0</p><p><strong>Cosmetic differences (spacing only):</strong> 5</p>        
+        <div style="margin-top: 40px; padding: 20px; background-color: #ecf0f1; border-radius: 5px;">
+            <h3>MT940 Field Reference</h3>
+            <p><span class="mt940-field">:20:</span> = Transaction Reference Number</p>
+            <p><span class="mt940-field">:25:</span> = Account Identification</p>
+            <p><span class="mt940-field">:28C:</span> = Statement/Sequence Number</p>
+            <p><span class="mt940-field">:60F:</span> = Opening Balance</p>
+            <p><span class="mt940-field">:61:</span> = Statement Line (Transaction)</p>
+            <p><span class="mt940-field">:86:</span> = Information to Account Owner</p>
+            <p><span class="mt940-field">:62F:</span> = Closing Balance (Final)</p>
+        </div>
+        
+        <div style="margin-top: 20px; padding: 20px; background-color: #ecf0f1; border-radius: 5px;">
+            <h3>Legend</h3>
+            <p><span class="good">Green</span> = Perfect Match</p>
+            <p><span class="bad">Red</span> = Missing or Significant Difference</p>
+            <p><span class="warning">Orange</span> = Minor Difference or Generated Field</p>
+            <p><strong>Note:</strong> MT940 format comparison focuses on core transaction data</p>
+        </div>
+        
+        <div style="margin-top: 20px; text-align: center; color: #7f8c8d;">
+            <p>Report generated on 2025-11-21 17:07:00</p>
+            <p>Original: MT940_A_NL31RABO0300087233_EUR_20251107_20251107.swi</p>
+            <p>Generated: mt940 - generated NL31RABO0300087233 - 20251107.swi</p>
+        </div>
+    </div>
+</body>
+</html>

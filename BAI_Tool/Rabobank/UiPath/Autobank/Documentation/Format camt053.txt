@@ -1,0 +1,1514 @@
+Format Description CAMT.053
+Rabo Cash Management
+1
+Colophon
+Title Format Description CAMT.053
+Version, date 1.5, April 2014
+On behalf of FL-Services
+Contact address Rabobank Nederland,
+Croeselaan 18,
+Postbus 2626
+3500 HG Utrecht
+© Rabobank, 2014
+No part of this publication may be reproduced in any form by print, photo print, microfilm or any other means without written 
+permission by Rabobank.
+Format Description CAMT.053 2
+Contents
+1 CAMT.053 export format 3
+1.1 CAMT.053 description 3
+1.2 CAMT.053 Structure 3
+1.2.1 Introduction 3
+1.2.2 Technical mapping 3
+1.2.3 Character set 4
+1.2.4 Message structure 5
+2 Segment description 6
+2.1 Group Header 6
+2.2 Statement Segment 6
+2.2.1 General statement segment 7
+2.2.2 Entry segment 10
+3 Future developments for CAMT.053 21
+4 CAMT.053 Scenarios 22
+Appendix A: SEPA reason codes 29
+Appendix B: Change Log 30
+Format Description CAMT.053 3
+1 CAMT.053 export format
+In the second quarter of 2013, Rabobank introduced the CAMT.053 format for exporting account 
+statements from Rabo Cash Management (RCM). This reporting format, as implemented by Rabobank, is 
+based on the guideline provided by the Nederlandse Vereniging van Banken (NVB). The guideline is 
+available here1
+.
+1.1 CAMT.053 description
+The CAMT.053 Bank to Customer Statement message is used to inform an account owner or authorized 
+party of entries booked to the account, and to provide balance information. It may contain reports for 
+more than one account and may contain statements for more than one book day. It contains information 
+on booked entries only. Rabobank provides statements per book day.
+The CAMT.053 as implemented by Rabobank will always be downloaded as a single file.
+Usage of this format description is limited to the usage in the Rabo Cash Management (RCM) system.
+1.2 CAMT.053 Structure
+1.2.1 Introduction
+The models in the ISO20022 document are described in XML using schemas. A specific description 
+language (XSD) is used in a schema. By using the schemes, a description can be given to the tags in the 
+document, the structure and the concatenation of the beacons (the order of the tags) as well as the 
+allowed codes for certain fields, the number of possible cases, mandatory or optional usage for certain 
+fields.
+The general XSD for camt.053.001.02 is available here2
+.
+1.2.2 Technical mapping
+The usage rules are strictly followed to avoid that the exported message is rejected or that the information 
+within the message is refused. Only message elements described within the guidelines are used. Message 
+elements not listed in chapter 2 are not available in the CAMT.053 message as made available by RCM.
+ 
+1 http://www.betaalvereniging.nl/wp-uploads/2013/11/IG-Bank-to-Customer-Statement-CAMT-053-v1-1.pdf
+2 http://www.iso20022.org/message_archive.page#Bank2CustomerCashManagement
+Format Description CAMT.053 4
+The description of each message item contains:
+Index Number referring to the matching description in the UNIFI (ISO 20022) message 
+definition for Bank-to-Customer Cash Management 
+Name Name of the element within the CAMT.053 message
+XML-Tag Short name to identify an element within a XML message, presented between 
+brackets, e.g. <Amount>
+Level Level of the element within SEPA DD
+ <Top>
+<Level 1>
+<Level 2>
+<Etc./>
+</Level 2>
+ </Level 1>
+ </Top>
+Occurrences This determines if an element is optional or mandatory, and how many times the 
+element can be repeated. The number of times that an element can appear is 
+presented between square brackets.
+For example:
+[0..1] Shows that the element can appear 0 or 1 time.
+The element is optional.
+[0..n] Shows that the element can appear 0 or n time(s).
+The element is optional.
+[1..1] Shows that the element is mandatory and must appear once.
+[1..n] Shows that the element is mandatory and must appear at least once. The 
+element can be present n times.
+In case a lower level element is mandatory while its higher element is optional, the 
+lower level is mandatory only if the higher level element is present.
+Format Field type indication:
+Numeric: only numbers are allowed
+Alphanumeric: may contain numbers and allowed characters (ref. 
+1.2.3 Character set)
+Date: CCYY-MM-DD
+Time: timestamp in various formats as explained in column Description
+Amount: numbers, with a decimal point as separator. Maximum length is 9 digits 
+before the separator, and two behind it. Exception for this rule is the control sum.
+Boolean: field with two options: ‘true’ or ‘false’
+Code: usually a two to four character code, column Description explains the code
+Length Number of positions in the field.
+Description Additional information about usage of the element. “Tag only” indicates the 
+element will always be followed by another tag.
+1.2.3 Character set
+In UNIFI messages the UTF8 character set must be used:
+a b c d e f g h i j k l m n o p q r s t u v w x y z
+A B C D E F G H I J K L M N O P Q R S T U V W X Y Z
+0 1 2 3 4 5 6 7 8 9
+/ - ? : ( ) . , ' + space
+Format Description CAMT.053 5
+1.2.4 Message structure
+The CAMT.053 always contains two segments, a Group Header and at least one Statement. Each 
+Statement will contain at least an opening and closing Balance and may contain one or more Entries. Each 
+Entry may contain one or more Entry Details.
+The modular structure of the CAMT.053 file is depicted below. 
+More information about the message structure is available via the following webpage:
+http://www.iso20022.org.
+CAMT.053 Message
+GroupHeader Statement
+Balance
+Entry details Statement
+Entry Each CAMT.053 will contain at least one Statement Each Statement will contain at least an opening and a closing Balance Each Statement may contain one or more Entries Each Entry may contain one or more Entry details Each CAMT.053 may contain more than one Statement
+Each CAMT.053 contains one Group Header
+Format Description CAMT.053 6
+2 Segment description
+2.1 Group Header
+The following elements are present in the Group Header of CAMT.053 messages.
+Index Level Name XML-tag Occurrences Format Length Description
+Top Document <Document> [1..1] Always filled with: <Document 
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+xmlns="urn:iso:std:iso:20022:tech:xsd:camt.053.001.02">.
+Top Message root <BkToCstmrStmt > [1..1] Tag only.
+1.0 Top Group 
+Header
+<GrpHdr> [1..1] Tag only.
+1.1 1 Message 
+Identification
+<MsgId> [1..1] Alphanumeric Max. length 
+of 35
+<CAMT053> + <8-digit sequence number>. For example 
+‘CAMT05300000001’. A new Message Identification is assigned 
+every time a CAMT.053 is exported from your RCM 
+agreement..
+1.2 1 CreationDate
+Time
+<CreDtTm> [1..1] Date + time Date and time on which CAMT053 was generated.
+For example: ‘2011-02-03T11:20:45+01:00’.
+2.2 Statement Segment
+The Statement Segment first reports general statement information: the account which is reported on and balance details for the relevant book date. The Entry segment that 
+starts at Index 2.76 contains details of the transactions booked on the account. Specifications are available for compressed transactions in Entry Details (starting at Index 2.135) if
+option “Insert specifications” is ticked. 
+Format Description CAMT.053 7
+2.2.1 General statement segment
+Index Level Name XML-tag Occurrences Format Length Description
+2.0 Top Statement <Stmt> [1..n] Tag only
+2.1 1 Identification <Id> [1..1] Alphanumeric Max. 
+length of 
+35
+<CAMT053><book date in ‘EEYYMMDD’ format><5 digit 
+sequence number>, for example 
+‘CAMT0532014022600001’. Every time a statement is 
+downloaded in CAMT.053 format, the first statement is 
+assigned sequence number 1, the second statement 
+sequence number 2, etc.
+2.2 1 ElectronicSequence
+Number
+<ElctrncSeqNb
+>
+[1..1] Numeric Max. 
+length of 
+5
+As of mid May, 2014, the statement number as displayed in 
+RCM. For non-Rabo accounts, the statement number 
+reported in field 28C in an incoming SWIFT MT940.
+2.4 1 CreationDateTime <CreDtTm> [1..1] Date + time Timestamp statement created, for example:
+‘2011-02-03T11:20:45+01:00’.
+2.10 1 Account <Acct> [1..1] Tag only.
+2.10 2 Identification <Id> [1..1] Tag only.
+2.10 3 IBAN <IBAN> [1..1] Alphanumeric Max. 
+length of 
+34
+If available, IBAN account number in electronic format 
+(without spaces), i.e. ‘NL96RABO0123456789’. If not 
+available, <Othr><Id> will be available.
+2.10 3 Other <Othr> [1..1] Tag only.
+2.10 4 Identification <Id> [1..1] Alphanumeric Max. 
+length of 
+34
+If no IBAN available, non IBAN account number.
+2.10 2 Currency <Ccy> [0..1] Code Fixed 
+length of 
+3
+Currency of the account in ISO 4217 currency code.
+2.10 2 Name <Nm> [0..1] Text Max. 
+length of 
+70
+Name of the account.
+2.23 1 Balance <Bal> [1..n] Tag only.
+2.24 2 Type <Tp> [1..1] Tag only.
+2.25 3 CodeOrProprietary <CdOrPrtry> [1..1] Tag only.
+Format Description CAMT.053 8
+Index Level Name XML-tag Occurrences Format Length Description
+2.26 4 Code <Cd> [1..1] Code Fixed 
+length of 
+4
+The following codes are used exclusively:
+‘OPBD’ = Opening booked (for Rabo accounts, 2.36 
+contains date of previous closing balance (CLBD))3
+‘CLBD’ = Closing booked
+‘CLAV’= Closing available
+‘FWAV’= Forward available.
+2.34 2 Amount <Amt> [1..1] Amount Max. 
+length of 
+18, max. 
+17 
+decimals
+Example: 
+<Amt Ccy="SEK">500000.00</Amt>.
+Decimal separator is a dot (.).
+2.35 2 CreditDebitIndicato
+r
+<CdtDbtInd> [1..1] Code Fixed 
+length of 
+4
+Value will be ‘CRDT’ if balance is zero or positive, ‘DBIT’ if 
+balance is negative.
+2.36 2 Date <Dt> [1..1] Tag only.
+2.36 3 Date <Dt> [1..1] Date Fixed 
+length of 
+10
+Date of balance in format:
+CCYY-MM-DD
+C = Century
+Y = Year
+M = Month
+D = Day
+Example: ‘2012-12-16’ for December 16, 2012.
+2.43 1 TransactionsSumma
+ry
+<TxsSummry> [0..1] Tag only.
+2.44 2 TotalEntries <TtlNtries> [0..1] Tag only.
+2.45 3 NumberOfEntries <NbOfNtries> [0..1] Numeric Max. 
+length of 
+15
+Number of individual entries included in the report.
+2.46 3 Sum <Sum> [0..1] Amount Max. 
+length of 
+18, max. 
+The sum of all individual entries, regardless of credit or 
+debit. For example, if 2 entries are reported of +100 and -
+100, the signs are ignored: the sum is 100 + 100 = 200.
+ 
+3
+Unless it’s the very first statement, then date of OPBD = date of CLBD.
+Format Description CAMT.053 9
+Index Level Name XML-tag Occurrences Format Length Description
+17 
+decimals Decimal separator is a dot (.).
+2.47 3 TotalNetEntryAmou
+nt
+<TtlNetNtryA
+mt>
+[0..1] Amount Max. 
+length of 
+18, max. 
+17 
+decimals
+The net sum of all individual entries. If 2 entries are 
+reported of +100 and -100, the net sum is 0.
+Decimal separator is a dot (.).
+2.48 3 CreditDebitIndicato
+r
+<CdtDbtInd> [0..1] Code Fixed 
+length of 
+4
+Value will be ‘CRDT’ if total net entry amount is zero or 
+positive, ‘DBIT’ if amount is negative.
+2.49 2 TotalCreditEntries <TtlCdtNtries> [0..1] Tag only. Tag will be absent if no credit entries are 
+included.
+2.50 3 NumberOfEntries <NbOfNtries> [0..1] Numeric Max. 
+length of 
+15
+Number of all credit entries included in the report.
+2.51 3 Sum <Sum> [0..1] Amount Max. 
+length of 
+18, max. 
+17 
+decimals
+Total of all individual credit entries included in the report. 
+Decimal separator is a dot (.).
+2.52 2 TotalDebitEntries <TtlDbtNtries> [0..1] Tag only. Tag will be absent if no debit entries are included.
+2.53 3 NumberOfEntries <NbOfNtries> [0..1] Numeric Max. 
+length of 
+15
+Number of all debit entries included in the report. 
+2.54 3 Sum <Sum> [0..1] Amount Max. 
+length of 
+18, max. 
+17 
+decimals
+Total of all individual debit entries included in the report. 
+Decimal separator is a dot (.).
+2.55 2 TotalEntriesPerBank
+TransactionCode
+<TtlNtriesPerB
+kTxCd>
+[0..n] Tag only.
+2.56 3 NumberOfEntries <NbOfNtries> [0..1] Numeric Max. 
+length of 
+Number of entries with the same bank transaction code 
+(list of bank transaction codes available via 
+Format Description CAMT.053 10
+Index Level Name XML-tag Occurrences Format Length Description
+15 www.rabobank.com/supportcorporateconnect, document 
+‘Transaction Description RCM.pdf’).
+2.57 3 Sum <Sum> [0..1] Amount Max. 
+length of 
+18, max. 
+17 
+decimals
+Sum of all entries with the same bank transaction code 
+regardless of sign.
+Decimal separator is a dot (.).
+2.58 3 TotalNetEntryAmou
+nt
+<TtlNetNtryA
+mt>
+[0..1] Amount Max. 
+length of 
+18, max. 
+17 
+decimals
+Net sum of all entries with the same bank transaction code. 
+Decimal separator is a dot (.).
+2.59 3 CreditDebitIndicato
+r
+<CdtDbtInd> [0..1] Code Fixed 
+length of 
+4
+Value will be ‘CRDT’ if total net entry amount is zero or 
+positive, ‘DBIT’ if amount is negative.
+2.61 3 BankTransactionCo
+de
+<BkTxCd> [1..1] Tag only.
+2.67 4 Proprietary <Prtry> [0..1] Tag only.
+2.68 5 Code <Cd> [1..1] Alphanumeric Max. 
+length of 
+35
+For Rabo accounts, three digit transaction code.
+List of Rabo transaction codes available via
+www.rabobank.com/supportcorporateconnect, document 
+‘Transaction Description RCM.pdf’).
+For non-Rabo accounts, the content of subfield 6 in field61or, if available, of tag ?10 from field-86 from the incoming 
+SWIFT MT940 (e.g. ‘NTRF’ or ‘6830’).
+2.2.2 Entry segment
+The Entry segment reports the transactions on the account. There are three types of bookings:
+ Compressed, indicates compressed transaction for which specifications are available. If you choose ‘Insert specifications’ when exporting the CAMT.053, then all 
+specifications are available in one or more TransactionDetails (2.142) sections. If you do no tick ‘Insert specifications’, one TransactionDetails section is available with 
+information on the compressed transaction.
+Format Description CAMT.053 11
+ Specification, indicates a specification of a compressed transaction. As noted in the bullet above, if you tick “Insert specifications’, the exported CAMT.053 contains a 
+TransactionDetails (2.142) section for each specification.
+ Single, a single transaction for which one TransactionDetails (2.142) section is available with details on the single transaction. Outgoing SEPA batches, when submitted 
+with BatchBooking ‘false’ or without a BatchBooking indication, are booked as a single transaction. Thus, details of the transactions within the SEPA batch are not 
+available, only details of the SEPA batch. If your SEPA batch was submitted with BatchBooking ‘false’, then each transaction within the SEPA batch is reported as a 
+single transaction.
+You can display the booking type in RCM by adding column ‘Type’ to your transaction overview screens available in menu Account info. 
+Index Level Name XML-tag Occurrences Format Length Description
+2.76 1 Entry <Ntry> [0..n] Tag only. Entry may represent a single transaction or a 
+batch booking (made up of one or more transactions).
+2.77 2 EntryReference <NtryRef> [0..1] Alphanumeric Max. 
+length of 
+35
+Bank reference assigned to the booking, starting with AC, 
+FX, LD, PA or RE.
+For non-Rabo accounts, may contain if available, the 
+content of subfield 8 of field-61 from an incoming SWIFT 
+MT940.
+2.78 2 Amount <Amt> [1..1] Amount Max. 
+length of 
+18, max. 
+17 
+decimals
+Example: 
+<Amt Ccy="SEK">5000.00</Amt>.
+Decimal separator is a dot (.).
+2.79 2 CreditDebitIndicato
+r
+<CdtDbtInd> [1..1] Code Fixed 
+length of 
+4
+Value will be ‘CRDT’ if amount is zero or positive, ‘DBIT’ if 
+amount is negative.
+2.80 2 ReversalIndicator <RvslInd> [0..1] Alphanumeric Max. 
+length of 
+5
+This tag will, until further notice, only be available for nonRabo accounts. ‘true’ indicates this transaction is a reversal 
+of an earlier transaction, ‘false’ indicates this transaction is 
+no reversal. Based on subfield 3 of field-61 from an 
+incoming SWIFT MT940.
+2.81 2 Status <Sts> [1..1] Code Fixed 
+length of 
+4
+Always code ‘BOOK’, indicating the entry has been booked 
+on the account. Reservations are not reported.
+Format Description CAMT.053 12
+Index Level Name XML-tag Occurrences Format Length Description
+2.82 2 BookingDate <BookgDt> [0..1] Tag only.
+2.82 3 Date <Dt> [1..1] Date Fixed 
+length of 
+10
+Book date in format
+CCYY-MM-DD
+C = Century
+Y = Year
+M = Month
+D = Day
+Example: ‘2012-12-16’ for December 16, 2012.
+2.83 2 ValueDate <ValDt> [0..1] Tag only.
+2.83 3 Date <Dt> [1..1] Date Fixed 
+length of 
+10
+Value date in format
+CCYY-MM-DD
+C = Century
+Y = Year
+M = Month
+D = Day
+Example: ‘2012-12-16’ for December 16, 2012.
+2.84 2 AccountServicerRef
+erence
+<AcctSvcrRef> [0..1] Alphanumeric Max. 
+length of
+35
+Reference assigned by Rabobank to the transaction, 
+starting with two letters like AC, FX, LD, PA or RE.
+2.91 2 BankTransactionCo
+de
+<BkTxCd> [1..1] Tag only.
+2.97 3 Proprietary <Prtry> [0..1] Tag only.
+2.98 4 Code <Cd> [1..1] Alphanumeric Max. 
+length of 
+35
+For Rabo accounts, three digit transaction code.
+List of transaction codes available via 
+www.rabobank.com/supportcorporateconnect, document 
+‘Transaction Description RCM.pdf’).
+For non-Rabo accounts, the content of subfield 6 of field-61 
+or, if available, of tag ?10 in field-86 from an incoming 
+SWIFT MT940.
+2.135 2 EntryDetails <NtryDtls> [0..n] Tag only.
+2.136 3 Batch <Btch> [0..1] Tag only.
+Format Description CAMT.053 13
+Index Level Name XML-tag Occurrences Format Length Description
+2.138 4 PaymentInformatio
+nIdentification
+<PmtInfId> [0..1] Alphanumeric Max. 
+length of 
+35
+Reference of batch (Payment Information Block) that 
+transaction was a part of.
+2.139 4 NumberofTransacti
+ons
+<NbOfTxs> [0..1] Numeric Max. 
+length of 
+6
+If a batch/Payment Information Block is reported, the 
+number of transactions in the batch/PI or compressed 
+transaction. In the former case, no details for the 
+transactions within the batch are reported for export in 
+CAMT.053 format. In the latter case, specifications can be 
+reported.
+2.142 3 TransactionDetails <TxDtls> [0..n] Tag only.
+2.143 4 References <Refs> [0..1] Tag only.
+2.145 5 AccountServicerRef
+erence
+<AcctSvcrRef> [0..1] Alphanumeric Max. 
+length of
+35
+Reference assigned by Rabobank to the transaction, 
+starting with two letters like AC, FX, LD, PA or RE.
+2.146 5 PaymentInformatio
+nIdentification
+<PmtInfId> [0..1] Alphanumeric Max. 
+length of 
+35
+Only available for non-Rabo accounts if an incoming 
+MT940 reports both EndToEndId (2.148) and 
+PaymentInformationIdentification through codes EREF and 
+PREF respectively.
+Payment Information Block reference to batch that this 
+transaction is a part of.
+2.148 5 EndToEndIdentificat
+ion
+<EndToEndId
+>
+[0..1] Alphanumeric Max. 
+length of 
+35
+Unique payment reference throughout the chain (e2e). For 
+non-Rabo accounts, if available, the content of /EREF/ tag 
+in field-86 of an incoming SWIFT MT940.
+2.150 5 MandateIdentificati
+on
+<MndtId> [0..1] Alphanumeric Max. 
+length of 
+35
+Mandate ID, unique identification, as assigned by the 
+creditor, to unambiguously identify the mandate. For nonRabo accounts, if available, the content of /MARF/ tag in 
+field-86 of an incoming SWIFT MT940.
+2.156 4 AmountDetails <AmtDtls> [0..1] Tag only.
+2.156 5 InstructedAmount <InstdAmt> [0..1] Tag only.
+The instructed amount is present only if the currency of the 
+transaction differs from the currency of the account.
+Format Description CAMT.053 14
+Index Level Name XML-tag Occurrences Format Length Description
+2.156 6 Amount <Amt> [1..1] Amount Max. 
+length of 
+18, max. 
+17 
+decimals
+Example: 
+<Amt Ccy="SEK">5.00000</Amt>.
+Decimal separator is a dot (.).
+For non-Rabo, if available, the content of tag /OCMT/ in 
+field-86 or in subfield 9 of field-61of an incoming SWIFT 
+MT940.
+2.156 6 CurrencyExchange <CcyXchg> [0..1] Tag only.
+2.156 7 SourceCurrency <SrcCcy> [1..1] Code Fixed 
+length of 
+3
+Currency of the original transaction in ISO 4217 currency 
+code.
+2.156 7 ExchangeRate <XchgRate> [1..1] Amount Max. 
+length of 
+18, max. 
+17 
+decimals
+If available, the exchange rate used for conversion. For nonRabo accounts, if available, the content of tag /EXCH/ in 
+field-86 or in subfield 9 of field-61of an incoming SWIFT 
+MT940.
+2.163 4 BankTransactionCo
+de
+<BkTxCd> [0..1] Tag only.
+2.169 5 Proprietary <Prtry> [0..1] Tag only.
+2.170 6 Code <Cd> [1..1] Code Max. 
+length of 
+35
+For Rabo accounts, three digit transaction code.
+List of transaction codes available via 
+www.rabobank.com/supportcorporateconnect, document 
+‘Transaction Description RCM.pdf’).
+For non-Rabo accounts, the content of subfield 6 of field-61 
+or, if available, of tag ?10 in field-86 from an incoming 
+SWIFT MT940.
+2.172 4 Charges <Chrgs> [0..n] Tag only.
+Format Description CAMT.053 15
+Index Level Name XML-tag Occurrences Format Length Description
+2.174 5 Amount <Amt> [1..1] Max. 
+length of 
+18, max. 
+17 
+decimals
+Charges included in the Entry amount (2.78).
+For Rabo accounts, charges the remitting bank has 
+deducted from the original amount.
+For non-Rabo accounts, if available, the content of tag 
+/CHGS/ of field-86 from an incoming SWIFT MT940.
+2.175 5 CreditDebitIndicato
+r
+<CdtDbtInd> [1..1] Code Fixed 
+length of 
+4
+Value will be ‘CRDT’ if amount is zero or positive, ‘DBIT’ if 
+amount is negative.
+2.199 4 RelatedParties <RltdPties> [0..1] Tag only.
+2.201 5 Debtor <Dbtr> [0..1] Tag only. Only available if the debtor is the counterparty.
+2.201 6 Name <Nm> [0..1] Alphanumeric Max. 
+length of 
+140
+If available, name of counterparty. For non-Rabo accounts, 
+if available, the content of subtag /NAME/ from tag /BENM/ 
+or /ORDP/, or, the content of tags ?32 or ?33 from field-86 
+from an incoming SWIFT MT940.
+2.201 6 PostalAddress <PstlAdr> [0..1] Tag only.
+2.201 7 AddressType <AdrTp> [0..1] Code If available, filled with ‘ADDR’.
+2.201 7 Country <Ctry> [0..1] Code Fixed 
+length of 
+2
+Country in ISO 3166 country code (2 letters).
+2.201 7 AddressLine <AdrLine> [0..7] Alphanumeric Max. 
+length of 
+70
+Address of the counterparty. For non-Rabo accounts, if 
+available, the content of subtag /ADDR/ of tag /BENM/ or 
+/ORDP/ from field-86 from an incoming SWIFT MT940.
+2.201 6 Identification <Id> [0..1] Tag only.
+2.201 7 OrganisationIdentifi
+cation
+<OrgId> [1..1] Tag only.
+2.201 8 BICOrBEI <BICOrBEI> [0..1] Counterparty SWIFT BIC or BEI.
+2.201 8 Other <Othr> [0..n] Tag only.
+2.201 9 Identification <Id> [0..1] Alphanumeric Max. 
+length of 
+35
+Counterparty identification code. For non-Rabo accounts, if 
+available, the content of subtag /ID/ of tag /BENM/ or 
+/ORDP/ from field-86 from an incoming SWIFT MT940.
+Format Description CAMT.053 16
+Index Level Name XML-tag Occurrences Format Length Description
+2.202 5 DebtorAccount <DbtrAcct> [0..1] Tag only, available only if counterparty is debtor.
+2.202 6 Identification <Id> [1..1] Tag only.
+2.202 7 IBAN <IBAN> [1..1] Alphanumeric Max. 
+length of 
+34
+IBAN account number.
+2.202 7 Other <Othr> [1..1] Tag only.
+2.202 8 Identification <Id> [1..1] Alphanumeric Max. 
+length of 
+34
+Non IBAN account number.
+2.203 5 UltimateDebtor <UltmtDbtr> [0..1] Tag only.
+2.203 6 Name <Nm> [0..1] Alphanumeric Max. 
+length of 
+140
+If available. For non-Rabo accounts, if available, the content 
+of tag /ULTD/ subtag /NAME/ from field-86 from an 
+incoming SWIFT MT940.
+2.203 6 Identification <Id> [0..1] Tag only.
+2.203 7 OrganisationIdentifi
+cation
+<OrgId> [1..1] Tag only.
+2.203 8 Other <Othr> [0..n] Tag only.
+2.203 9 Identification <Id> [1..1] Alphanumeric Max. 
+length of 
+35
+If available. For non-Rabo accounts, if available, the content 
+of tag /ULTD/ subtag /ID/ from field-86 from an incoming 
+SWIFT MT940.
+2.204 5 Creditor <Cdtr> [0..1] Tag only, available only if counterparty is creditor.
+2.204 6 Name <Nm> [0..1] Alphanumeric Max. 
+length of 
+140
+Name of counterparty. For non-Rabo accounts, if available, 
+the content of subtag /NAME/ of tag /BENM/ or /ORDP/ 
+from field-86 from an incoming SWIFT MT940.
+2.204 6 PostalAddress <PstlAdr> [0..1] Tag only.
+2.204 7 AddressType <AdrTp> [0..1] Code If available, filled with ‘ADDR’.
+2.204 7 Country <Ctry> [0..1] Code Fixed 
+length of 
+2
+Country in ISO 3166 country code (2 letters).
+2.204 7 AddressLine <AdrLine> [0..7] Alphanumeric Max. 
+length of 
+70
+Address of counterparty. For non-Rabo accounts, if 
+available, the content of subtag /ADDR/ from tag /BENM/ 
+or /ORDP/ from field-86 from an incoming SWIFT MT940.
+Format Description CAMT.053 17
+Index Level Name XML-tag Occurrences Format Length Description
+2.204 6 Identification <Id> [0..1] Tag only.
+2.204 7 OrganisationIdentifi
+cation
+<OrgId> [1..1] Tag only.
+2.204 8 BICOrBEI <BICOrBEI> [0..1] Counterparty SWIFT BIC or BEI.
+2.204 8 Other <Othr> [0..n] Tag only.
+2.204 9 Identification <Id> [1..1] Alphanumeric Max. 
+length of 
+35
+Counterparty identification code. For non-Rabo accounts, if 
+available, the content of subtag /ID/ of tag /BENM/ or of 
+/ORDP/ from field-86 from an incoming SWIFT MT940.
+2.205 5 CreditorAccount <CdtrAcct> [0..1] Tag only, available only if counterparty is creditor.
+2.205 6 Identification <Id> [1..1] Tag only.
+2.205 7 IBAN <IBAN> [1..1] Alphanumeric Max. 
+length of 
+34
+IBAN account number.
+2.205 7 Other <Othr> [1..1] Tag only.
+2.205 8 Identification <Id> [1..1] Alphanumeric Max. 
+length of 
+34
+Non IBAN account number.
+2.206 5 UltimateCreditor <UltmtCdtr> [0..1] Tag only.
+2.206 6 Name <Nm> [0..1] Code Max. 
+length of 
+140
+If available. For non-Rabo accounts, if available, the 
+content of tag /ULTB/ subtag /NAME/ from field-86 from an 
+incoming SWIFT MT940.
+2.206 6 Identification <Id> [0..1] Tag only.
+2.206 7 OrganisationIdentifi
+cation
+<OrgId> [1..1] Tag only.
+2.206 8 Other <Othr> [0..n] Tag only.
+2.206 9 Identification <Id> [1..1] Max. 
+length of 
+35
+If available. For non-Rabo accounts, if available, the 
+content of tag /ULTB/ subtag /ID/ from field-86 from an 
+incoming SWIFT MT940.
+2.211 4 RelatedAgents <RltdAgts> [0..1] Tag only.
+2.212 5 DebtorAgent <DbtrAgt> [0..1] Tag only.
+2.212 6 FinancialInstitutionI
+dentification
+<FinInstnId> [1..1] Tag only.
+Format Description CAMT.053 18
+Index Level Name XML-tag Occurrences Format Length Description
+2.212 7 BIC <BIC> [0..1] Alphanumeric Length of 
+8 or 11
+If counterparty is debtor, BIC of the financial institution of 
+the counterparty. 
+Not available for non-Rabo accounts.
+2.213 5 CreditorAgent <CdtrAgt> [0..1] Tag only.
+2.213 6 FinancialInstitutionI
+dentification
+<FinInstnId> [1..1] Tag only.
+2.213 7 BIC <BIC> [0..1] Length of 
+8 or 11
+If counterparty is creditor, BIC of the financial institution of 
+the counterparty.
+Not available for non-Rabo accounts.
+2.224 4 Purpose <Purp> [0..1] Identifier Tag only.
+2.225 5 Code <Cd> [1..1] Max. 
+length of 
+4
+List available on www.iso20022.org.
+For non-Rabo accounts, if available, the content of tag 
+/PURP/ subtag /CD/ from field-86 from an incoming SWIFT 
+MT940.
+2.226 5 Proprietary <Prtry> Max. 
+length of 
+35
+If available. For non-Rabo accounts, if available, the content 
+of tag /PURP/ subtag /PRTRY/ from field-86 from an 
+incoming SWIFT MT940.
+2.234 4 RemittanceInformat
+ion
+<RmtInf> [0..1] Tag only. It may occur that both Unstructured and 
+Structured are present.
+2.235 5 Unstructured <Ustrd> [0..n] Alphanumeric Max. 
+length of 
+140
+Non structured remittance information. For non-Rabo 
+accounts, if available, the content of tag /REMI/ or tags ?20-
+?29 and ?60-?63 from field-86 from an incoming SWIFT 
+MT940.
+2.236 5 Structured <Strd> [0..n] Tag only.
+2.256 6 CreditorReferenceIn
+formation
+<CdtrRefInf> [0..1] Tag only.
+2.257 7 Type <Tp> [1..1] Tag only.
+2.258 8 CodeOrProprietary <CdOrPrtry> [1..1] Tag only.
+Format Description CAMT.053 19
+Index Level Name XML-tag Occurrences Format Length Description
+2.259 9 Code <Cd> [1..1] Code Fixed 
+length of 
+4
+Always contains ‘SCOR’ for Rabo accounts. 
+For non-Rabo accounts, if available, the content of subtag 
+/CD/ of tag /REMI/ of field-86 from an incoming SWIFT 
+MT940.
+2.261 8 Issuer <Issr> [1..1] Code Max. 
+length of 
+35
+For Rabo accounts, only the Currence payment reference is 
+supported.
+For non-Rabo accounts, if available, the content of subtag 
+/ISSR/of tag /REMI/ of field-86 from an incoming SWIFT 
+MT940.
+2.262 7 Reference <Ref> [1..1] Alphanumeric Max. 
+length of 
+35
+If available, contains Accept Giro reference (Currence 
+payment reference). 
+For non-Rabo accounts, if available, the content of subtag 
+/CDTRREF/ of tag /REMI/ of field-86 from an incoming 
+SWIFT MT940.
+2.266 4 RelatedDates <RltdDts> [0..1] Tag only.
+2.270 5 InterbankSettlemen
+tDate
+<IntrBkSttlmDt
+>
+[0..1] Alphanumeric Fixed 
+length of 
+10
+Interbank settlement date.
+CCYY-MM-DD
+C = Century
+Y = Year
+M = Month
+D = Day
+Example: ‘2012-12-16’ for December 16, 2012.
+An illogical date such as ‘0004-11-30’ indicates no interbank 
+settlement date is available.
+For non-Rabo accounts, if available, the content of tag 
+/ISDT/ of field-86 from an incoming SWIFT MT940.
+2.293 4 ReturnInformation <RtrInf> [0..1] Tag only.
+2.304 5 Reason <Rsn> [0..1] Tag only.
+Format Description CAMT.053 20
+Index Level Name XML-tag Occurrences Format Length Description
+2.305 6 Code <Cd> [1..1] Code Max. 
+length of 
+4
+ExternalReturnReason.
+Please refer to Appendix 1 for a translation of the code.
+For non-Rabo accounts, if available, the content of tag 
+/RTRN/ of field-86 from an incoming SWIFT MT940.
+2.307 5 AdditionalInformati
+on
+<AddtlInf> [0..n] Alphanumeric Max. 
+length of 
+105
+Translation of the return reason code if available.
+Format Description CAMT.053 21
+3 Future developments for CAMT.053
+Future versions of the CAMT.053, as available through Rabo Cash Management, may contain the additions listed 
+in the table below.
+Index Name XML-tag Addition
+2.80 ReversalIndicator <RvslInd> Add this tag for Rabo accounts, to 
+indicate whether the transaction is a 
+SEPA return, reject or recall.
+2.137 MessageIdentification <MsgID> Add file reference.
+2.140 TotalAmount <TtlAmt> Add total amount of batch.
+2.141 CreditDebitIndicator <CdtDbtInd> Add sign for TotalAmount.
+2.147 InstructionIdentification <InstrId> Add instruction identification on 
+transaction level.
+2.313 AdditionalTransactionInformation <AddtlTxInf> Add Creditor Scheme Id for Sepa 
+Direct Debits.
+Format Description CAMT.053 22
+4 CAMT.053 Scenarios
+The table below indicates the various payment scenarios that are possible.
+Scenario
+1a Reporting of a SEPA 
+debit, account was 
+debited because:
+You have made a SEPA payment from your account.
+1b You have made a SEPA batch payment from your account (batch booking TRUE).
+2 A counterparty has debited your account via a SEPA direct debit.
+3 A previous SEPA credit has been returned.
+4 A previous SEPA direct debit has been returned.
+5 Reporting of a SEPA 
+credit, account was 
+credited because:
+A counterparty has made a SEPA payment to your account.
+6 You have debited counterparty’s account via a SEPA direct debit.
+7 A previous outgoing SEPA credit transfer has been returned to your account.
+8 You have been debited via a SEPA direct debit previously, this direct debit is returned.
+9a Reporting of a nonSEPA debit You have made a non-SEPA payment from your account.
+9b
+Counterparty has debited your account via a non-SEPA direct debit.
+10a Reporting of a nonSEPA credit
+A counterparty has made a non-SEPA payment to your account.
+10b You have debited a counterparty’s account via a non-SEPA direct debit.
+For SEPA and non-SEPA credit transfers and for returned/rejected/recalled SEPA credit transfers, the table below 
+indicates per scenario, which fields, if available, are present in the CAMT.053 export format. The presence is 
+indicated by an “X” or by displaying the reported value.
+Index Name Usage rule 
+Rabobank
+1a
+SCT 
+debit 
+(single)
+1b 
+SCT 
+debit 
+(batch)
+3 
+Return
+SCT 
+debit
+5 
+SCT
+credit
+7 
+Return 
+SCT 
+credit
+9a
+CT 
+(nonSEPA) 
+debit
+10a 
+CT 
+(nonSEPA)
+credit
+2.77 EntryReference X X X X X X X
+2.78 Amount X X X X X X X
+2.79 CreditDebitIndicator DBIT DBIT DBIT CRDT CRDT DBIT CRDT
+2.81 Status BOOK BOOK BOOK BOOK BOOK BOOK BOOK
+2.82 BookingDate X X X X X X X
+2.83 ValueDate X X X X X X X
+2.84 AccountServicerReference X X X X X X X
+2.91 BankTransactionCode Rabobank 
+specific 
+transaction 
+code
+X X X X X X X
+2.138 PaymentInformationIdentification Value from
+pain.001
+X
+2.139 NumberOfTransactions X
+2.145 AccountServicerReference X X X X X X X
+2.148 EndToEndIdentification Equivalent 
+value from 
+X X X X
+Format Description CAMT.053 23
+Index Name Usage rule 
+Rabobank
+1a
+SCT 
+debit 
+(single)
+1b 
+SCT 
+debit 
+(batch)
+3 
+Return
+SCT 
+debit
+5 
+SCT
+credit
+7 
+Return 
+SCT 
+credit
+9a
+CT 
+(nonSEPA) 
+debit
+10a 
+CT 
+(nonSEPA)
+credit
+pain.001
+Equivalent 
+value from 
+pain.001 of 
+original SCT 
+transaction
+X
+Passed 
+through on 
+statement 
+information 
+beneficiary
+X X
+2.156 AmountDetails If 
+transaction 
+currency is 
+different 
+from 
+account 
+currency
+X X X X X X X
+2.163 BankTransactionCode Transaction 
+code
+X X X X X X X
+2.172 Charges X
+4 X
+2.201 Debtor Details of 
+originator 
+of received 
+payment
+X X
+Details of 
+beneficiary 
+of original 
+SCT
+X
+2.202 DebtorAccount Details of 
+originator 
+account of 
+received 
+payment
+X X
+Details of 
+beneficiary 
+account of 
+original SCT
+X
+2.203 UltimateDebtor Details of 
+originator 
+reference 
+party of SCT
+X X
+Details of 
+beneficiary 
+reference 
+X X
+ 
+4
+For a recall, to report deducted fees.
+Format Description CAMT.053 24
+Index Name Usage rule 
+Rabobank
+1a
+SCT 
+debit 
+(single)
+1b 
+SCT 
+debit 
+(batch)
+3 
+Return
+SCT 
+debit
+5 
+SCT
+credit
+7 
+Return 
+SCT 
+credit
+9a
+CT 
+(nonSEPA) 
+debit
+10a 
+CT 
+(nonSEPA)
+credit
+party of 
+original SCT
+Details of 
+originator 
+reference 
+party of 
+received 
+SCT
+X
+2.204 Creditor Details of 
+beneficiary 
+of payment
+X X
+Details of 
+originator 
+of original 
+SCT
+X
+2.205 CreditorAccount Details of 
+beneficiary 
+account of 
+payment
+X X
+Details of 
+originator 
+account of 
+original SCT
+X
+2.206 UltimateCreditor Details of 
+beneficiary 
+reference 
+party of SCT
+X
+Details of 
+originator 
+reference 
+party of 
+original SCT
+X X
+Details of 
+beneficiary 
+reference 
+party of 
+received 
+SCT
+X
+2.212 DebtorAgent Details of 
+the 
+originator 
+bank of 
+received 
+payment
+X X
+Details of 
+the 
+beneficiary 
+bank of the 
+X
+Format Description CAMT.053 25
+Index Name Usage rule 
+Rabobank
+1a
+SCT 
+debit 
+(single)
+1b 
+SCT 
+debit 
+(batch)
+3 
+Return
+SCT 
+debit
+5 
+SCT
+credit
+7 
+Return 
+SCT 
+credit
+9a
+CT 
+(nonSEPA) 
+debit
+10a 
+CT 
+(nonSEPA)
+credit
+original SCT
+2.213 CreditorAgent Details of 
+beneficiary 
+bank of 
+payment
+X X
+Details of 
+originator 
+bank of 
+original SCT
+X
+2.224 Purpose Equivalent 
+value from 
+pain.001
+X
+Equivalent 
+value from 
+pain.001 of 
+original SCT 
+transaction
+X
+Purpose of 
+received 
+SCT passed 
+through to 
+beneficiary
+X X
+2.234 RemittanceInformation Equivalent 
+value from 
+payment
+X X
+Equivalent 
+value from 
+pain.001 of 
+original SCT 
+transaction
+X
+Passed 
+through on 
+statement 
+information 
+beneficiary
+X X X
+2.270 InterbankSettlementDate X X X X X X X
+2.293 ReturnInformation X X
+2.304 Reason Reasoncode X X
+For SEPA and non-SEPA direct debits and for returned/rejected/recalled SEPA direct debits, the table below 
+indicates per scenario, which fields, if available, are present in the CAMT.053 export format. The presence is 
+indicated by an “X” or by displaying the reported value.
+Format Description CAMT.053 26
+Index Name Usage rule 
+Rabobank
+2
+SDD 
+debit
+4
+Return 
+SDD
+debit
+6
+SDD
+credit 
+(batch)
+8
+Return 
+SDD
+credit
+9b
+DD 
+(nonSEPA) 
+debit
+10b
+DD 
+(nonSEPA)
+credit
+2.77 EntryReference X X X X X X
+2.78 Amount X X X X X X
+2.79 CreditDebitIndicator DBIT DBIT CRDT CRDT DBIT CRDT
+2.81 Status BOOK BOOK BOOK BOOK BOOK BOOK
+2.82 BookingDate X X X X X X
+2.83 ValueDate X X X X X X
+2.84 AccountServicerReference X X X X X X
+2.91 BankTransactionCode Rabobank specific 
+transaction code
+X X X X X X
+2.138 PaymentInformationIdentification Waarde uit pain.008 
+van originele SDD
+X
+2.139 NumberOfTransactions X
+2.145 AccountServicerReference X X X X X X
+2.148 EndToEndIdentification Equivalent value 
+from pain.008 of 
+original SDD
+X
+Passed through on 
+statement 
+information of 
+debtor
+X X
+2.150 MandateIdentification Equivalent value 
+from pain.008 of 
+original SDD
+X
+Passed through on 
+statement 
+information of 
+debtor
+X X
+2.156 AmountDetails If transaction 
+currency is different 
+from account 
+currency
+X X X X
+2.163 BankTransactionCode Transaction code X X X X X X
+2.201 Debtor Details of debtor of 
+DD
+X
+Details of creditor of 
+original SDD
+X
+2.202 DebtorAccount Details of debtor 
+account of DD
+X
+Details of creditor 
+account of original 
+SDD
+X
+2.203 UltimateDebtor Details of debtor 
+reference party of 
+SDD
+X
+Details of creditor X X
+Format Description CAMT.053 27
+Index Name Usage rule 
+Rabobank
+2
+SDD 
+debit
+4
+Return 
+SDD
+debit
+6
+SDD
+credit 
+(batch)
+8
+Return 
+SDD
+credit
+9b
+DD 
+(nonSEPA) 
+debit
+10b
+DD 
+(nonSEPA)
+credit
+reference party of 
+original SDD
+2.204 Creditor Details of creditor of 
+SDD passed through 
+to debtor
+X X
+Details of debtor of 
+original SDD
+X
+2.205 CreditorAccount Details of creditor 
+account of SDD 
+passed through to 
+debtor
+X X
+Details of debtor 
+account of original 
+SDD
+X
+2.206 UltimateCreditor Details of creditor 
+reference party of 
+SDD
+X X
+Details of debtor 
+reference party of 
+original SDD
+X X
+2.212 DebtorAgent Details of creditor 
+agent of original 
+SDD
+X
+2.213 CreditorAgent Details of creditor 
+agent of SDD 
+passed through to 
+debtor
+X
+Details of debtor 
+agent of original 
+SDD
+X
+2.224 Purpose Equivalent value 
+from pain.008 of 
+original SDD
+X
+Purpose of SDD 
+passed through to 
+debtor
+X X
+2.234 RemittanceInformation Remittance 
+information of DD
+X
+Equivalent value 
+from pain.008 of 
+original SDD
+X
+Remittance 
+information passed 
+through on 
+statement of debtor
+X X X
+2.270 InterbankSettlementDate X X X X X X
+2.293 ReturnInformation X X
+Format Description CAMT.053 28
+Index Name Usage rule 
+Rabobank
+2
+SDD 
+debit
+4
+Return 
+SDD
+debit
+6
+SDD
+credit 
+(batch)
+8
+Return 
+SDD
+credit
+9b
+DD 
+(nonSEPA) 
+debit
+10b
+DD 
+(nonSEPA)
+credit
+2.304 Reason Reasoncode X X
+Format Description CAMT.053 29
+Appendix A: SEPA reason codes
+Return 
+reason
+Code 
+Description 
+AC01 Account number incorrect.
+AC04 Account number closed.
+AC06 Euro Direct Debit blocked. 
+AC13 Debtor account is a consumer account.
+AG01 Administrative reason.
+AG02 Invalid file format.
+AGNT Incorrect BIC bank beneficiary.
+AM04 Administrative reason.
+AM05 Duplicate order.
+BE04 Address beneficiary missing.
+BE05 Remitter unknown.
+CURR Incorrect currency.
+CUST Debtor cancellation.
+CUTA Rejected.
+DUPL Duplicate order.
+FF01 Invalid file format. 
+FF05 Direct debit type is not correct.
+FOCR Cancellation request.
+MD01 No mandate.
+MD02 Incorrect mandate.
+MD06 Return of funds requested by end customer.
+MD07 Administrative reason.
+MS02 Refused by debtor.
+MS03 Refused by bank.
+PC01 Technical reason.
+PC02 Technical reason.
+PC03 Technical reason.
+RC01 BIC incorrect.
+R001 Order not allowed.
+R002 Order too late or too early.
+R003 Account not found.
+R004 Not allowed on G-account.
+RR01 Administrative reason.
+RR02 No name and address debtor.
+RR03 No name and address creditor.
+RR04 Administrative reason.
+SL01 Administrative reason.
+TECH Technical reason.
+TM01 Received after cut-off time.
+UPAY Order not allowed.
+Format Description CAMT.053 30
+Appendix B: Change Log
+Title : Format description CAMT.053
+Version : Version 1.5
+Date : 05-02-2014
+On behalf of : FL-Services
+Contact : Rabobank International,
+Graadt van Roggenweg 400
+Postbus 18002
+3501 CA Utrecht
+Date Version Type of change Reason change
+11-11-2013 1.2 Added field NumberOfTransactions (2.139) to section
+2.2.2 Entry segment.
+New functionality.
+11-11-2013 1.2 Removed field NumberOfTransactions (2.139) from 
+section 3 Future developments for CAMT.053.
+New functionality.
+11-11-2013 1.2 Added field AccountServicerReference (2.145) to
+section 2.2.2 Entry segment.
+New functionality.
+11-11-2013 1.2 Removed field AccountServicerReference (2.145) from 
+section 3 Future developments for CAMT.053.
+New functionality.
+11-11-2013 1.2 Added field PaymentInformationIdentification (2.146) 
+to section 2.2.2 Entry segment.
+New functionality.
+11-11-2013 1.2 Removed field PaymentInformationIdentification 
+(2.146) from section 3 Future developments for
+CAMT.053.
+New functionality.
+11-11-2013 1.2 Added field Charges (2.172) for Rabo-accounts to
+section 2.2.2 Entry segment.
+New functionality.
+11-11-2013 1.2 Removed field Charges (2.172) from section 3 Future 
+developments for CAMT.053.
+New functionality.
+10-12-2013 1.3 Added field Batch (2.136) in section 2.2.2., otherwise 
+CAMT.053 is not XSD compliant.
+Correction.
+10-12-2013 1.3 Added field Charges (2.172) in Chapter 4 to SCT table. Correction.
+09-04-2014 1.4 Noted in section 2.2.2 Entry segment for field 
+PaymentInformationIdentification (2.146) that this 
+field may only be present for non-Rabo accounts (in 
+case an incoming MT940 is structured and reports 
+both EndToEndId (2.148) and 
+PaymentInformationIdentification through codes 
+EREF and PREF).
+Correction.
+09-04-2014 1.4 Added field PaymentInformationIdentification (2.138) 
+in section 2.2.2 Entry segment.
+Correction.
+09-04-2014 1.4 Removed field PaymentInformationIdentification 
+(2.138) from section 3 Future developments for 
+CAMT.053.
+Correction.
+09-04-2014 1.4 Noted for RemittanceInformation (2.234) that both 
+Unstructured (2.235) and Structured (2.236) may be 
+present for a transaction.
+Addition.
+Format Description CAMT.053 31
+Date Version Type of change Reason change
+09-04-2014 1.4 Expanded description for field NumberOfTransactions 
+(2.139). For SEPA batches, the number of transactions 
+in the batch/PI is reported but no detail information 
+of the transactions is available. For compressed 
+transactions, the number of specifications is reported 
+and detail information for each specification is 
+available in section TransactionDetails (2.142) if so 
+indicated for export.
+Addition.
+09-04-2014 1.4 Expanded text directly below 2.2.2 Entry segment 
+with information on when transaction or specification 
+details are available in TransactionDetails (2.142).
+Clarification.
+09-04-2014 1.4 Added field AccountServicerReference (2.84) in 
+section 2.2.2 Entry segment. 
+Correction.
+09-04-2014 1.4 Removed field AccountServicerReference (2.84) from 
+section 3 Future developments for CAMT.053.
+Field has now 
+been added.
+09-04-2014 1.4 Added fields 2.84, 2.138, 2.139 and 2.145 to SCT table
+in Chapter 4 CAMT.053 Scenario’s.
+Addition.
+09-04-2014 1.4 Added fields 2.84, 2.138, 2.139, 2.145 and 2.270 to SDD 
+table in Chapter 4 CAMT.053 Scenario’s.
+Addition.
+09-04-2014 1.4 Added field ElectronicSequenceNumber (2.2) to 
+section 2.2.1, this field is available as of the middle of 
+May 2014.
+Addition.
+09-04-2014 1.4 Removed field ElectronicSequenceNumber (2.2) from 
+section 3 Future developments for CAMT.053.
+Field has now 
+been added.
+30-04-2014 1.5 Adjusted Level for Batch (2.136), 
+PaymentInformationidentification (2.138) and
+NumberOfTransactions (2.139) to 3, 4 and 4 
+respectively from 2, 3 and 3.
+Correction.
+05-02-2015 1.5 The name Rabo TransAct Portal changes in Rabo 
+Corporate Connect
+adjustment
+05-02-2015 1.5 www.rabotransact.com/transactsupport changes in 
+www.rabobank.com/supportcorporateconnect
+adjustment
+05-02-2015 1.5 mail TransAct@rabobank.com changes in 
+corporatesupport@rabobank.com
+adjustment

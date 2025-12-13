@@ -1,0 +1,262 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "description": "## Overview\n\nThis API provides third parties with details of a consent that they have been granted by an end user.\nThird parties can use this API to check the status and expiry time of a consent.",
+    "version": "1.0.19",
+    "title": "Consent Details Service",
+    "x-ibm-name": "premium-consent-details-service"
+  },
+  "host": "api.rabobank.nl",
+  "basePath": "/openapi/oauth2-premium",
+  "schemes": [
+    "https"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "security": [
+    {
+      "clientID": []
+    }
+  ],
+  "paths": {
+    "/v1/consents/{consentId}": {
+      "get": {
+        "summary": "Get consent details",
+        "description": "Returns the scope and products associated with the consent object",
+        "operationId": "getConsentByConsentId",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "consentId",
+            "in": "path",
+            "description": "The Consent Id can be found in the metadata field of the /token endpoint in the oauth api.",
+            "required": true,
+            "type": "string",
+            "x-example": "bdf7e270-aae6-4a72-877d-95f2c7803db8"
+          },
+          {
+            "name": "X-IBM-Client-Id",
+            "in": "header",
+            "description": "ClientId as provided by the Rabobank developer portal.",
+            "required": true,
+            "type": "string",
+            "x-example": "616281c5-daca-439c-872f-816ed8302a49"
+          },
+          {
+            "name": "X-Request-ID",
+            "in": "header",
+            "description": "ID of the request, unique to the call, as determined by the initiating party. Format is UUID v4.",
+            "required": true,
+            "type": "string",
+            "x-example": "594d27d0-26d7-47dc-9d62-c307616220b6"
+          }
+        ],
+        "security": [
+          {
+            "clientID": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successfully retrieved consent details",
+            "schema": {
+              "$ref": "#/definitions/Consent"
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "schema": {
+              "$ref": "#/definitions/tppMessages"
+            }
+          },
+          "404": {
+            "description": "Consent Not Found",
+            "schema": {
+              "$ref": "#/definitions/tppMessages"
+            }
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    }
+  },
+  "securityDefinitions": {
+    "clientID": {
+      "description": "ClientId as provided by the Rabobank developer portal.",
+      "type": "apiKey",
+      "name": "X-IBM-Client-Id",
+      "in": "header"
+    }
+  },
+  "definitions": {
+    "AccountReference": {
+      "type": "object",
+      "required": [
+        "currency",
+        "iban",
+        "status",
+        "validUntil"
+      ],
+      "properties": {
+        "iban": {
+          "type": "string",
+          "example": "NL01RABO0123456789",
+          "description": "An International Bank Account Number, as per ISO 13616."
+        },
+        "currency": {
+          "type": "string",
+          "example": "EUR",
+          "description": "Currency code, as per ISO 4217."
+        },
+        "status": {
+          "type": "string",
+          "example": "valid",
+          "description": "status of the consent.",
+          "x-extensible-enum": [
+            "valid",
+            "expired",
+            "revokedByPsu",
+            "terminatedByTpp",
+            "received",
+            "rejected"
+          ]
+        },
+        "validUntil": {
+          "type": "string",
+          "example": "9999-12-31",
+          "description": "Date at which this consent expires, as per section 5.6 of RFC 3339."
+        }
+      },
+      "description": "Details of consented products"
+    },
+    "Consent": {
+      "type": "object",
+      "required": [
+        "access",
+        "consentId"
+      ],
+      "properties": {
+        "consentId": {
+          "type": "string",
+          "example": "011b375e-d866-4b43-9847-4812cccbab29",
+          "description": "consent Id."
+        },
+        "access": {
+          "type": "object",
+          "example": {
+            "bai.accountinformation.read": [
+              {
+                "iban": "NL64RABO0125607016",
+                "currency": "EUR",
+                "status": "valid",
+                "validUntil": "9999-12-31"
+              },
+              {
+                "iban": "NL64RABO0125607017",
+                "currency": "EUR",
+                "status": "revokedByPsu",
+                "validUntil": "9999-12-31"
+              }
+            ]
+          },
+          "description": "An associative array relating scopes (field names) to consented products (values).",
+          "additionalProperties": {
+            "type": "array",
+            "items": {
+              "$ref": "#/definitions/AccountReference"
+            }
+          }
+        }
+      },
+      "description": "Consent details object"
+    },
+    "messageCodeText": {
+      "type": "string",
+      "example": "CERTIFICATE_INVALID",
+      "x-extensible-enum": [
+        "CERTIFICATE_INVALID",
+        "SIGNATURE_INVALID",
+        "FORMAT_ERROR",
+        "SERVICE_BLOCKED",
+        "CONSENT_UNKNOWN",
+        "CONSENT_INVALID",
+        "CONSENT_EXPIRED"
+      ]
+    },
+    "tppMessageCategory": {
+      "type": "string",
+      "description": "Category of the message",
+      "example": "ERROR",
+      "x-extensible-enum": [
+        "ERROR",
+        "WARNING"
+      ]
+    },
+    "tppMessageGeneric": {
+      "type": "object",
+      "required": [
+        "category",
+        "code"
+      ],
+      "properties": {
+        "category": {
+          "$ref": "#/definitions/tppMessageCategory"
+        },
+        "code": {
+          "$ref": "#/definitions/messageCodeText"
+        },
+        "path": {
+          "type": "string",
+          "example": "/consent"
+        },
+        "text": {
+          "$ref": "#/definitions/tppMessageText"
+        }
+      }
+    },
+    "tppMessageText": {
+      "type": "string",
+      "maxLength": 512,
+      "description": "Additional text.",
+      "example": "Header X-Request-ID is required"
+    },
+    "tppMessages": {
+      "properties": {
+        "tppMessages": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/tppMessageGeneric"
+          }
+        }
+      },
+      "description": "Messages on operational issues."
+    }
+  },
+  "x-ibm-configuration": {
+    "application-authentication": {
+      "certificate": true
+    },
+    "cors": {
+      "enabled": true
+    },
+    "enforced": true,
+    "phase": "realized",
+    "testable": false,
+    "type": "rest",
+    "servers": [
+      {
+        "url": "https://api.rabobank.nl/openapi/oauth2-premium",
+        "description": "",
+        "type": [
+          "production",
+          "development"
+        ]
+      }
+    ]
+  }
+}

@@ -1,0 +1,743 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "description": "Business Account Insight - Transactions API allows you to fetch transactions for one or more connected payment and or savings accounts for a specific Rabobank customer using a valid certificate and request signature.\n<br>\n\n## **Before you begin**\n\nMake sure you have a working sandbox account in the [Rabobank developer portal](https://developer.rabobank.nl/). Read [Get Started](https://developer.rabobank.nl/get-started) to set up an account and register an **Application**.\n\n**NOTE:** To use these API(s), a valid [TLS](https://developer.rabobank.nl/how-use-mutual-tls) certificate is required.\n<br>\n\n## **Using the API**\n\nAfter your account set up is complete, subscribe the **Business-Account-Insight** and the **Authorization Services** API to your application.\n\nMake sure to use the **Authorization** and **Token URL** as provided by the [**Authorization Services**](https://developer.rabobank.nl/using-premium-access-authorization-access-rabobank-apis).\n\n**Tip**: To learn how to sign a request, read [**Signing requests for the Business Account Insight APIs**](https://developer.rabobank.nl/signing-requests-business-account-insight-apis).\n<br>\n\n## **Requests**\n\nThe GET transactions requests must contain a digital signature. You can generate this digital signature using the private key of your certificate. For the Sandbox environment, you can use an example certificate available in the [Signing documentation](https://developer.rabobank.nl/signing-requests-business-account-insight-apis).\n<br>\nYou can retrieve the transactions of a specific account using a GET accounts/{account-id}/transactions request using the account-id(s) in the URL: <br>\n```\nGET https://api-sandbox.rabobank.nl/openapi/sandbox/payments/insight/accounts/Wp-xhZMGEWRIIgVjPwTC1aKJJ0VCRZ_4bScUVXof7e0/transactions?bookingStatus=Booked&dateFrom=2020-07-18T02:41:10.529Z&dateTo=2021-10-19T02:41:10.529Z&size=10\n```\n\n**DateTo - parameter**\n\nEnd Booking DateTime should be in UTC format.\n<div class=\"apiDocsBlock apiDocsBlock--warning \">\n  <div class=\"apiDocsBlock__inner\">\n    <span class=\"apiDocsBlock__icon\" aria-hidden=\"true\"></span>\n    <div class=\"apiDocsBlock__content\">\n      We recommend filling the dateTo value five minutes prior to the current date and time, because it takes some time for the transactions to be available in the system.\n    </div>\n  </div>\n</div>\n\n<br>To view full list of GET parameters, go to:\n- GET/accounts/{account-id}/transactions\n</br>\n\n## **Response**\nTo view the GET parameters, read the endpoint description for GET/accounts/{account-id}/transactions.\n<br>\nTo view the expected errors, go to [Errors BAI](https://developer.rabobank.nl/errors-business-account-insight).\n\n```\n{\n\"account\": {\n    \"currency\": \"EUR\",\n    \"iban\": \"NL52RABO0125618484\"\n},\n\"transactions\": {\n    \"_links\": {\n        \"account\": \"/accounts/Wp-xhZMGEWRIIgVjPwTC1aKJJ0VCRZ_4bScUVXof7e0\",\n        \"next\": \"/accounts/Wp-xhZMGEWRIIgVjPwTC1aKJJ0VCRZ_4bScUVXof7e0/transactions?bookingStatus=booked&dateFrom=2020-07-18T02:41:10.529Z&dateTo=2021-10-19T02:41:10.529Z&size=500&nextPageToken=ckP10o26_WXzc1YYMecNZvc71b1BIPVXKT8UhG4GMDShKA4i-hGdLJ2xTgZAnHUa\"\n    },\n    \"booked\": [\n        {\n            \"bookingDate\": \"2021-10-18\",\n            \"creditorAccount\": {\n                \"currency\": \"EUR\",\n                \"iban\": \"NL52RABO0125618484\"\n            },\n            \"debtorAccount\": {\n                \"iban\": \"NL62RABO0838250920\"\n            },\n            \"debtorName\": \"Business ST A\",\n            \"entryReference\": \"13140\",\n            \"initiatingPartyName\": \"TRX ST\",\n            \"raboBookingDateTime\": \"2024-05-23T06:48:11.607486Z\",\n            \"raboDetailedTransactionType\": \"633\",\n            \"raboTransactionTypeName\": \"st\",\n            \"reasonCode\": \"AG01\",\n            \"remittanceInformationUnstructured\": \"Description ST 1\",\n            \"transactionAmount\": {\n                \"value\": \"6000.0\",\n                \"currency\": \"EUR\"\n            },\n            \"valueDate\": \"2021-10-18\",\n            \"bankTransactionCode\": \"PMNT-RCDT-ESCT\",\n            \"balanceAfterBooking\": {\n                \"balanceType\": \"InterimBooked\",\n                \"balanceAmount\": {\n                    \"value\": \"6082.17\",\n                    \"currency\": \"EUR\"\n\n                }\n            }\n        }\n      ]\n  }\n}\n```\nAccount-id's present in the Sandbox environment:\n\n| IBAN                  | account-id                                  |\n|-----------------      |---------------------------------------------|\n| NL52RABO0125618484    | Wp-xhZMGEWRIIgVjPwTC1aKJJ0VCRZ_4bScUVXof7e0 |\n| NL80RABO1127000002    | hBS4MQ0Oc4LLJRiUiE_R94_-zoU4B2vwnPkXmsGh_bA |",
+    "version": "1.2.14",
+    "title": "Business-Account-Insight-Transactions",
+    "x-ibm-name": "business-account-insight-transactions"
+  },
+  "host": "api.rabobank.nl",
+  "basePath": "/openapi/payments/insight",
+  "schemes": [
+    "https"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "security": [
+    {
+      "clientId": [],
+      "oauth2 access code flow": [
+        "bai.accountinformation.read"
+      ]
+    }
+  ],
+  "paths": {
+    "/accounts/{account-id}/transactions": {
+      "get": {
+        "description": "Delivers transactions for a specific consented payment account.",
+        "operationId": "GET-accounts-{account-id}-transactions",
+        "parameters": [
+          {
+            "name": "Signature-Certificate",
+            "in": "header",
+            "description": "Public certificate of the Initiating Party that corresponds with the signature made by the Initiating Party.",
+            "required": false,
+            "type": "string",
+            "format": "byte",
+            "x-example": "MIIDkDCCAnigAwIBAgIEWs3AJDANBgkqhkiG9w0BAQsFADCBiTELMAkGA1UEBhMCTkwxEDAOBgNVBAgMB1V0cmVjaHQxEDAOBgNVBAcMB1V0cmVjaHQxETAPBgNVBAoMCFJhYm9iYW5rMRwwGgYDVQQLDBNPbmxpbmUgVHJhbnNhY3Rpb25zMSUwIwYDVQQDDBxQU0QyIEFQSSBQSSBTZXJ2aWNlcyBTYW5kYm94MB4XDTE4MDQxMTA3NTgyOFoXDTIzMDQxMTA3NTgyOFowgYkxCzAJBgNVBAYTAk5MMRAwDgYDVQQIDAdVdHJlY2h0MRAwDgYDVQQHDAdVdHJlY2h0MREwDwYDVQQKDAhSYWJvYmFuazEcMBoGA1UECwwTT25saW5lIFRyYW5zYWN0aW9uczElMCMGA1UEAwwcUFNEMiBBUEkgUEkgU2VydmljZXMgU2FuZGJveDCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBANoAjqGWUgCIm2F+0sBSEwLal+T3u+uldLikpxHCB8iL1GD7FrRjcA+MVsxhvHly7vRsHK+tQyMSaeK782RHpY33qxPLc8LmoQLb2EuiQxXj9POYkYBQ74qkrZnvKVlR3WoyQWeDOXnSY2wbNFfkP8ET4ElwyuIIEriwYhab0OIrnnrO8X82/SPZxHwEd3aQjQ6uhiw8paDspJbS5WjEfuwY16KVVUYlhbtAwGjvc6aK0NBm+LH9fMLpAE6gfGZNy0gzMDorVNbkQK1IoAGD8p9ZHdB0F3FwkILEjUiQW6nK+/fKDNJ0TBbpgZUpY8bR460qzxKdeZ1yPDqX2Cjh6fkCAwEAATANBgkqhkiG9w0BAQsFAAOCAQEAYL4iD6noMJAt63kDED4RB2mII/lssvHhcxuDpOm3Ims9urubFWEpvV5TgIBAxy9PBinOdjhO1kGJJnYi7F1jv1qnZwTV1JhYbvxv3+vk0jaiu7Ew7G3ASlzruXyMhN6t6jk9MpaWGl5Uw1T+gNRUcWQRR44g3ahQRIS/UHkaV+vcpOa8j186/1X0ULHfbcVQk4LMmJeXqNs8sBAUdKU/c6ssvj8jfJ4SfrurcBhY5UBTOdQOXTPY85aU3iFloerx7Oi9EHewxInOrU5XzqqTz2AQPXezexVeAQxP27lzqCmYC7CFiam6QBr06VebkmnPLfs76n8CDc1cwE6gUl0rMA=="
+          },
+          {
+            "name": "X-Request-ID",
+            "in": "header",
+            "description": "ID of the request, unique to the call, as determined by the initiating party.",
+            "required": true,
+            "type": "string",
+            "format": "uuid",
+            "x-example": "594d27d0-26d7-47dc-9d62-c307616220b6"
+          },
+          {
+            "name": "Date",
+            "in": "header",
+            "description": "Standard https header element with date, time and timezone.",
+            "required": true,
+            "type": "string",
+            "x-example": "Tue, 15 Nov 2020 08:12:31 GMT"
+          },
+          {
+            "name": "Digest",
+            "in": "header",
+            "description": "The digest is a base64 encoded hash of the body (SHA-512 or SHA-256 is allowed).",
+            "required": true,
+            "type": "string",
+            "x-example": "sha-512=z4PhNX7vuL3xVChQ1m2AB9Yg5AULVxXcg/SpIdNs6c5H0NE8XYXysP+DGNKHfuwvY7kxvUdBeoGlODJ6+SfaPg=="
+          },
+          {
+            "name": "Signature",
+            "in": "header",
+            "description": "Signature is made up of the headers - date, digest and x-request-id. For more information see additional documentation in portal.",
+            "required": true,
+            "type": "string",
+            "x-example": "keyId=\"1523433508\",algorithm=\"rsa-sha512\",headers=\"date digest x-request-id\",signature=\"ckfJsOBu3DRPVQzqIpwte8tUMxg6Mb6ThuA7hH3LuvZtjr8DS4OIKCRPTuC0IgyoCsUciD4CIa2hOWTZHf5tdQsXpruyem7GldFUA2zQFErC9wtAFxGSRs4f+sIKiX5knY//snxlq7xrZVtLc/jqBOBvy/X771SE2GIjtODVO3dcjXR5lnFIc+7uQBSXji9q13JhdJrkNJQt+XlbE0Z5FDTWsu1ZfLa+5Ky7S7+RGANyI02nCekHYc3Un8qdv3g46zw1TubL+HtZyao9mUor576jGiI/gBu9in/IXbZ7typ9kaAmN9iNR1Cw/9sbPJUtydTt1TWn0JWifPtr/+FjBQ==\""
+          },
+          {
+            "name": "account-id",
+            "in": "path",
+            "description": "This is the internal id of the particular IBAN and present in the response of the Read Account List call. Its value is constant throughout the lifecycle of a given consent.",
+            "required": true,
+            "type": "string",
+            "x-example": "Wp-xhZMGEWRIIgVjPwTC1aKJJ0VCRZ_4bScUVXof7e0 AND hBS4MQ0Oc4LLJRiUiE_R94_-zoU4B2vwnPkXmsGh_b"
+          },
+          {
+            "name": "bookingStatus",
+            "in": "query",
+            "description": "The status of the booking in the bank backend, only \"booked\" is supported.",
+            "required": true,
+            "type": "string",
+            "enum": [
+              "booked"
+            ]
+          },
+          {
+            "name": "dateFrom",
+            "in": "query",
+            "description": "Start booking date time in UTC. Date can be max 15 months before now.",
+            "required": true,
+            "type": "string",
+            "format": "date-time",
+            "x-example": "2021-01-18T02:41:10.529Z"
+          },
+          {
+            "name": "dateTo",
+            "in": "query",
+            "description": "End booking date time in UTC.",
+            "required": true,
+            "type": "string",
+            "format": "date-time",
+            "x-example": "2021-08-18T02:41:10.529Z"
+          },
+          {
+            "name": "nextPageToken",
+            "in": "query",
+            "description": "nextPageToken as returned in the previous response leading to the next page of transactions.",
+            "required": false,
+            "type": "string",
+            "x-example": "ckP10o26_WXzc1YYMecNZguB6F-qyncB_64qf_1C6OR2R_EQUZGWsxphe8NclnhH"
+          },
+          {
+            "name": "size",
+            "in": "query",
+            "description": "Number of transactions to be returned in one response. When not provided, the default is 500, maximum is 500.",
+            "required": false,
+            "type": "integer",
+            "format": "int32",
+            "x-example": 2
+          },
+          {
+            "name": "dropFields",
+            "in": "query",
+            "description": "List of fields to be dropped from the response. When not provided, the values are present in the response.",
+            "required": false,
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "collectionFormat": "csv",
+            "x-example": "creditorAgent,creditorId,creditorName,debtorAgent,debtorName,endToEndId,currencyExchange,initiatingPartyName,mandateId,numberOfTransactions,paymentInformationIdentification,purposeCode,raboDetailedTransactionType,raboTransactionTypeName,reasonCode,remittanceInformationStructured,remittanceInformationUnstructured,ultimateCreditor,ultimateDebtor,valueDate"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/transactionsResponse"
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "headers": {
+              "X-RateLimit-Limit": {
+                "type": "string",
+                "description": "Maximum number of allowed requests",
+                "x-example": "100"
+              },
+              "X-RateLimit-Remaining": {
+                "type": "string",
+                "description": "Remaining count",
+                "x-example": "44"
+              },
+              "X-RateLimit-Reset": {
+                "type": "string",
+                "description": "Expiry time in seconds",
+                "x-example": "10"
+              },
+              "X-Request-ID": {
+                "type": "string",
+                "format": "uuid",
+                "description": "ID of the request, unique to the call, as determined by the initiating party.",
+                "x-example": "594d27d0-26d7-47dc-9d62-c307616220b6"
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/tppMessages"
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "headers": {
+              "X-Request-ID": {
+                "type": "string",
+                "format": "uuid",
+                "description": "ID of the request, unique to the call, as determined by the initiating party.",
+                "x-example": "594d27d0-26d7-47dc-9d62-c307616220b6"
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/tppMessages"
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "headers": {
+              "X-Request-ID": {
+                "type": "string",
+                "format": "uuid",
+                "description": "ID of the request, unique to the call, as determined by the initiating party.",
+                "x-example": "594d27d0-26d7-47dc-9d62-c307616220b6"
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/tppMessages"
+            }
+          },
+          "404": {
+            "description": "Not found",
+            "headers": {
+              "X-Request-ID": {
+                "type": "string",
+                "format": "uuid",
+                "description": "ID of the request, unique to the call, as determined by the initiating party.",
+                "x-example": "594d27d0-26d7-47dc-9d62-c307616220b6"
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/tppMessages"
+            }
+          },
+          "405": {
+            "description": "Method Not Allowed",
+            "headers": {
+              "X-Request-ID": {
+                "type": "string",
+                "format": "uuid",
+                "description": "ID of the request, unique to the call, as determined by the initiating party.",
+                "x-example": "594d27d0-26d7-47dc-9d62-c307616220b6"
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/tppMessages"
+            }
+          },
+          "406": {
+            "description": "Not Acceptable",
+            "headers": {
+              "X-Request-ID": {
+                "type": "string",
+                "format": "uuid",
+                "description": "ID of the request, unique to the call, as determined by the initiating party.",
+                "x-example": "594d27d0-26d7-47dc-9d62-c307616220b6"
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/tppMessages"
+            }
+          },
+          "408": {
+            "description": "Request Timeout",
+            "headers": {
+              "X-Request-ID": {
+                "type": "string",
+                "format": "uuid",
+                "description": "ID of the request, unique to the call, as determined by the initiating party.",
+                "x-example": "594d27d0-26d7-47dc-9d62-c307616220b6"
+              }
+            }
+          },
+          "415": {
+            "description": "Unsupported Media Type",
+            "headers": {
+              "X-Request-ID": {
+                "type": "string",
+                "format": "uuid",
+                "description": "ID of the request, unique to the call, as determined by the initiating party.",
+                "x-example": "594d27d0-26d7-47dc-9d62-c307616220b6"
+              }
+            }
+          },
+          "429": {
+            "description": "Too Many Requests",
+            "headers": {
+              "X-Request-ID": {
+                "type": "string",
+                "format": "uuid",
+                "description": "ID of the request, unique to the call, as determined by the initiating party.",
+                "x-example": "594d27d0-26d7-47dc-9d62-c307616220b6"
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/tppMessages"
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "headers": {
+              "X-Request-ID": {
+                "type": "string",
+                "format": "uuid",
+                "description": "ID of the request, unique to the call, as determined by the initiating party.",
+                "x-example": "594d27d0-26d7-47dc-9d62-c307616220b6"
+              }
+            }
+          },
+          "503": {
+            "description": "Service Unavailable",
+            "headers": {
+              "X-Request-ID": {
+                "type": "string",
+                "format": "uuid",
+                "description": "ID of the request, unique to the call, as determined by the initiating party.",
+                "x-example": "594d27d0-26d7-47dc-9d62-c307616220b6"
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "securityDefinitions": {
+    "oauth2 access code flow": {
+      "description": "NOTE Please use the Authorization and Token URL as provided by the oAuth2 Services",
+      "type": "oauth2",
+      "authorizationUrl": "https://oauth.rabobank.nl/openapi/oauth2-premium/authorize",
+      "tokenUrl": "https://oauth.rabobank.nl/openapi/oauth2-premium/token",
+      "flow": "accessCode",
+      "scopes": {
+        "bai.accountinformation.read": "Allow read from Business Account Insight services"
+      },
+      "x-ibm-oauth-provider": "access-authorization-1-0-0-8e24"
+    },
+    "clientId": {
+      "description": "ClientId as provided by the Rabobank developer portal.",
+      "type": "apiKey",
+      "name": "X-IBM-Client-Id",
+      "in": "header"
+    }
+  },
+  "definitions": {
+    "_linksAccountReport": {
+      "type": "object",
+      "properties": {
+        "account": {
+          "type": "string",
+          "example": "/accounts/Wp-xhZMGEWRIIgVjPwTC1aKJJ0VCRZ_4bScUVXof7e0",
+          "description": "A link to the resource providing the details of one account"
+        },
+        "next": {
+          "type": "string",
+          "example": "/accounts/Wp-xhZMGEWRIIgVjPwTC1aKJJ0VCRZ_4bScUVXof7e0/transactions?bookingStatus=booked&dateFrom=2021-01-18T02:41:10.529Z&dateTo=2021-08-18T02:41:10.529Z&size=2&nextPageToken=ckP10o26_WXzc1YYMecNZguB6F-qyncB_64qf_1C6OR2R_EQUZGWsxphe8NclnhH",
+          "description": "Navigation link for paginated account reports"
+        }
+      }
+    },
+    "accountReference": {
+      "type": "object",
+      "properties": {
+        "bban": {
+          "$ref": "#/definitions/bban"
+        },
+        "currency": {
+          "$ref": "#/definitions/currencyCode"
+        },
+        "iban": {
+          "$ref": "#/definitions/iban"
+        }
+      }
+    },
+    "accountReport": {
+      "type": "object",
+      "properties": {
+        "_links": {
+          "$ref": "#/definitions/_linksAccountReport"
+        },
+        "booked": {
+          "$ref": "#/definitions/transactionList"
+        }
+      }
+    },
+    "amount": {
+      "type": "object",
+      "properties": {
+        "value": {
+          "$ref": "#/definitions/amountValue"
+        },
+        "currency": {
+          "$ref": "#/definitions/currencyCode"
+        }
+      }
+    },
+    "amountValue": {
+      "type": "string",
+      "pattern": "-?[0-9]{1,14}(\\.[0-9]{1,3})?",
+      "description": "The amount given with fractional digits, where fractions must be compliant to the currency definition.\nUp to 14 significant figures. Negative amounts are signed by minus.\nThe decimal separator is a dot.\n**Example:**\nValid representations for EUR with up to two decimals are:\n\n\n\n  * 1056\n\n  * 5768.2\n\n  * -1.50\n\n  * 5877.78\n",
+      "example": "6002.17"
+    },
+    "bban": {
+      "type": "string",
+      "description": "Basic Bank Account Number (BBAN) Identifier",
+      "example": "0125618484"
+    },
+    "currencyCode": {
+      "type": "string",
+      "pattern": "[A-Z]{3}",
+      "description": "ISO 4217 Alpha 3 currency code\n",
+      "example": "EUR"
+    },
+    "currencyExchange": {
+      "type": "object",
+      "properties": {
+        "sourceCurrency": {
+          "$ref": "#/definitions/currencyCode"
+        },
+        "targetCurrency": {
+          "$ref": "#/definitions/currencyCode"
+        },
+        "exchangeRate": {
+          "type": "string",
+          "example": "1"
+        }
+      },
+      "description": "Exchange Rate"
+    },
+    "exchangeRateList": {
+      "type": "array",
+      "description": "Array of exchange rates",
+      "items": {
+        "$ref": "#/definitions/currencyExchange"
+      }
+    },
+    "iban": {
+      "type": "string",
+      "pattern": "[A-Z]{2,2}[0-9]{2,2}[a-zA-Z0-9]{1,30}",
+      "description": "IBAN of an account",
+      "example": "NL52RABO0125618484"
+    },
+    "instructedAmountType": {
+      "type": "object",
+      "properties": {
+        "amount": {
+          "type": "number",
+          "example": 5.12,
+          "description": "Instructed Amount"
+        },
+        "sourceCurrency": {
+          "type": "string",
+          "example": "EUR",
+          "description": "Instructed Amount Currency"
+        }
+      },
+      "description": "Original amount (f.e. USD amount paid towards the EUR DbtrAcct)."
+    },
+    "balanceAfterBooking": {
+      "type": "object",
+      "properties": {
+        "balanceType": {
+          "type": "string",
+          "example": "InterimBooked",
+          "description": "Type of Balance"
+        },
+        "balanceAmount": {
+          "$ref": "#/definitions/amount"
+        }
+      },
+      "description": "This is the balance of the account after the booked transaction"
+    },
+    "messageCodeText": {
+      "type": "string",
+      "example": "CERTIFICATE_INVALID",
+      "enum": [
+        "SESSIONS_NOT_SUPPORTED",
+        "ACCESS_EXCEEDED",
+        "REQUESTED_FORMATS_INVALID",
+        "CERTIFICATE_INVALID",
+        "CERTIFICATE_EXPIRED",
+        "CERTIFICATE_BLOCKED",
+        "CERTIFICATE_REVOKED",
+        "CERTIFICATE_MISSING",
+        "SIGNATURE_INVALID",
+        "SIGNATURE_MISSING",
+        "FORMAT_ERROR",
+        "PARAMETER_NOT_SUPPORTED",
+        "SERVICE_INVALID",
+        "SERVICE_BLOCKED",
+        "CORPORATE_ID_INVALID",
+        "CONSENT_UNKNOWN",
+        "CONSENT_INVALID",
+        "CONSENT_EXPIRED",
+        "TOKEN_UNKNOWN",
+        "TOKEN_INVALID",
+        "TOKEN_EXPIRED",
+        "RESOURCE_UNKNOWN",
+        "RESOURCE_EXPIRED",
+        "TIMESTAMP_INVALID",
+        "PERIOD_INVALID",
+        "SCA_METHOD_UNKNOWN"
+      ]
+    },
+    "purposeCode": {
+      "type": "string",
+      "description": "ExternalPurposeCode from ISO 20022. Contains the category purpose code, which is the reason for payment transactions.\nList available on http://www.iso20022.org/external_code_list.page\n",
+      "example": "EPAY"
+    },
+    "tppMessageCategory": {
+      "type": "string",
+      "description": "Category of the message",
+      "example": "ERROR",
+      "enum": [
+        "ERROR",
+        "WARNING"
+      ]
+    },
+    "tppMessageGeneric": {
+      "type": "object",
+      "properties": {
+        "category": {
+          "$ref": "#/definitions/tppMessageCategory"
+        },
+        "code": {
+          "$ref": "#/definitions/messageCodeText"
+        },
+        "path": {
+          "type": "string"
+        },
+        "text": {
+          "$ref": "#/definitions/tppMessageText"
+        }
+      }
+    },
+    "tppMessageText": {
+      "type": "string",
+      "maxLength": 512,
+      "description": "Additional text.",
+      "example": "Header X-Request-ID is required"
+    },
+    "tppMessages": {
+      "properties": {
+        "tppMessages": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/tppMessageGeneric"
+          }
+        }
+      },
+      "description": "Messages on operational issues."
+    },
+    "transactionDetails": {
+      "type": "object",
+      "properties": {
+        "bookingDate": {
+          "type": "string",
+          "example": "2021-08-17",
+          "description": "Date on which the transaction is booked at the Rabobank in the UTC/GMT timezone. It can contain every date (also weekend and holidays). Book date in format CCYY-MM-DD. C = Century, Y = Year, M = Month, D = Day"
+        },
+        "creditorAccount": {
+          "$ref": "#/definitions/accountReference"
+        },
+        "creditorAgent": {
+          "type": "string",
+          "example": "RABONL2UXXX",
+          "description": "Creditor Agent BIC."
+        },
+        "creditorId": {
+          "type": "string",
+          "example": "NL98ZZZ09999999999",
+          "description": "Identification of Creditors, e.g. a SEPA Creditor ID.",
+          "maxLength": 35
+        },
+        "creditorName": {
+          "type": "string",
+          "example": "Creditor Name",
+          "description": "Creditor Name",
+          "maxLength": 140
+        },
+        "debtorAccount": {
+          "$ref": "#/definitions/accountReference"
+        },
+        "debtorAgent": {
+          "type": "string",
+          "example": "RABONL2UXXX",
+          "description": "Debtor Agent BIC."
+        },
+        "debtorName": {
+          "type": "string",
+          "example": "Debtor Name",
+          "description": "Debtor Name",
+          "maxLength": 140
+        },
+        "endToEndId": {
+          "type": "string",
+          "example": "90705030",
+          "description": "Unique end to end identity.",
+          "maxLength": 35
+        },
+        "entryReference": {
+          "type": "string",
+          "example": "11900",
+          "description": "Sequence number of the booking on a Rabobank account.",
+          "maxLength": 35
+        },
+        "currencyExchange": {
+          "$ref": "#/definitions/exchangeRateList"
+        },
+        "initiatingPartyName": {
+          "type": "string",
+          "example": "TRX ST",
+          "description": "Name of initiating party."
+        },
+        "instructedAmount": {
+          "$ref": "#/definitions/instructedAmountType"
+        },
+        "mandateId": {
+          "type": "string",
+          "example": "EEDD-D121-01",
+          "description": "Identification of Mandates, e.g. a SEPA Mandate ID.",
+          "maxLength": 35
+        },
+        "numberOfTransactions": {
+          "type": "number",
+          "example": 1000,
+          "description": "Number Of Transactions in batch"
+        },
+        "batchEntryReference": {
+          "type": "string",
+          "example": "OM1B123456703623",
+          "description": "Unique identification assigned by Rabobank to identify a batch.",
+          "maxLength": 35
+        },
+        "paymentInformationIdentification": {
+          "type": "string",
+          "example": "123456",
+          "description": "Payment Information Identification"
+        },
+        "purposeCode": {
+          "$ref": "#/definitions/purposeCode"
+        },
+        "raboBookingDateTime": {
+          "type": "string",
+          "example": "2024-05-23T06:48:11.607486Z",
+          "description": "Date on which the transaction is booked at the Rabobank using the Zulu time standard which is in GMT/UTC timezone."
+        },
+        "raboDetailedTransactionType": {
+          "type": "string",
+          "example": "633",
+          "description": "Rabo Detailed Transaction Type"
+        },
+        "raboTransactionTypeName": {
+          "type": "string",
+          "example": "st",
+          "description": "Name of Transaction Type"
+        },
+        "reasonCode": {
+          "type": "string",
+          "example": "AG01",
+          "description": "Reason Code"
+        },
+        "remittanceInformationStructured": {
+          "type": "string",
+          "example": "23183510990000",
+          "description": "Reference as contained in the structured remittance reference structure (without the surrounding XML structure).\n\n\nDifferent from other places the content is containt in plain form not in form of a structered field.\n",
+          "maxLength": 140
+        },
+        "remittanceInformationUnstructured": {
+          "type": "string",
+          "example": "Description ST 1",
+          "maxLength": 140
+        },
+        "transactionAmount": {
+          "$ref": "#/definitions/amount"
+        },
+        "ultimateCreditor": {
+          "type": "string",
+          "example": "Ultimate Creditor",
+          "description": "Ultimate Creditor",
+          "maxLength": 140
+        },
+        "ultimateDebtor": {
+          "type": "string",
+          "example": "Ultimate Debtor",
+          "description": "Ultimate Debtor",
+          "maxLength": 140
+        },
+        "valueDate": {
+          "type": "string",
+          "example": "2021-08-17",
+          "description": "Value date / interest date in format CCYY-MM-DD. C = Century, Y = Year, M = Month, D = Day"
+        },
+        "unitCurrency": {
+          "type": "string",
+          "example": "EUR",
+          "description": "Same as Source Currency"
+        },
+        "balanceAfterBooking": {
+          "$ref": "#/definitions/balanceAfterBooking"
+        },
+        "bankTransactionCode": {
+          "type": "string",
+          "example": "PMNT-RCDT-ESCT",
+          "description": "This code type is concatenating the three ISO20022 Codes Domain Code, Family Code and SubFamiliy Code by hyphens, resulting in “DomainCode”-“FamilyCode”-“SubFamilyCode”. For example PMNT-RCDT-ESCT defining a transaction assigned to the PayMeNT Domain (PMNT), belonging to the family of ReceivedCreDitTransfer (RCDT) that facilitated the EuropeanSEPACreditTransfer (ESCT)"
+        }
+      }
+    },
+    "transactionList": {
+      "type": "array",
+      "description": "Array of transaction details",
+      "items": {
+        "$ref": "#/definitions/transactionDetails"
+      }
+    },
+    "transactionsResponse": {
+      "type": "object",
+      "properties": {
+        "account": {
+          "$ref": "#/definitions/accountReference"
+        },
+        "transactions": {
+          "$ref": "#/definitions/accountReport"
+        }
+      },
+      "description": "Body of the JSON response for a successful read transaction list request."
+    }
+  },
+  "x-ibm-configuration": {
+    "cors": {
+      "enabled": false
+    },
+    "enforced": true,
+    "phase": "realized",
+    "type": "rest",
+    "testable": false,
+    "application-authentication": {
+      "certificate": true
+    },
+    "servers": [
+      {
+        "url": "https://api.rabobank.nl/openapi/payments/insight",
+        "description": "",
+        "type": [
+          "production",
+          "development"
+        ]
+      }
+    ],
+    "oauth-servers": {
+      "oauth2 access code flow": {
+        "tokenUrls": [
+          "https://oauth.rabobank.nl/openapi/oauth2-premium/token"
+        ],
+        "authorizationUrls": [
+          "https://oauth.rabobank.nl/openapi/oauth2-premium/authorize"
+        ],
+        "refreshUrls": []
+      }
+    }
+  }
+}

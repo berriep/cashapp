@@ -1,0 +1,195 @@
+{% extends "base.html" %}
+
+{% block title %}Dashboard - Reconciliation Tool{% endblock %}
+
+{% block content %}
+<h1 class="mb-4"><i class="bi bi-speedometer2"></i> Dashboard</h1>
+
+<!-- Summary Cards -->
+<div class="row mb-4">
+    <div class="col-md-3">
+        <div class="card text-white bg-primary">
+            <div class="card-body">
+                <h6 class="card-title">Total Transactions</h6>
+                <h2>{{ stats.total_transactions|format_number }}</h2>
+                <small>Last {{ days }} days</small>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card text-white bg-success">
+            <div class="card-body">
+                <h6 class="card-title">Total Amount</h6>
+                <h2>{{ stats.total_amount|format_currency }}</h2>
+                <small>Average: {{ stats.avg_amount|format_currency }}</small>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card text-white bg-info">
+            <div class="card-body">
+                <h6 class="card-title">Unique Merchants</h6>
+                <h2>{{ stats.unique_merchants|format_number }}</h2>
+                <small>{{ stats.unique_brands }} brands</small>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card text-white bg-warning">
+            <div class="card-body">
+                <h6 class="card-title">Data Range</h6>
+                <h2>{{ stats.days_with_data }} days</h2>
+                <small>{{ data_range.earliest_date|format_date }} - {{ data_range.latest_date|format_date }}</small>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Import Stats -->
+<div class="row mb-4">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-header">
+                <h5><i class="bi bi-upload"></i> Import Statistics</h5>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-3">
+                        <strong>Total Imports:</strong> {{ import_stats.total_imports|format_number }}
+                    </div>
+                    <div class="col-md-3">
+                        <strong>Records Imported:</strong> {{ import_stats.total_records_imported|format_number }}
+                    </div>
+                    <div class="col-md-3">
+                        <strong>Success Rate:</strong> 
+                        {% if import_stats.total_imports > 0 %}
+                        {{ ((import_stats.successful_imports / import_stats.total_imports) * 100)|round(1) }}%
+                        {% else %}
+                        N/A
+                        {% endif %}
+                    </div>
+                    <div class="col-md-3">
+                        <strong>Last Import:</strong> {{ import_stats.last_import|format_datetime }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Daily Volume Chart -->
+<div class="row mb-4">
+    <div class="col-md-8">
+        <div class="card">
+            <div class="card-header">
+                <h5><i class="bi bi-graph-up"></i> Daily Transaction Volume</h5>
+            </div>
+            <div class="card-body">
+                <canvas id="dailyVolumeChart"></canvas>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-header">
+                <h5><i class="bi bi-pie-chart"></i> Brand Distribution</h5>
+            </div>
+            <div class="card-body">
+                <canvas id="brandChart"></canvas>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Brand Breakdown Table -->
+<div class="row">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-header">
+                <h5><i class="bi bi-credit-card"></i> Brand Breakdown</h5>
+            </div>
+            <div class="card-body">
+                <table class="table table-striped table-hover">
+                    <thead>
+                        <tr>
+                            <th>Brand</th>
+                            <th class="text-end">Transactions</th>
+                            <th class="text-end">Total Amount</th>
+                            <th class="text-end">Avg Amount</th>
+                            <th class="text-end">Days Active</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for brand in brand_breakdown %}
+                        <tr>
+                            <td><strong>{{ brand.brand }}</strong></td>
+                            <td class="text-end">{{ brand.transaction_count|format_number }}</td>
+                            <td class="text-end">{{ brand.total_amount|format_currency }}</td>
+                            <td class="text-end">{{ brand.avg_amount|format_currency }}</td>
+                            <td class="text-end">{{ brand.days_active }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+// Daily Volume Chart
+const dailyData = {{ daily_volume|tojson }};
+const dailyCtx = document.getElementById('dailyVolumeChart').getContext('2d');
+new Chart(dailyCtx, {
+    type: 'line',
+    data: {
+        labels: dailyData.map(d => d.date).reverse(),
+        datasets: [{
+            label: 'Transaction Count',
+            data: dailyData.map(d => d.transaction_count).reverse(),
+            borderColor: 'rgb(75, 192, 192)',
+            backgroundColor: 'rgba(75, 192, 192, 0.2)',
+            tension: 0.1
+        }]
+    },
+    options: {
+        responsive: true,
+        scales: {
+            y: {
+                beginAtZero: true
+            }
+        }
+    }
+});
+
+// Brand Chart
+const brandData = {{ brand_breakdown|tojson }};
+const brandCtx = document.getElementById('brandChart').getContext('2d');
+new Chart(brandCtx, {
+    type: 'doughnut',
+    data: {
+        labels: brandData.map(b => b.brand),
+        datasets: [{
+            data: brandData.map(b => b.transaction_count),
+            backgroundColor: [
+                'rgba(255, 99, 132, 0.8)',
+                'rgba(54, 162, 235, 0.8)',
+                'rgba(255, 206, 86, 0.8)',
+                'rgba(75, 192, 192, 0.8)',
+                'rgba(153, 102, 255, 0.8)'
+            ]
+        }]
+    },
+    options: {
+        responsive: true,
+        plugins: {
+            legend: {
+                position: 'bottom'
+            }
+        }
+    }
+});
+</script>
+{% endblock %}

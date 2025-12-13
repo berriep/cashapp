@@ -1,0 +1,101 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>MT940 File Comparison Report</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; background-color: #f5f5f5; }
+        .container { max-width: 1200px; margin: 0 auto; background-color: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+        h1 { color: #2c3e50; border-bottom: 3px solid #3498db; padding-bottom: 10px; }
+        h2 { color: #34495e; margin-top: 30px; border-left: 4px solid #3498db; padding-left: 15px; }
+        .summary { background-color: #ecf0f1; padding: 15px; border-radius: 5px; margin: 20px 0; }
+        .summary-item { display: inline-block; margin: 10px 20px; }
+        .summary-number { font-size: 24px; font-weight: bold; display: block; }
+        .good { color: #27ae60; }
+        .bad { color: #e74c3c; }
+        .warning { color: #f39c12; }
+        .neutral { color: #34495e; }
+        table { width: 100%; border-collapse: collapse; margin: 15px 0; }
+        th, td { padding: 12px; text-align: left; border-bottom: 1px solid #ddd; }
+        th { background-color: #3498db; color: white; }
+        .match { background-color: #d5f4e6; }
+        .no-match { background-color: #f8d7da; }
+        .missing { background-color: #fff3cd; }
+        .transaction { margin: 15px 0; padding: 15px; border: 1px solid #ddd; border-radius: 5px; }
+        .transaction.error { border-left: 5px solid #e74c3c; background-color: #fdf2f2; }
+        .transaction.missing { border-left: 5px solid #f39c12; background-color: #fffbf0; }
+        .transaction.good { border-left: 5px solid #27ae60; background-color: #f0fff4; }
+        .differences { margin-top: 10px; }
+        .difference { background-color: #fff; padding: 5px; margin: 2px 0; border-radius: 3px; border-left: 3px solid #e74c3c; }
+        .note { font-style: italic; color: #7f8c8d; font-size: 0.9em; }
+        .generated { color: #9b59b6; font-weight: bold; }
+        .mt940-field { font-family: monospace; background-color: #f8f9fa; padding: 2px 4px; border-radius: 3px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>MT940 File Comparison Report</h1>
+        
+        <div class="summary">
+            <h2>Summary</h2>
+            <div class="summary-item">
+                <span class="summary-number neutral">7</span>
+                Original Statements
+            </div>
+            <div class="summary-item">
+                <span class="summary-number neutral">7</span>
+                Generated Statements
+            </div>
+            <div class="summary-item">
+                <span class="summary-number neutral">34</span>
+                Original Transactions
+            </div>
+            <div class="summary-item">
+                <span class="summary-number neutral">34</span>
+                Generated Transactions
+            </div>
+            <div class="summary-item">
+                <span class="summary-number good">34</span>
+                Matching
+            </div>
+            <div class="summary-item">
+                <span class="summary-number bad">0</span>
+                Missing
+            </div>
+            <div class="summary-item">
+                <span class="summary-number warning">0</span>
+                Extra
+            </div>
+            <div class="summary-item">
+                <span class="summary-number warning">18</span>
+                With Differences
+            </div>
+        </div>
+
+        <h2>Statement Comparison</h2><div class='transaction good'><strong>Statement: <span class='mt940-field'>:20:940S251106</span></strong><br/></div><h2>Transaction Comparison</h2><p><strong>Total problematic transactions:</strong> 18</p><div class='transaction error'><strong>Transaction with Differences</strong><br/>Date: <span class='mt940-field'>251106</span> | Amount: <span class='mt940-field'>D000000000459.75</span><br/>Statement: <span class='mt940-field'>:20:940S251106</span><div class='differences'><div class='difference'>Field61CorePart: Orig='251106D000000000459,75N064MARF', Gen='251106D000000000459,75N640EREF'</div><div class='difference'>Field86: Orig='/MARF/101739-M002/EREF/101739C25551953.1246.6728165/TRCD/064/ORDP//NAME/BeFrank PPI NV/REMI/101739/25551953 XX101739/25551953XX NOTA 1 NOV 2025 101739-161 2900 EB Capelle aan den Ijssel/CSID/NL62ZZZ504817700001', Gen='/EREF/101739C25551953.1246.6728165/TRCD/64/BENM//NAME/BeFrank PPI NV/REMI/101739/25551953 XX101739/25551953XX NOTA 1 NOV 2025 101739-161 2900 EB Capelle aan den Ijssel/ISDT/2025-11-06'</div></div></div><div class='transaction error'><strong>Transaction with Differences</strong><br/>Date: <span class='mt940-field'>251106</span> | Amount: <span class='mt940-field'>D000000000068.64</span><br/>Statement: <span class='mt940-field'>:20:940S251106</span><div class='differences'><div class='difference'>Field61CorePart: Orig='251106D000000000068,64N064MARF', Gen='251106D000000000068,64N640EREF'</div><div class='difference'>Field86: Orig='/MARF/101737-M002/EREF/101737C25552445.1246.6729641/TRCD/064/ORDP//NAME/BeFrank PPI NV/REMI/101737/25552445 XX101737/25552445XX NOTA 1 NOV 2025 101737-161 2900 EB Capelle aan den Ijssel/CSID/NL62ZZZ504817700001', Gen='/EREF/101737C25552445.1246.6729641/TRCD/64/BENM//NAME/BeFrank PPI NV/REMI/101737/25552445 XX101737/25552445XX NOTA 1 NOV 2025 101737-161 2900 EB Capelle aan den Ijssel/ISDT/2025-11-06'</div></div></div><div class='transaction error'><strong>Transaction with Differences</strong><br/>Date: <span class='mt940-field'>251106</span> | Amount: <span class='mt940-field'>D000000003456.74</span><br/>Statement: <span class='mt940-field'>:20:940S251106</span><div class='differences'><div class='difference'>Field61CorePart: Orig='251106D000000003456,74N064MARF', Gen='251106D000000003456,74N640EREF'</div><div class='difference'>Field86: Orig='/MARF/101741-M002/EREF/101741C25552640.1246.6730226/TRCD/064/ORDP//NAME/BeFrank PPI NV/REMI/101741/25552640 XX101741/25552640XX NOTA 1 NOV 2025 101741-161 2900 EB Capelle aan den Ijssel/CSID/NL62ZZZ504817700001', Gen='/EREF/101741C25552640.1246.6730226/TRCD/64/BENM//NAME/BeFrank PPI NV/REMI/101741/25552640 XX101741/25552640XX NOTA 1 NOV 2025 101741-161 2900 EB Capelle aan den Ijssel/ISDT/2025-11-06'</div></div></div><div class='transaction error'><strong>Transaction with Differences</strong><br/>Date: <span class='mt940-field'>251106</span> | Amount: <span class='mt940-field'>D000000000509.71</span><br/>Statement: <span class='mt940-field'>:20:940S251106</span><div class='differences'><div class='difference'>Field61CorePart: Orig='251106D000000000509,71N064MARF', Gen='251106D000000000509,71N640EREF'</div><div class='difference'>Field86: Orig='/MARF/101743-M002/EREF/101743C25553153.1246.6731765/TRCD/064/ORDP//NAME/BeFrank PPI NV/REMI/101743/25553153 XX101743/25553153XX NOTA 1 NOV 2025 101743-161 2900 EB Capelle aan den Ijssel/CSID/NL62ZZZ504817700001', Gen='/EREF/101743C25553153.1246.6731765/TRCD/64/BENM//NAME/BeFrank PPI NV/REMI/101743/25553153 XX101743/25553153XX NOTA 1 NOV 2025 101743-161 2900 EB Capelle aan den Ijssel/ISDT/2025-11-06'</div></div></div><div class='transaction error'><strong>Transaction with Differences</strong><br/>Date: <span class='mt940-field'>251106</span> | Amount: <span class='mt940-field'>C000000000001.14</span><br/>Statement: <span class='mt940-field'>:20:940S251106</span><div class='differences'><div class='difference'>Field86: Orig='/EREF/101417R25552781.1248.6730649/TRCD/541/ORDP//NAME/BeFrank PPI NV/ID/724500KHBM10MIBGJN47/REMI/101417 25552781 XX101417/25552781XX NOTA 1 NOV 2025 101417-145 2900 EB Capelle aan den Ijssel/ISDT/2025-11-06', Gen='/EREF/101417R25552781.1248.6730649/TRCD/541/ORDP//NAME/BeFrank PPI NV/REMI/101417 25552781 XX101417/25552781XX NOTA 1 NOV 2025 101417-145 2900 EB Capelle aan den Ijssel/ISDT/2025-11-06'</div></div></div><div class='transaction error'><strong>Transaction with Differences</strong><br/>Date: <span class='mt940-field'>251106</span> | Amount: <span class='mt940-field'>C000000000008.15</span><br/>Statement: <span class='mt940-field'>:20:940S251106</span><div class='differences'><div class='difference'>Field86: Orig='/EREF/101745R25553468.1248.6732710/TRCD/541/ORDP//NAME/BeFrank PPI NV/ID/724500KHBM10MIBGJN47/REMI/101745 25553468 XX101745/25553468XX NOTA 1 NOV 2025 101745-161 2900 EB Capelle aan den Ijssel/ISDT/2025-11-06', Gen='/EREF/101745R25553468.1248.6732710/TRCD/541/ORDP//NAME/BeFrank PPI NV/REMI/101745 25553468 XX101745/25553468XX NOTA 1 NOV 2025 101745-161 2900 EB Capelle aan den Ijssel/ISDT/2025-11-06'</div></div></div><div class='transaction error'><strong>Transaction with Differences</strong><br/>Date: <span class='mt940-field'>251106</span> | Amount: <span class='mt940-field'>C000000000061.62</span><br/>Statement: <span class='mt940-field'>:20:940S251106</span><div class='differences'><div class='difference'>Field86: Orig='/EREF/101740R25552740.1248.6730526/TRCD/541/ORDP//NAME/BeFrank PPI NV/ID/724500KHBM10MIBGJN47/REMI/101740 25552740 XX101740/25552740XX NOTA 1 NOV 2025 101740-161 2900 EB Capelle aan den Ijssel/ISDT/2025-11-06', Gen='/EREF/101740R25552740.1248.6730526/TRCD/541/ORDP//NAME/BeFrank PPI NV/REMI/101740 25552740 XX101740/25552740XX NOTA 1 NOV 2025 101740-161 2900 EB Capelle aan den Ijssel/ISDT/2025-11-06'</div></div></div><div class='transaction error'><strong>Transaction with Differences</strong><br/>Date: <span class='mt940-field'>251106</span> | Amount: <span class='mt940-field'>C000000000001.20</span><br/>Statement: <span class='mt940-field'>:20:940S251106</span><div class='differences'><div class='difference'>Field86: Orig='/EREF/101414R25552236.1248.6729014/TRCD/541/ORDP//NAME/BeFrank PPI NV/ID/724500KHBM10MIBGJN47/REMI/101414 25552236 XX101414/25552236XX NOTA 1 NOV 2025 101414-189 2900 EB Capelle aan den Ijssel/ISDT/2025-11-06', Gen='/EREF/101414R25552236.1248.6729014/TRCD/541/ORDP//NAME/BeFrank PPI NV/REMI/101414 25552236 XX101414/25552236XX NOTA 1 NOV 2025 101414-189 2900 EB Capelle aan den Ijssel/ISDT/2025-11-06'</div></div></div><div class='transaction error'><strong>Transaction with Differences</strong><br/>Date: <span class='mt940-field'>251106</span> | Amount: <span class='mt940-field'>C000000000006.38</span><br/>Statement: <span class='mt940-field'>:20:940S251106</span><div class='differences'><div class='difference'>Field86: Orig='/EREF/101418R25552652.1248.6730262/TRCD/541/ORDP//NAME/BeFrank PPI NV/ID/724500KHBM10MIBGJN47/REMI/101418 25552652 XX101418/25552652XX NOTA 1 NOV 2025 101418-189 2900 EB Capelle aan den Ijssel/ISDT/2025-11-06', Gen='/EREF/101418R25552652.1248.6730262/TRCD/541/ORDP//NAME/BeFrank PPI NV/REMI/101418 25552652 XX101418/25552652XX NOTA 1 NOV 2025 101418-189 2900 EB Capelle aan den Ijssel/ISDT/2025-11-06'</div></div></div><div class='transaction error'><strong>Transaction with Differences</strong><br/>Date: <span class='mt940-field'>251106</span> | Amount: <span class='mt940-field'>C000000000006.29</span><br/>Statement: <span class='mt940-field'>:20:940S251106</span><div class='differences'><div class='difference'>Field86: Orig='/EREF/101744R25553888.1248.6733970/TRCD/541/ORDP//NAME/BeFrank PPI NV/ID/724500KHBM10MIBGJN47/REMI/101744 25553888 XX101744/25553888XX NOTA 1 NOV 2025 101744-161 2900 EB Capelle aan den Ijssel/ISDT/2025-11-06', Gen='/EREF/101744R25553888.1248.6733970/TRCD/541/ORDP//NAME/BeFrank PPI NV/REMI/101744 25553888 XX101744/25553888XX NOTA 1 NOV 2025 101744-161 2900 EB Capelle aan den Ijssel/ISDT/2025-11-06'</div></div></div><div class='transaction error'><strong>Transaction with Differences</strong><br/>Date: <span class='mt940-field'>251106</span> | Amount: <span class='mt940-field'>C000000000001.67</span><br/>Statement: <span class='mt940-field'>:20:940S251106</span><div class='differences'><div class='difference'>Field86: Orig='/EREF/101416R25553071.1248.6731519/TRCD/541/ORDP//NAME/BeFrank PPI NV/ID/724500KHBM10MIBGJN47/REMI/101416 25553071 XX101416/25553071XX NOTA 1 NOV 2025 101416-189 2900 EB Capelle aan den Ijssel/ISDT/2025-11-06', Gen='/EREF/101416R25553071.1248.6731519/TRCD/541/ORDP//NAME/BeFrank PPI NV/REMI/101416 25553071 XX101416/25553071XX NOTA 1 NOV 2025 101416-189 2900 EB Capelle aan den Ijssel/ISDT/2025-11-06'</div></div></div><div class='transaction error'><strong>Transaction with Differences</strong><br/>Date: <span class='mt940-field'>251106</span> | Amount: <span class='mt940-field'>C000000000004.88</span><br/>Statement: <span class='mt940-field'>:20:940S251106</span><div class='differences'><div class='difference'>Field86: Orig='/EREF/101421R25552530.1248.6729896/TRCD/541/ORDP//NAME/BeFrank PPI NV/ID/724500KHBM10MIBGJN47/REMI/101421 25552530 XX101421/25552530XX NOTA 1 NOV 2025 101421-189 2900 EB Capelle aan den Ijssel/ISDT/2025-11-06', Gen='/EREF/101421R25552530.1248.6729896/TRCD/541/ORDP//NAME/BeFrank PPI NV/REMI/101421 25552530 XX101421/25552530XX NOTA 1 NOV 2025 101421-189 2900 EB Capelle aan den Ijssel/ISDT/2025-11-06'</div></div></div><div class='transaction error'><strong>Transaction with Differences</strong><br/>Date: <span class='mt940-field'>251106</span> | Amount: <span class='mt940-field'>C000000000001.44</span><br/>Statement: <span class='mt940-field'>:20:940S251106</span><div class='differences'><div class='difference'>Field86: Orig='/EREF/101415R25552843.1248.6730835/TRCD/541/ORDP//NAME/BeFrank PPI NV/ID/724500KHBM10MIBGJN47/REMI/101415 25552843 XX101415/25552843XX NOTA 1 NOV 2025 101415-189 2900 EB Capelle aan den Ijssel/ISDT/2025-11-06', Gen='/EREF/101415R25552843.1248.6730835/TRCD/541/ORDP//NAME/BeFrank PPI NV/REMI/101415 25552843 XX101415/25552843XX NOTA 1 NOV 2025 101415-189 2900 EB Capelle aan den Ijssel/ISDT/2025-11-06'</div></div></div><div class='transaction error'><strong>Transaction with Differences</strong><br/>Date: <span class='mt940-field'>251106</span> | Amount: <span class='mt940-field'>C000000000002.93</span><br/>Statement: <span class='mt940-field'>:20:940S251106</span><div class='differences'><div class='difference'>Field86: Orig='/EREF/101413R25552007.1248.6728327/TRCD/541/ORDP//NAME/BeFrank PPI NV/ID/724500KHBM10MIBGJN47/REMI/101413 25552007 XX101413/25552007XX NOTA 1 NOV 2025 101413-189 2900 EB Capelle aan den Ijssel/ISDT/2025-11-06', Gen='/EREF/101413R25552007.1248.6728327/TRCD/541/ORDP//NAME/BeFrank PPI NV/REMI/101413 25552007 XX101413/25552007XX NOTA 1 NOV 2025 101413-189 2900 EB Capelle aan den Ijssel/ISDT/2025-11-06'</div></div></div><div class='transaction error'><strong>Transaction with Differences</strong><br/>Date: <span class='mt940-field'>251106</span> | Amount: <span class='mt940-field'>C000000000010.21</span><br/>Statement: <span class='mt940-field'>:20:940S251106</span><div class='differences'><div class='difference'>Field86: Orig='/EREF/101412R25552295.1248.6729191/TRCD/541/ORDP//NAME/BeFrank PPI NV/ID/724500KHBM10MIBGJN47/REMI/101412 25552295 XX101412/25552295XX NOTA 1 NOV 2025 101412-189 5550AG Valkenswaard/ISDT/2025-11-06', Gen='/EREF/101412R25552295.1248.6729191/TRCD/541/ORDP//NAME/BeFrank PPI NV/REMI/101412 25552295 XX101412/25552295XX NOTA 1 NOV 2025 101412-189 5550AG Valkenswaard/ISDT/2025-11-06'</div></div></div><div class='transaction error'><strong>Transaction with Differences</strong><br/>Date: <span class='mt940-field'>251106</span> | Amount: <span class='mt940-field'>C000000000001.82</span><br/>Statement: <span class='mt940-field'>:20:940S251106</span><div class='differences'><div class='difference'>Field86: Orig='/EREF/101419R25551986.1248.6728264/TRCD/541/ORDP//NAME/BeFrank PPI NV/ID/724500KHBM10MIBGJN47/REMI/101419 25551986 XX101419/25551986XX NOTA 1 NOV 2025 101419-187 2900 EB Capelle aan den Ijssel/ISDT/2025-11-06', Gen='/EREF/101419R25551986.1248.6728264/TRCD/541/ORDP//NAME/BeFrank PPI NV/REMI/101419 25551986 XX101419/25551986XX NOTA 1 NOV 2025 101419-187 2900 EB Capelle aan den Ijssel/ISDT/2025-11-06'</div></div></div><div class='transaction error'><strong>Transaction with Differences</strong><br/>Date: <span class='mt940-field'>251106</span> | Amount: <span class='mt940-field'>C000000000001.50</span><br/>Statement: <span class='mt940-field'>:20:940S251106</span><div class='differences'><div class='difference'>Field86: Orig='/EREF/101420R25553909.1248.6734033/TRCD/541/ORDP//NAME/BeFrank PPI NV/ID/724500KHBM10MIBGJN47/REMI/101420 25553909 XX101420/25553909XX NOTA 1 NOV 2025 101420-189 2900 EB Capelle aan den Ijssel/ISDT/2025-11-06', Gen='/EREF/101420R25553909.1248.6734033/TRCD/541/ORDP//NAME/BeFrank PPI NV/REMI/101420 25553909 XX101420/25553909XX NOTA 1 NOV 2025 101420-189 2900 EB Capelle aan den Ijssel/ISDT/2025-11-06'</div></div></div><div class='transaction error'><strong>Transaction with Differences</strong><br/>Date: <span class='mt940-field'>251105</span> | Amount: <span class='mt940-field'>C000000067869.59</span><br/>Statement: <span class='mt940-field'>:20:940S251106</span><div class='differences'><div class='difference'>Field86: Orig='/EREF/POYTCPE2025000003501/TRCD/626/ORDP//NAME/Center Parcs Europe N.V./REMI/CPES110600010 CC300002343/300087233:62F:C251106EUR000004523832,68', Gen='/EREF/POYTCPE2025000003501/TRCD/626/ORDP//NAME/Center Parcs Europe N.V./REMI/CPES110600010 CC300002343/300087233:62F:C251106EUR000004523832,68-'</div></div></div>        
+        <div style="margin-top: 40px; padding: 20px; background-color: #ecf0f1; border-radius: 5px;">
+            <h3>MT940 Field Reference</h3>
+            <p><span class="mt940-field">:20:</span> = Transaction Reference Number</p>
+            <p><span class="mt940-field">:25:</span> = Account Identification</p>
+            <p><span class="mt940-field">:28C:</span> = Statement/Sequence Number</p>
+            <p><span class="mt940-field">:60F:</span> = Opening Balance</p>
+            <p><span class="mt940-field">:61:</span> = Statement Line (Transaction)</p>
+            <p><span class="mt940-field">:86:</span> = Information to Account Owner</p>
+            <p><span class="mt940-field">:62F:</span> = Closing Balance (Final)</p>
+        </div>
+        
+        <div style="margin-top: 20px; padding: 20px; background-color: #ecf0f1; border-radius: 5px;">
+            <h3>Legend</h3>
+            <p><span class="good">Green</span> = Perfect Match</p>
+            <p><span class="bad">Red</span> = Missing or Significant Difference</p>
+            <p><span class="warning">Orange</span> = Minor Difference or Generated Field</p>
+            <p><strong>Note:</strong> MT940 format comparison focuses on core transaction data</p>
+        </div>
+        
+        <div style="margin-top: 20px; text-align: center; color: #7f8c8d;">
+            <p>Report generated on 2025-11-21 15:03:40</p>
+            <p>Original: MT940_A_NL31RABO0300087233_EUR_20251106_20251106.swi</p>
+            <p>Generated: mt940 - generated NL31RABO0300087233 - 20251106.swi</p>
+        </div>
+    </div>
+</body>
+</html>

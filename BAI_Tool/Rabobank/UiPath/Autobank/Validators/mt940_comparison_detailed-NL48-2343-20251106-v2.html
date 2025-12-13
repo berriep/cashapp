@@ -1,0 +1,101 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>MT940 File Comparison Report</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; background-color: #f5f5f5; }
+        .container { max-width: 1200px; margin: 0 auto; background-color: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+        h1 { color: #2c3e50; border-bottom: 3px solid #3498db; padding-bottom: 10px; }
+        h2 { color: #34495e; margin-top: 30px; border-left: 4px solid #3498db; padding-left: 15px; }
+        .summary { background-color: #ecf0f1; padding: 15px; border-radius: 5px; margin: 20px 0; }
+        .summary-item { display: inline-block; margin: 10px 20px; }
+        .summary-number { font-size: 24px; font-weight: bold; display: block; }
+        .good { color: #27ae60; }
+        .bad { color: #e74c3c; }
+        .warning { color: #f39c12; }
+        .neutral { color: #34495e; }
+        table { width: 100%; border-collapse: collapse; margin: 15px 0; }
+        th, td { padding: 12px; text-align: left; border-bottom: 1px solid #ddd; }
+        th { background-color: #3498db; color: white; }
+        .match { background-color: #d5f4e6; }
+        .no-match { background-color: #f8d7da; }
+        .missing { background-color: #fff3cd; }
+        .transaction { margin: 15px 0; padding: 15px; border: 1px solid #ddd; border-radius: 5px; }
+        .transaction.error { border-left: 5px solid #e74c3c; background-color: #fdf2f2; }
+        .transaction.missing { border-left: 5px solid #f39c12; background-color: #fffbf0; }
+        .transaction.good { border-left: 5px solid #27ae60; background-color: #f0fff4; }
+        .differences { margin-top: 10px; }
+        .difference { background-color: #fff; padding: 5px; margin: 2px 0; border-radius: 3px; border-left: 3px solid #e74c3c; }
+        .note { font-style: italic; color: #7f8c8d; font-size: 0.9em; }
+        .generated { color: #9b59b6; font-weight: bold; }
+        .mt940-field { font-family: monospace; background-color: #f8f9fa; padding: 2px 4px; border-radius: 3px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>MT940 File Comparison Report</h1>
+        
+        <div class="summary">
+            <h2>Summary</h2>
+            <div class="summary-item">
+                <span class="summary-number neutral">7</span>
+                Original Statements
+            </div>
+            <div class="summary-item">
+                <span class="summary-number neutral">7</span>
+                Generated Statements
+            </div>
+            <div class="summary-item">
+                <span class="summary-number neutral">660</span>
+                Original Transactions
+            </div>
+            <div class="summary-item">
+                <span class="summary-number neutral">660</span>
+                Generated Transactions
+            </div>
+            <div class="summary-item">
+                <span class="summary-number good">660</span>
+                Matching
+            </div>
+            <div class="summary-item">
+                <span class="summary-number bad">0</span>
+                Missing
+            </div>
+            <div class="summary-item">
+                <span class="summary-number warning">0</span>
+                Extra
+            </div>
+            <div class="summary-item">
+                <span class="summary-number warning">327</span>
+                With Differences
+            </div>
+        </div>
+
+        <h2>Statement Comparison</h2><div class='transaction good'><strong>Statement: <span class='mt940-field'>:20:940S251106</span></strong><br/></div><h2>Transaction Comparison</h2><p><strong>Total problematic transactions:</strong> 327</p><div class='transaction error'><strong>Transaction with Differences</strong><br/>Date: <span class='mt940-field'>251106</span> | Amount: <span class='mt940-field'>C000000000539.10</span><br/>Statement: <span class='mt940-field'>:20:940S251106</span><div class='differences'><div class='difference'>Field86: Orig='/EREF/06-11-2025 00:21 7020544209597754/TRCD/100/ORDP//NAME/C.J.van de Velde eo T.E.P. van Beekveld/REMI/9056268139 7020544209597754 KV xui-58537992/PURP//CD/EPAY/ISDT/2025-11-06', Gen='/EREF/06-11-2025 00:21 7020544209597754/TRCD/100/ORDP//NAME/C.J. van de Velde eo T.E.P. van Beekveld/REMI/9056268139 7020544209597754 KV xui-58537992/PURP//CD/EPAY/ISDT/2025-11-06' [[OK] COSMETIC: Only spacing differences in names]</div></div></div><div class='transaction error'><strong>Transaction with Differences</strong><br/>Date: <span class='mt940-field'>251106</span> | Amount: <span class='mt940-field'>C000000000100.00</span><br/>Statement: <span class='mt940-field'>:20:940S251106</span><div class='differences'><div class='difference'>Field61CorePart: Orig='251106C000000000100,00N541NONREF', Gen='251106C000000000100,00N100EREF'</div><div class='difference'>Field86: Orig='/TRCD/541/ORDP//NAME/RBA BROSIUS CJ/REMI/7096918/ISDT/2025-11-06', Gen='/EREF/06-11-2025 07:26 7020136297683167/TRCD/100/ORDP//NAME/M SCHEPERS CJ/REMI/9056542428 7020136297683167 EP/PURP//CD/EPAY/ISDT/2025-11-06' [[OK] COSMETIC: Only spacing differences in names]</div></div></div><div class='transaction error'><strong>Transaction with Differences</strong><br/>Date: <span class='mt940-field'>251106</span> | Amount: <span class='mt940-field'>C000000000705.12</span><br/>Statement: <span class='mt940-field'>:20:940S251106</span><div class='differences'><div class='difference'>Field86: Orig='/EREF/06-11-2025 05:57 7020214806473017/TRCD/100/ORDP//NAME/J.J.Janssen/REMI/9056470435 7020214806473017 PZ xui-23213088/PURP//CD/EPAY/ISDT/2025-11-06', Gen='/EREF/06-11-2025 05:57 7020214806473017/TRCD/100/ORDP//NAME/J.J. Janssen/REMI/9056470435 7020214806473017 PZ xui-23213088/PURP//CD/EPAY/ISDT/2025-11-06' [[OK] COSMETIC: Only spacing differences in names]</div></div></div><div class='transaction error'><strong>Transaction with Differences</strong><br/>Date: <span class='mt940-field'>251106</span> | Amount: <span class='mt940-field'>C000000000209.10</span><br/>Statement: <span class='mt940-field'>:20:940S251106</span><div class='differences'><div class='difference'>Field86: Orig='/EREF/06-11-2025 06:21 7020195403652885/TRCD/100/ORDP//NAME/S.N.Post/REMI/9056475867 7020195403652885 HH xui-59524953/PURP//CD/EPAY/ISDT/2025-11-06', Gen='/EREF/06-11-2025 06:21 7020195403652885/TRCD/100/ORDP//NAME/S.N. Post/REMI/9056475867 7020195403652885 HH xui-59524953/PURP//CD/EPAY/ISDT/2025-11-06' [[OK] COSMETIC: Only spacing differences in names]</div></div></div><div class='transaction error'><strong>Transaction with Differences</strong><br/>Date: <span class='mt940-field'>251106</span> | Amount: <span class='mt940-field'>C000000000248.00</span><br/>Statement: <span class='mt940-field'>:20:940S251106</span><div class='differences'><div class='difference'>Field86: Orig='/EREF/06-11-2025 06:55 7020614800413839/TRCD/100/ORDP//NAME/A. Ijsseldijk-Vos eo R. Ijsseldijk/REMI/9056512191 7020614800413839 HB xui-44652756/PURP//CD/EPAY/ISDT/2025-11-06', Gen='/EREF/06-11-2025 13:22 7020644509594694/TRCD/100/ORDP//NAME/D.M. Lavoo eo T. Onder de Linden/REMI/9057368121 7020644509594694 TH xui-30265907/PURP//CD/EPAY/ISDT/2025-11-06' [[OK] COSMETIC: Only spacing differences in names]</div></div></div><div class='transaction error'><strong>Transaction with Differences</strong><br/>Date: <span class='mt940-field'>251106</span> | Amount: <span class='mt940-field'>C000000000190.00</span><br/>Statement: <span class='mt940-field'>:20:940S251106</span><div class='differences'><div class='difference'>Field61CorePart: Orig='251106C000000000190,00N541NONREF', Gen='251106C000000000190,00N541EREF' [[OK] TYPE 541: NONREF -> EREF (improvement - added reference)]</div><div class='difference'>Field86: Orig='/TRCD/541/ORDP//NAME/Mw SK Mutuku/REMI/: Vakantie centerparcs  deels betalings Ref. 05651602/ISDT/2025-11-06', Gen='/EREF/2937398/TRCD/541/ORDP//NAME/Mw SK Mutuku/REMI/: Vakantie centerparcs  deels betalings Ref. 05651602/ISDT/2025-11-06' [[OK] COSMETIC: Only spacing differences in names]</div></div></div><div class='transaction error'><strong>Transaction with Differences</strong><br/>Date: <span class='mt940-field'>251106</span> | Amount: <span class='mt940-field'>C000000000200.00</span><br/>Statement: <span class='mt940-field'>:20:940S251106</span><div class='differences'><div class='difference'>Field61CorePart: Orig='251106C000000000200,00N100EREF', Gen='251106C000000000200,00N541EREF'</div><div class='difference'>Field86: Orig='/EREF/06-11-2025 08:18 7020334191684856/TRCD/100/ORDP//NAME/M.I.Kromkamp-Spijker/REMI/9056632654 7020334191684856 HH xui-98274371/PURP//CD/EPAY/ISDT/2025-11-06', Gen='/EREF/2937918/TRCD/541/ORDP//NAME/B VAN BEZOOIJEN CJ/REMI/Reserveringsnummer: 5532402. Donderdag 27-11-2025 t/m Maandag 01-12-2025./ISDT/2025-11-06' [[OK] COSMETIC: Only spacing differences in names]</div></div></div><div class='transaction error'><strong>Transaction with Differences</strong><br/>Date: <span class='mt940-field'>251106</span> | Amount: <span class='mt940-field'>C000000000630.56</span><br/>Statement: <span class='mt940-field'>:20:940S251106</span><div class='differences'><div class='difference'>Field61CorePart: Orig='251106C000000000630,56N541NONREF', Gen='251106C000000000630,56N541EREF' [[OK] TYPE 541: NONREF -> EREF (improvement - added reference)]</div><div class='difference'>Field86: Orig='/TRCD/541/ORDP//NAME/Mw S S M Aalders en/of Hr M Hoegee/REMI/reserverings.nr.  9029098 Fam.Hoegee/ISDT/2025-11-06', Gen='/EREF/2937402/TRCD/541/ORDP//NAME/Mw S S M Aalders en/of Hr M Hoegee/REMI/reserverings.nr.  9029098 Fam.Hoegee/ISDT/2025-11-06' [[OK] COSMETIC: Only spacing differences in names]</div></div></div><div class='transaction error'><strong>Transaction with Differences</strong><br/>Date: <span class='mt940-field'>251106</span> | Amount: <span class='mt940-field'>C000000000050.00</span><br/>Statement: <span class='mt940-field'>:20:940S251106</span><div class='differences'><div class='difference'>Field61CorePart: Orig='251106C000000000050,00N541NONREF', Gen='251106C000000000050,00N100EREF'</div><div class='difference'>Field86: Orig='/TRCD/541/ORDP//NAME/FJ PINKHAUS DE GRAAFF/REMI/6414617/ISDT/2025 11-06', Gen='/EREF/06-11-2025 22:16 7020614203594379/TRCD/100/ORDP//NAME/C.D. Joosten/REMI/9058542539 7020614203594379 HH xui-63854549/PURP//CD/EPAY/ISDT/2025-11-06' [[OK] COSMETIC: Only spacing differences in names]</div></div></div><div class='transaction error'><strong>Transaction with Differences</strong><br/>Date: <span class='mt940-field'>251106</span> | Amount: <span class='mt940-field'>C000000000179.65</span><br/>Statement: <span class='mt940-field'>:20:940S251106</span><div class='differences'><div class='difference'>Field86: Orig='/EREF/06-11-2025 05:37 7020165700593152/TRCD/100/ORDP//NAME/Mw AG van Soelen-Hilte/REMI/9056461934 7020165700593152 EH/PURP//CD/EPAY/ISDT/2025-11-06', Gen='/EREF/06-11-2025 12:49 7020376309474127/TRCD/100/ORDP//NAME/R.J. van der Mark/REMI/9057289900 7020376309474127 HB xui-57802174/PURP//CD/EPAY/ISDT/2025-11-06' [[OK] COSMETIC: Only spacing differences in names]</div></div></div><div class='transaction error'><strong>Transaction with Differences</strong><br/>Date: <span class='mt940-field'>251106</span> | Amount: <span class='mt940-field'>C000000000598.25</span><br/>Statement: <span class='mt940-field'>:20:940S251106</span><div class='differences'><div class='difference'>Field86: Orig='/EREF/05-11-2025 19:09 7020985403476242/TRCD/100/ORDP//NAME/Mw Nvan Zomeren-Gerritsen, Hr JGM van Zomeren/REMI/9055735536 7020985403476242 SL/PURP//CD/EPAY/ISDT/2025-11-06', Gen='/EREF/05-11-2025 19:09 7020985403476242/TRCD/100/ORDP//NAME/Mw N van Zomeren-Gerritsen, Hr JGM van Zomeren/REMI/9055735536 7020985403476242 SL/PURP//CD/EPAY/ISDT/2025-11-06' [[OK] COSMETIC: Only spacing differences in names]</div></div></div><div class='transaction error'><strong>Transaction with Differences</strong><br/>Date: <span class='mt940-field'>251106</span> | Amount: <span class='mt940-field'>C000000000087.00</span><br/>Statement: <span class='mt940-field'>:20:940S251106</span><div class='differences'><div class='difference'>Field86: Orig='/EREF/05-11-2025 17:02 7020375409566539/TRCD/100/ORDP//NAME/Mw MSmirnova,Hr RF Cunha Fernandes/REMI/9055438589 7020375409566539 KV/PURP//CD/EPAY/ISDT/2025-11-06', Gen='/EREF/06-11-2025 20:25 7020194782533629/TRCD/100/ORDP//NAME/P. Smits/REMI/9058331105 7020194782533629 TH xui-48584605/PURP//CD/EPAY/ISDT/2025-11-06' [[OK] COSMETIC: Only spacing differences in names]</div></div></div><div class='transaction error'><strong>Transaction with Differences</strong><br/>Date: <span class='mt940-field'>251106</span> | Amount: <span class='mt940-field'>C000000000397.20</span><br/>Statement: <span class='mt940-field'>:20:940S251106</span><div class='differences'><div class='difference'>Field86: Orig='/EREF/2025-11-05T16:51 7020854794416104/TRCD/100/ORDP//NAME/M.P.Wijngaards/REMI/9055410806 7020854794416104 KV/PURP//CD/EPAY/ISDT/2025-11-06', Gen='/EREF/2025-11-05T16:51 7020854794416104/TRCD/100/ORDP//NAME/M.P. Wijngaards/REMI/9055410806 7020854794416104 KV/PURP//CD/EPAY/ISDT/2025-11-06' [[OK] COSMETIC: Only spacing differences in names]</div></div></div><div class='transaction error'><strong>Transaction with Differences</strong><br/>Date: <span class='mt940-field'>251106</span> | Amount: <span class='mt940-field'>C000000000570.40</span><br/>Statement: <span class='mt940-field'>:20:940S251106</span><div class='differences'><div class='difference'>Field86: Orig='/EREF/2025-11-05T19:27 7020555106445435/TRCD/100/ORDP//NAME/J.R.Visser e/o D. Wieringa/REMI/9055774518 7020555106445435 LH/PURP//CD/EPAY/ISDT/2025-11-06', Gen='/EREF/2025-11-05T19:27 7020555106445435/TRCD/100/ORDP//NAME/J.R. Visser e/o D. Wieringa/REMI/9055774518 7020555106445435 LH/PURP//CD/EPAY/ISDT/2025-11-06' [[OK] COSMETIC: Only spacing differences in names]</div></div></div><div class='transaction error'><strong>Transaction with Differences</strong><br/>Date: <span class='mt940-field'>251106</span> | Amount: <span class='mt940-field'>C000000000013.10</span><br/>Statement: <span class='mt940-field'>:20:940S251106</span><div class='differences'><div class='difference'>Field86: Orig='/EREF/06-11-2025 06:49 7020556306562165/TRCD/100/ORDP//NAME/Mw DE Jansen/REMI/9056508909 7020556306562165 HH/PURP//CD/EPAY/ISDT/2025-11-06', Gen='/EREF/06-11-2025 06:49 7020556306562165/TRCD/100/ORDP//NAME/Mw D E Jansen/REMI/9056508909 7020556306562165 HH/PURP//CD/EPAY/ISDT/2025-11-06' [[OK] COSMETIC: Only spacing differences in names]</div></div></div><div class='transaction error'><strong>Transaction with Differences</strong><br/>Date: <span class='mt940-field'>251106</span> | Amount: <span class='mt940-field'>C000000001606.56</span><br/>Statement: <span class='mt940-field'>:20:940S251106</span><div class='differences'><div class='difference'>Field61CorePart: Orig='251106C000000001606,56N541NONREF', Gen='251106C000000001606,56N541EREF' [[OK] TYPE 541: NONREF -> EREF (improvement - added reference)]</div><div class='difference'>Field86: Orig='/TRCD/541/ORDP//NAME/Hr MA van Meurs,Mw ETP Kempenaar/REMI/Reserveringnr 2357333/ISDT/2025-11-06', Gen='/EREF/2937415/TRCD/541/ORDP//NAME/Hr MA van Meurs,Mw ETP Kempenaar/REMI/Reserveringnr 2357333/ISDT/2025-11-06' [[OK] COSMETIC: Only spacing differences in names]</div></div></div><div class='transaction error'><strong>Transaction with Differences</strong><br/>Date: <span class='mt940-field'>251106</span> | Amount: <span class='mt940-field'>C000000000434.40</span><br/>Statement: <span class='mt940-field'>:20:940S251106</span><div class='differences'><div class='difference'>Field86: Orig='/EREF/05-11-2025 19:37 7020146906505861/TRCD/100/ORDP//NAME/NAM DE MUL/REMI/9055793864 7020146906505861 MD/PURP//CD/EPAY/ISDT/2025 11-06', Gen='/EREF/05-11-2025 19:37 7020146906505861/TRCD/100/ORDP//NAME/NAM DE MUL/REMI/9055793864 7020146906505861 MD/PURP//CD/EPAY/ISDT/2025-11-06' [[OK] COSMETIC: Only spacing differences in names]</div></div></div><div class='transaction error'><strong>Transaction with Differences</strong><br/>Date: <span class='mt940-field'>251106</span> | Amount: <span class='mt940-field'>C000000000058.00</span><br/>Statement: <span class='mt940-field'>:20:940S251106</span><div class='differences'><div class='difference'>Field86: Orig='/EREF/05-11-2025 16:02 7020376309535165/TRCD/100/ORDP//NAME/J DERUITER CJ/REMI/9055288167 7020376309535165 HH/PURP//CD/EPAY/ISDT/2025-11-06', Gen='/EREF/05-11-2025 16:02 7020376309535165/TRCD/100/ORDP//NAME/J DE RUITER CJ/REMI/9055288167 7020376309535165 HH/PURP//CD/EPAY/ISDT/2025-11-06' [[OK] COSMETIC: Only spacing differences in names]</div></div></div><div class='transaction error'><strong>Transaction with Differences</strong><br/>Date: <span class='mt940-field'>251106</span> | Amount: <span class='mt940-field'>C000000000007.00</span><br/>Statement: <span class='mt940-field'>:20:940S251106</span><div class='differences'><div class='difference'>Field86: Orig='/EREF/05-11-2025 21:04 7020125982686278/TRCD/100/ORDP//NAME/Mw HAlbers,Hr K Bos/REMI/9055961153 7020125982686278 EH/PURP//CD/EPAY/ISDT/2025-11-06', Gen='/EREF/05-11-2025 21:04 7020125982686278/TRCD/100/ORDP//NAME/Mw H Albers,Hr K Bos/REMI/9055961153 7020125982686278 EH/PURP//CD/EPAY/ISDT/2025-11-06' [[OK] COSMETIC: Only spacing differences in names]</div></div></div><div class='transaction error'><strong>Transaction with Differences</strong><br/>Date: <span class='mt940-field'>251106</span> | Amount: <span class='mt940-field'>C000000000696.85</span><br/>Statement: <span class='mt940-field'>:20:940S251106</span><div class='differences'><div class='difference'>Field86: Orig='/EREF/2025-11-05T19:57 7020806903475558/TRCD/100/ORDP//NAME/D.J.van Sluis/REMI/9055829201 7020806903475558 AG/PURP//CD/EPAY/ISDT/2025-11-06', Gen='/EREF/2025-11-05T19:57 7020806903475558/TRCD/100/ORDP//NAME/D.J. van Sluis/REMI/9055829201 7020806903475558 AG/PURP//CD/EPAY/ISDT/2025-11-06' [[OK] COSMETIC: Only spacing differences in names]</div></div></div><div class='note'><p>... and 307 more issues not shown in detail</p></div>        
+        <div style="margin-top: 40px; padding: 20px; background-color: #ecf0f1; border-radius: 5px;">
+            <h3>MT940 Field Reference</h3>
+            <p><span class="mt940-field">:20:</span> = Transaction Reference Number</p>
+            <p><span class="mt940-field">:25:</span> = Account Identification</p>
+            <p><span class="mt940-field">:28C:</span> = Statement/Sequence Number</p>
+            <p><span class="mt940-field">:60F:</span> = Opening Balance</p>
+            <p><span class="mt940-field">:61:</span> = Statement Line (Transaction)</p>
+            <p><span class="mt940-field">:86:</span> = Information to Account Owner</p>
+            <p><span class="mt940-field">:62F:</span> = Closing Balance (Final)</p>
+        </div>
+        
+        <div style="margin-top: 20px; padding: 20px; background-color: #ecf0f1; border-radius: 5px;">
+            <h3>Legend</h3>
+            <p><span class="good">Green</span> = Perfect Match</p>
+            <p><span class="bad">Red</span> = Missing or Significant Difference</p>
+            <p><span class="warning">Orange</span> = Minor Difference or Generated Field</p>
+            <p><strong>Note:</strong> MT940 format comparison focuses on core transaction data</p>
+        </div>
+        
+        <div style="margin-top: 20px; text-align: center; color: #7f8c8d;">
+            <p>Report generated on 2025-11-21 16:46:02</p>
+            <p>Original: MT940_A_NL48RABO0300002343_EUR_20251106_20251106.swi</p>
+            <p>Generated: mt940 - generated NL48RABO0300002343 - 20251106.swi</p>
+        </div>
+    </div>
+</body>
+</html>

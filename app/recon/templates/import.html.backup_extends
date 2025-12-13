@@ -1,0 +1,120 @@
+{% extends "recon_base.html" %}
+
+{% block title %}Import Data - Reconciliation Tool{% endblock %}
+
+{% block content %}
+<h1 class="mb-4"><i class="bi bi-upload"></i> Import Worldline Data</h1>
+
+<div class="row">
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header">
+                <h5><i class="bi bi-file-earmark-arrow-up"></i> Upload CSV File</h5>
+            </div>
+            <div class="card-body">
+                <form method="POST" enctype="multipart/form-data" id="uploadForm">
+                    <div class="mb-3">
+                        <label for="file" class="form-label">Select Worldline CSV File</label>
+                        <input type="file" class="form-control" id="file" name="file" accept=".csv" required>
+                        <div class="form-text">
+                            Maximum file size: 1.5 GB<br>
+                            Expected format: Semicolon-separated (;), European decimal format (comma)
+                        </div>
+                    </div>
+                    
+                    <!-- Progress indicator -->
+                    <div id="uploadProgress" class="d-none mb-3">
+                        <div class="alert alert-info">
+                            <div class="d-flex align-items-center">
+                                <div class="spinner-border spinner-border-sm me-2" role="status">
+                                    <span class="visually-hidden">Loading...</span>
+                                </div>
+                                <span id="progressText">Uploading file... This may take several minutes for large files.</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <button type="submit" class="btn btn-primary" id="uploadBtn">
+                        <i class="bi bi-upload"></i> Upload and Import
+                    </button>
+                    <a href="{{ url_for('recon.import_history') }}" class="btn btn-secondary">
+                        <i class="bi bi-clock-history"></i> View Import History
+                    </a>
+                </form>
+            </div>
+        </div>
+
+        <div class="card mt-4">
+            <div class="card-header">
+                <h5><i class="bi bi-info-circle"></i> Import Instructions</h5>
+            </div>
+            <div class="card-body">
+                <h6>Expected File Format:</h6>
+                <ul>
+                    <li>CSV file with semicolon (;) delimiter</li>
+                    <li>Required columns: Id, PAYDATE, and others as per Worldline export</li>
+                    <li>Decimal numbers with comma (,) as decimal separator</li>
+                    <li>Dates in DD/MM/YYYY format</li>
+                </ul>
+
+                <h6 class="mt-3">What happens during import:</h6>
+                <ol>
+                    <li>File is validated and parsed</li>
+                    <li>Required partitions are automatically created</li>
+                    <li>Duplicate records (same Id) are skipped</li>
+                    <li>Import statistics are logged</li>
+                </ol>
+
+                <div class="alert alert-info mt-3">
+                    <strong>Tip:</strong> Large files (180K+ records) may take a few minutes to process. 
+                    Please be patient and do not refresh the page.
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header">
+                <h5><i class="bi bi-database"></i> Database Status</h5>
+            </div>
+            <div class="card-body">
+                <p><strong>Current database:</strong> {{ config.DB_HOST }}/{{ config.DB_NAME }}</p>
+                <p><strong>Schema:</strong> {{ config.DB_SCHEMA }}</p>
+                
+                <h6 class="mt-3">Column Mapping:</h6>
+                <div class="table-responsive">
+                    <table class="table table-sm table-bordered">
+                        <thead>
+                            <tr>
+                                <th>CSV Column</th>
+                                <th>Database Column</th>
+                                <th>Type</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr><td>Id</td><td>id</td><td>Primary Key</td></tr>
+                            <tr><td>REF</td><td>ref</td><td>VARCHAR</td></tr>
+                            <tr><td>ORDER</td><td>order</td><td>VARCHAR</td></tr>
+                            <tr><td>PAYDATE</td><td>paydate</td><td>DATE (Partition Key)</td></tr>
+                            <tr><td>TOTAL</td><td>total</td><td>NUMERIC</td></tr>
+                            <tr><td>BRAND</td><td>brand</td><td>VARCHAR</td></tr>
+                            <tr><td>MERCHREF</td><td>merchref</td><td>VARCHAR</td></tr>
+                            <tr><td colspan="3" class="text-center"><em>...and 38 more columns</em></td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+document.getElementById('uploadForm').addEventListener('submit', function(e) {
+    // Show progress indicator
+    document.getElementById('uploadProgress').classList.remove('d-none');
+    document.getElementById('uploadBtn').disabled = true;
+    document.getElementById('file').disabled = true;
+});
+</script>
+{% endblock %}

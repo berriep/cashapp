@@ -1,0 +1,251 @@
+{% extends "base.html" %}
+
+{% block title %}Reconciliation Report - BAI Monitor{% endblock %}
+
+{% block content %}
+<h2 class="mb-4"><i class="bi bi-check2-all"></i> Detailed Reconciliation Report</h2>
+
+<!-- Filters -->
+<div class="card mb-4">
+    <div class="card-body">
+        <form method="GET" class="row g-3">
+            <div class="col-md-3">
+                <label for="days" class="form-label">Period</label>
+                <select class="form-select" name="days" id="days" onchange="this.form.submit()">
+                    <option value="1" {% if selected_days == 1 %}selected{% endif %}>Last 1 day</option>
+                    <option value="7" {% if selected_days == 7 %}selected{% endif %}>Last 7 days</option>
+                    <option value="14" {% if selected_days == 14 %}selected{% endif %}>Last 14 days</option>
+                    <option value="30" {% if selected_days == 30 %}selected{% endif %}>Last 30 days</option>
+                    <option value="90" {% if selected_days == 90 %}selected{% endif %}>Last 90 days</option>
+                </select>
+            </div>
+            <div class="col-md-4">
+                <label for="iban" class="form-label">Account</label>
+                <select class="form-select" name="iban" id="iban" onchange="this.form.submit()">
+                    <option value="">All accounts</option>
+                    {% for account in accounts %}
+                    <option value="{{ account.iban }}" {% if selected_iban == account.iban %}selected{% endif %}>
+                        {{ account.iban }}
+                    </option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="col-md-2 d-flex align-items-end">
+                <button type="submit" class="btn btn-primary w-100">
+                    <i class="bi bi-funnel"></i> Filter
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- Summary Cards -->
+{% if summary %}
+<div class="card mb-4">
+    <div class="card-header d-flex justify-content-between align-items-center">
+        <h5 class="mb-0"><i class="bi bi-clipboard-data"></i> Reconciliation Summary</h5>
+    </div>
+    <div class="card-body">
+        <div class="row">
+            <div class="col-md-2">
+                <div class="text-center p-3 bg-light rounded filter-box" role="button" onclick="filterByStatus('all', this)" style="cursor: pointer; transition: all 0.2s;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
+                    <div class="text-muted small">Total Days <i class="bi bi-hand-index"></i></div>
+                    <div class="h5 mb-0">{{ summary.total_rows }}</div>
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="text-center p-3 bg-success bg-opacity-10 rounded filter-box" role="button" onclick="filterByStatus('PERFECT_MATCH', this)" style="cursor: pointer; transition: all 0.2s;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
+                    <div class="text-muted small">Perfect Match <i class="bi bi-hand-index"></i></div>
+                    <div class="h5 mb-0 text-success">{{ summary.perfect_matches }}</div>
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="text-center p-3 bg-warning bg-opacity-10 rounded filter-box" role="button" onclick="filterByStatus('MINOR_DIFF', this)" style="cursor: pointer; transition: all 0.2s;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
+                    <div class="text-muted small">Minor Diff <i class="bi bi-hand-index"></i></div>
+                    <div class="h5 mb-0 text-warning">{{ summary.minor_diffs }}</div>
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="text-center p-3 bg-danger bg-opacity-10 rounded filter-box" role="button" onclick="filterByStatus('MAJOR_DIFF', this)" style="cursor: pointer; transition: all 0.2s;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
+                    <div class="text-muted small">Major Diff <i class="bi bi-hand-index"></i></div>
+                    <div class="h5 mb-0 text-danger">{{ summary.major_diffs }}</div>
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="text-center p-3 bg-secondary bg-opacity-10 rounded filter-box" role="button" onclick="filterByStatus('MISSING', this)" style="cursor: pointer; transition: all 0.2s;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
+                    <div class="text-muted small">Missing Data <i class="bi bi-hand-index"></i></div>
+                    <div class="h5 mb-0 text-secondary">{{ summary.missing_data }}</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endif %}
+
+<!-- Detailed Table -->
+<div class="card">
+    <div class="card-header d-flex justify-content-between align-items-center">
+        <h5 class="mb-0"><i class="bi bi-table"></i> Reconciliation Details</h5>
+        <div>
+            <button class="btn btn-sm btn-outline-primary" onclick="exportToCSV()">
+                <i class="bi bi-download"></i> Export CSV
+            </button>
+        </div>
+    </div>
+    <div class="card-body">
+        <div class="table-responsive" style="max-height: 600px; overflow-y: auto;">
+            <table class="table table-sm table-hover" id="reconciliationTable">
+                <thead class="table-light">
+                    <tr>
+                        <th>IBAN</th>
+                        <th>Owner</th>
+                        <th>Date</th>
+                        <th>Status</th>
+                        <th>API Status</th>
+                        <th class="text-end">Opening</th>
+                        <th class="text-end">Credit</th>
+                        <th class="text-end">Debit</th>
+                        <th class="text-end">TX Count</th>
+                        <th class="text-end">Closing</th>
+                        <th class="text-end">Expected</th>
+                        <th class="text-end">Difference</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% if error %}
+                    <tr>
+                        <td colspan="12" class="text-center text-danger">
+                            <i class="bi bi-exclamation-triangle"></i> {{ error }}
+                        </td>
+                    </tr>
+                    {% elif not data %}
+                    <tr>
+                        <td colspan="12" class="text-center text-muted">
+                            No data available for the selected period
+                        </td>
+                    </tr>
+                    {% else %}
+                    {% for row in data %}
+                    <tr>
+                        <td><code class="small">{{ row.iban }}</code></td>
+                        <td class="small">{{ row.owner_name[:20] if row.owner_name else '-' }}</td>
+                        <td>{{ row.day.strftime('%d-%m-%Y') }}</td>
+                        <td>
+                            {% if row.audit_status == 'PERFECT_MATCH' %}
+                                <span class="badge bg-success"><i class="bi bi-check-circle"></i> Perfect</span>
+                            {% elif row.audit_status == 'MINOR_DIFF' %}
+                                <span class="badge bg-warning"><i class="bi bi-exclamation-triangle"></i> Minor</span>
+                            {% elif row.audit_status == 'MAJOR_DIFF' %}
+                                <span class="badge bg-danger"><i class="bi bi-x-circle"></i> Major</span>
+                            {% else %}
+                                <span class="badge bg-secondary"><i class="bi bi-question-circle"></i> Missing</span>
+                            {% endif %}
+                        </td>
+                        <td class="small">
+                            <span class="badge {% if row.balances_status == 'OK' %}bg-success{% else %}bg-danger{% endif %}">
+                                B: {{ row.balances_status }}
+                            </span>
+                            <span class="badge {% if row.transactions_status == 'OK' %}bg-success{% else %}bg-danger{% endif %}">
+                                T: {{ row.transactions_status }}
+                            </span>
+                        </td>
+                        <td class="text-end">€ {{ row.opening_balance|nl_currency }}</td>
+                        <td class="text-end text-success">€ {{ row.pos_tx_sum|nl_currency }}</td>
+                        <td class="text-end text-danger">€ {{ row.neg_tx_sum|nl_currency }}</td>
+                        <td class="text-end">
+                            <span class="badge bg-info">{{ row.transaction_count }}</span>
+                        </td>
+                        <td class="text-end"><strong>€ {{ row.closing_balance|nl_currency }}</strong></td>
+                        <td class="text-end">€ {{ row.expected_closing|nl_currency }}</td>
+                        <td class="text-end {% if row.difference|float|abs > 0.01 %}text-danger fw-bold{% endif %}">
+                            € {{ row.difference|nl_currency }}
+                        </td>
+                    </tr>
+                    {% endfor %}
+                    {% endif %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block scripts %}
+<script>
+function filterByStatus(status, element) {
+    const table = document.getElementById('reconciliationTable');
+    const rows = table.querySelectorAll('tbody tr');
+    
+    // Map database status to badge text
+    const statusMap = {
+        'PERFECT_MATCH': 'Perfect',
+        'MINOR_DIFF': 'Minor',
+        'MAJOR_DIFF': 'Major',
+        'MISSING': 'Missing'
+    };
+    
+    const searchText = statusMap[status] || status;
+    
+    rows.forEach(row => {
+        const statusCell = row.cells[3]; // Status column (4th column, 0-indexed = 3)
+        const statusText = statusCell.textContent.trim();
+        
+        if (status === 'all') {
+            row.style.display = '';
+        } else if (statusText.includes(searchText)) {
+            row.style.display = '';
+        } else {
+            row.style.display = 'none';
+        }
+    });
+    
+    // Update filter boxes to show active state
+    document.querySelectorAll('.filter-box').forEach(box => {
+        box.style.border = '1px solid transparent';
+    });
+    if (element) {
+        element.style.border = '2px solid #0d6efd';
+    }
+}
+
+function exportToCSV() {
+    const table = document.getElementById('reconciliationTable');
+    let csv = [];
+    
+    // Headers
+    const headers = [];
+    table.querySelectorAll('thead tr th').forEach(th => {
+        headers.push(th.textContent.trim());
+    });
+    csv.push(headers.join(';'));
+    
+    // Data rows
+    table.querySelectorAll('tbody tr').forEach(tr => {
+        const row = [];
+        tr.querySelectorAll('td').forEach(td => {
+            // Remove HTML tags and badges, keep only text
+            let text = td.textContent.trim();
+            text = text.replace(/\s+/g, ' '); // Remove extra whitespace
+            row.push(text);
+        });
+        if (row.length > 0) {
+            csv.push(row.join(';'));
+        }
+    });
+    
+    // Download
+    const blob = new Blob([csv.join('\n')], { type: 'text/csv;charset=utf-8;' });
+    const link = document.createElement('a');
+    const url = URL.createObjectURL(blob);
+    link.setAttribute('href', url);
+    link.setAttribute('download', 'reconciliation_report_' + new Date().toISOString().split('T')[0] + '.csv');
+    link.style.visibility = 'hidden';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+}
+</script>
+{% endblock %}
+
+

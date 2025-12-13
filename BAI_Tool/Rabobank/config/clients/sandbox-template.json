@@ -1,0 +1,31 @@
+{
+  "clientName": "sandbox-client",
+  "environment": "sandbox",
+  "apiConfig": {
+    "clientId": "your-client-id-here",
+    "clientSecret": "your-client-secret-here",
+    "tokenUrl": "https://oauth-sandbox.rabobank.nl/openapi/sandbox/oauth2-premium/token",
+    "apiBaseUrl": "https://api-sandbox.rabobank.nl/openapi/sandbox/payments/insight",
+    "redirectUri": "http://localhost:8080/callback",
+    "customHeaders": {}
+  },
+  "certificates": {
+    "certificatePath": "certificates/sandbox/certificate.pem",
+    "privateKeyPath": "certificates/sandbox/private.key",
+    "validateServerCertificate": false
+  },
+  "accounts": {
+    "defaultAccountId": "your-default-account-id",
+    "accountMappings": {
+      "NL52RABO0125618484": "your-account-id-hash-here"
+    }
+  },
+  "settings": {
+    "tokenRefreshThresholdMinutes": 60,
+    "maxRetryAttempts": 3,
+    "timeoutSeconds": 30,
+    "enableDetailedLogging": true,
+    "tokenStoragePath": "tokens",
+    "enableAutomaticTokenRefresh": true
+  }
+}

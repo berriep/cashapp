@@ -1,0 +1,36 @@
+# Build outputs
+bin/
+obj/
+publish/
+
+# User-specific files
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+# IDE files
+.vs/
+.vscode/
+*.swp
+*.swo
+
+# Sensitive files - NEVER commit these!
+auth_code.txt
+tokens/
+*.key
+*.pem
+config/clients/*
+!config/clients/*-template.json
+
+# Logs
+logs/
+*.log
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Temporary files
+*.tmp
+*.temp

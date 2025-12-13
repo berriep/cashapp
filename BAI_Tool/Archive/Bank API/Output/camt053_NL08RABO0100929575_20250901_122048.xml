@@ -1,0 +1,56 @@
+﻿<?xml version="1.0" encoding="utf-16"?>
+<Document xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="urn:iso:std:iso:20022:tech:xsd:camt.053.001.02">
+  <BkToCstmrStmt>
+    <GrpHdr>
+      <MsgId>STMT20250901001</MsgId>
+      <CreDtTm>2025-09-03T15:50:08</CreDtTm>
+    </GrpHdr>
+    <Stmt>
+      <Id>STMT20250901</Id>
+      <CreDtTm>2025-09-03T15:50:08</CreDtTm>
+      <Acct>
+        <Id>
+          <IBAN>NL08RABO0100929575</IBAN>
+        </Id>
+        <Ccy>EUR</Ccy>
+        <Ownr>
+          <Nm>Account Holder</Nm>
+        </Ownr>
+      </Acct>
+      <Bal>
+        <Tp>OPBD</Tp>
+        <Amt Ccy="EUR">33020.53</Amt>
+        <CdtDbtInd>CRDT</CdtDbtInd>
+        <Dt>2025-09-01</Dt>
+      </Bal>
+      <Ntry>
+        <Amt Ccy="EUR">45.64</Amt>
+        <CdtDbtInd>CRDT</CdtDbtInd>
+        <Sts>BOOK</Sts>
+        <BookgDt>2025-09-01</BookgDt>
+        <ValDt>2025-09-01</ValDt>
+        <NtryDtls>
+          <TxDtls>
+            <Refs>
+              <EndToEndId>000000000000005476</EndToEndId>
+            </Refs>
+            <RltdPties>
+              <Cdtr>
+                <Nm>CSV IMPORT</Nm>
+              </Cdtr>
+            </RltdPties>
+            <RmtInf>
+              <Ustrd>Kosten                             Periode 01-08-2025 t/m 31-08-2025</Ustrd>
+            </RmtInf>
+          </TxDtls>
+        </NtryDtls>
+      </Ntry>
+      <Bal>
+        <Tp>CLBD</Tp>
+        <Amt Ccy="EUR">33020.53</Amt>
+        <CdtDbtInd>CRDT</CdtDbtInd>
+        <Dt>2025-09-01</Dt>
+      </Bal>
+    </Stmt>
+  </BkToCstmrStmt>
+</Document>

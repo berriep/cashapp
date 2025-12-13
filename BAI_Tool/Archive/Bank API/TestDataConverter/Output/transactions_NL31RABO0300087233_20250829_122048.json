@@ -1,0 +1,1325 @@
+﻿{
+    "account":  {
+                    "iban":  "NL31RABO0300087233",
+                    "currency":  "EUR"
+                },
+    "transactions":  {
+                         "booked":  [
+                                        {
+                                            "bookingDate":  "2025-08-29",
+                                            "valueDate":  "2025-08-29",
+                                            "raboBookingDateTime":  "2025-08-29T00:00:00.000000Z",
+                                            "entryReference":  "000000000000091999",
+                                            "transactionAmount":  {
+                                                                      "currency":  "EUR",
+                                                                      "amount":  "8510,00"
+                                                                  },
+                                            "remittanceInformationUnstructured":  "",
+                                            "raboDetailedTransactionType":  "633",
+                                            "raboTransactionTypeName":  "st",
+                                            "reasonCode":  "AG01",
+                                            "bankTransactionCode":  "PMNT-RCDT-ESCT",
+                                            "creditorAgent":  "RABONL2U",
+                                            "initiatingPartyName":  "CSV IMPORT",
+                                            "debtorAccount":  {
+                                                                  "iban":  "NL31RABO0300087233"
+                                                              },
+                                            "balanceAfterBooking":  {
+                                                                        "balanceAmount":  {
+                                                                                              "currency":  "EUR",
+                                                                                              "amount":  "6185668,85"
+                                                                                          },
+                                                                        "balanceType":  "InterimBooked"
+                                                                    }
+                                        },
+                                        {
+                                            "bookingDate":  "2025-08-29",
+                                            "valueDate":  "2025-08-29",
+                                            "raboBookingDateTime":  "2025-08-29T00:00:00.000000Z",
+                                            "entryReference":  "000000000000092000",
+                                            "transactionAmount":  {
+                                                                      "currency":  "EUR",
+                                                                      "amount":  "1033862,37"
+                                                                  },
+                                            "remittanceInformationUnstructured":  "",
+                                            "raboDetailedTransactionType":  "633",
+                                            "raboTransactionTypeName":  "st",
+                                            "reasonCode":  "AG01",
+                                            "bankTransactionCode":  "PMNT-RCDT-ESCT",
+                                            "creditorAgent":  "RABONL2U",
+                                            "initiatingPartyName":  "CSV IMPORT",
+                                            "debtorAccount":  {
+                                                                  "iban":  "NL31RABO0300087233"
+                                                              },
+                                            "balanceAfterBooking":  {
+                                                                        "balanceAmount":  {
+                                                                                              "currency":  "EUR",
+                                                                                              "amount":  "5151806,48"
+                                                                                          },
+                                                                        "balanceType":  "InterimBooked"
+                                                                    }
+                                        },
+                                        {
+                                            "bookingDate":  "2025-08-29",
+                                            "valueDate":  "2025-08-29",
+                                            "raboBookingDateTime":  "2025-08-29T00:00:00.000000Z",
+                                            "entryReference":  "000000000000092001",
+                                            "transactionAmount":  {
+                                                                      "currency":  "EUR",
+                                                                      "amount":  "1830,68"
+                                                                  },
+                                            "remittanceInformationUnstructured":  "RE-02600",
+                                            "raboDetailedTransactionType":  "633",
+                                            "raboTransactionTypeName":  "st",
+                                            "reasonCode":  "AG01",
+                                            "bankTransactionCode":  "PMNT-RCDT-ESCT",
+                                            "creditorAgent":  "RABONL2U",
+                                            "initiatingPartyName":  "CSV IMPORT",
+                                            "debtorAccount":  {
+                                                                  "iban":  "NL31RABO0300087233"
+                                                              },
+                                            "creditorAccount":  {
+                                                                    "iban":  "CH3104835149980361000",
+                                                                    "currency":  "EUR"
+                                                                },
+                                            "creditorName":  "Metam Solutions AG",
+                                            "balanceAfterBooking":  {
+                                                                        "balanceAmount":  {
+                                                                                              "currency":  "EUR",
+                                                                                              "amount":  "5149975,80"
+                                                                                          },
+                                                                        "balanceType":  "InterimBooked"
+                                                                    }
+                                        },
+                                        {
+                                            "bookingDate":  "2025-08-29",
+                                            "valueDate":  "2025-08-29",
+                                            "raboBookingDateTime":  "2025-08-29T00:00:00.000000Z",
+                                            "entryReference":  "000000000000092002",
+                                            "transactionAmount":  {
+                                                                      "currency":  "EUR",
+                                                                      "amount":  "5932,54"
+                                                                  },
+                                            "remittanceInformationUnstructured":  "1125-664396",
+                                            "raboDetailedTransactionType":  "633",
+                                            "raboTransactionTypeName":  "st",
+                                            "reasonCode":  "AG01",
+                                            "bankTransactionCode":  "PMNT-RCDT-ESCT",
+                                            "creditorAgent":  "RABONL2U",
+                                            "initiatingPartyName":  "CSV IMPORT",
+                                            "debtorAccount":  {
+                                                                  "iban":  "NL31RABO0300087233"
+                                                              },
+                                            "creditorAccount":  {
+                                                                    "iban":  "DK2852950010052920",
+                                                                    "currency":  "EUR"
+                                                                },
+                                            "creditorName":  "AWIN",
+                                            "balanceAfterBooking":  {
+                                                                        "balanceAmount":  {
+                                                                                              "currency":  "EUR",
+                                                                                              "amount":  "5144043,26"
+                                                                                          },
+                                                                        "balanceType":  "InterimBooked"
+                                                                    }
+                                        },
+                                        {
+                                            "bookingDate":  "2025-08-29",
+                                            "valueDate":  "2025-08-29",
+                                            "raboBookingDateTime":  "2025-08-29T00:00:00.000000Z",
+                                            "entryReference":  "000000000000092003",
+                                            "transactionAmount":  {
+                                                                      "currency":  "EUR",
+                                                                      "amount":  "1530,37"
+                                                                  },
+                                            "remittanceInformationUnstructured":  "432",
+                                            "raboDetailedTransactionType":  "633",
+                                            "raboTransactionTypeName":  "st",
+                                            "reasonCode":  "AG01",
+                                            "bankTransactionCode":  "PMNT-RCDT-ESCT",
+                                            "creditorAgent":  "RABONL2U",
+                                            "initiatingPartyName":  "CSV IMPORT",
+                                            "debtorAccount":  {
+                                                                  "iban":  "NL31RABO0300087233"
+                                                              },
+                                            "creditorAccount":  {
+                                                                    "iban":  "DK6859600008092710",
+                                                                    "currency":  "EUR"
+                                                                },
+                                            "creditorName":  "HausLingua",
+                                            "balanceAfterBooking":  {
+                                                                        "balanceAmount":  {
+                                                                                              "currency":  "EUR",
+                                                                                              "amount":  "5142512,89"
+                                                                                          },
+                                                                        "balanceType":  "InterimBooked"
+                                                                    }
+                                        },
+                                        {
+                                            "bookingDate":  "2025-08-29",
+                                            "valueDate":  "2025-08-29",
+                                            "raboBookingDateTime":  "2025-08-29T00:00:00.000000Z",
+                                            "entryReference":  "000000000000092004",
+                                            "transactionAmount":  {
+                                                                      "currency":  "EUR",
+                                                                      "amount":  "1615,30"
+                                                                  },
+                                            "remittanceInformationUnstructured":  "RE-300866",
+                                            "raboDetailedTransactionType":  "633",
+                                            "raboTransactionTypeName":  "st",
+                                            "reasonCode":  "AG01",
+                                            "bankTransactionCode":  "PMNT-RCDT-ESCT",
+                                            "creditorAgent":  "RABONL2U",
+                                            "initiatingPartyName":  "CSV IMPORT",
+                                            "debtorAccount":  {
+                                                                  "iban":  "NL31RABO0300087233"
+                                                              },
+                                            "creditorAccount":  {
+                                                                    "iban":  "CH480027327326220403Y",
+                                                                    "currency":  "EUR"
+                                                                },
+                                            "creditorName":  "Present-Service Henckel",
+                                            "balanceAfterBooking":  {
+                                                                        "balanceAmount":  {
+                                                                                              "currency":  "EUR",
+                                                                                              "amount":  "5140897,59"
+                                                                                          },
+                                                                        "balanceType":  "InterimBooked"
+                                                                    }
+                                        },
+                                        {
+                                            "bookingDate":  "2025-08-29",
+                                            "valueDate":  "2025-08-29",
+                                            "raboBookingDateTime":  "2025-08-29T00:00:00.000000Z",
+                                            "entryReference":  "000000000000092005",
+                                            "transactionAmount":  {
+                                                                      "currency":  "EUR",
+                                                                      "amount":  "484,59"
+                                                                  },
+                                            "remittanceInformationUnstructured":  "2025/005",
+                                            "raboDetailedTransactionType":  "633",
+                                            "raboTransactionTypeName":  "st",
+                                            "reasonCode":  "AG01",
+                                            "bankTransactionCode":  "PMNT-RCDT-ESCT",
+                                            "creditorAgent":  "RABONL2U",
+                                            "initiatingPartyName":  "CSV IMPORT",
+                                            "debtorAccount":  {
+                                                                  "iban":  "NL31RABO0300087233"
+                                                              },
+                                            "creditorAccount":  {
+                                                                    "iban":  "CH7200270270N66095700",
+                                                                    "currency":  "EUR"
+                                                                },
+                                            "creditorName":  "BLISS AG",
+                                            "balanceAfterBooking":  {
+                                                                        "balanceAmount":  {
+                                                                                              "currency":  "EUR",
+                                                                                              "amount":  "5140413,00"
+                                                                                          },
+                                                                        "balanceType":  "InterimBooked"
+                                                                    }
+                                        },
+                                        {
+                                            "bookingDate":  "2025-08-29",
+                                            "valueDate":  "2025-08-29",
+                                            "raboBookingDateTime":  "2025-08-29T00:00:00.000000Z",
+                                            "entryReference":  "000000000000092006",
+                                            "transactionAmount":  {
+                                                                      "currency":  "EUR",
+                                                                      "amount":  "12922,41"
+                                                                  },
+                                            "remittanceInformationUnstructured":  "RE-301296",
+                                            "raboDetailedTransactionType":  "633",
+                                            "raboTransactionTypeName":  "st",
+                                            "reasonCode":  "AG01",
+                                            "bankTransactionCode":  "PMNT-RCDT-ESCT",
+                                            "creditorAgent":  "RABONL2U",
+                                            "initiatingPartyName":  "CSV IMPORT",
+                                            "debtorAccount":  {
+                                                                  "iban":  "NL31RABO0300087233"
+                                                              },
+                                            "creditorAccount":  {
+                                                                    "iban":  "CH480027327326220403Y",
+                                                                    "currency":  "EUR"
+                                                                },
+                                            "creditorName":  "Present-Service Henckel",
+                                            "balanceAfterBooking":  {
+                                                                        "balanceAmount":  {
+                                                                                              "currency":  "EUR",
+                                                                                              "amount":  "5127490,59"
+                                                                                          },
+                                                                        "balanceType":  "InterimBooked"
+                                                                    }
+                                        },
+                                        {
+                                            "bookingDate":  "2025-08-29",
+                                            "valueDate":  "2025-08-29",
+                                            "raboBookingDateTime":  "2025-08-29T00:00:00.000000Z",
+                                            "entryReference":  "000000000000092007",
+                                            "transactionAmount":  {
+                                                                      "currency":  "EUR",
+                                                                      "amount":  "1540,06"
+                                                                  },
+                                            "remittanceInformationUnstructured":  "",
+                                            "raboDetailedTransactionType":  "633",
+                                            "raboTransactionTypeName":  "st",
+                                            "reasonCode":  "AG01",
+                                            "bankTransactionCode":  "PMNT-RCDT-ESCT",
+                                            "creditorAgent":  "RABONL2U",
+                                            "initiatingPartyName":  "CSV IMPORT",
+                                            "debtorAccount":  {
+                                                                  "iban":  "NL31RABO0300087233"
+                                                              },
+                                            "balanceAfterBooking":  {
+                                                                        "balanceAmount":  {
+                                                                                              "currency":  "EUR",
+                                                                                              "amount":  "5125950,53"
+                                                                                          },
+                                                                        "balanceType":  "InterimBooked"
+                                                                    }
+                                        },
+                                        {
+                                            "bookingDate":  "2025-08-29",
+                                            "valueDate":  "2025-08-29",
+                                            "raboBookingDateTime":  "2025-08-29T00:00:00.000000Z",
+                                            "entryReference":  "000000000000092008",
+                                            "transactionAmount":  {
+                                                                      "currency":  "EUR",
+                                                                      "amount":  "1629969,10"
+                                                                  },
+                                            "remittanceInformationUnstructured":  "",
+                                            "raboDetailedTransactionType":  "633",
+                                            "raboTransactionTypeName":  "st",
+                                            "reasonCode":  "AG01",
+                                            "bankTransactionCode":  "PMNT-RCDT-ESCT",
+                                            "creditorAgent":  "RABONL2U",
+                                            "initiatingPartyName":  "CSV IMPORT",
+                                            "debtorAccount":  {
+                                                                  "iban":  "NL31RABO0300087233"
+                                                              },
+                                            "balanceAfterBooking":  {
+                                                                        "balanceAmount":  {
+                                                                                              "currency":  "EUR",
+                                                                                              "amount":  "3495981,43"
+                                                                                          },
+                                                                        "balanceType":  "InterimBooked"
+                                                                    }
+                                        },
+                                        {
+                                            "bookingDate":  "2025-08-29",
+                                            "valueDate":  "2025-08-29",
+                                            "raboBookingDateTime":  "2025-08-29T00:00:00.000000Z",
+                                            "entryReference":  "000000000000092009",
+                                            "transactionAmount":  {
+                                                                      "currency":  "EUR",
+                                                                      "amount":  "9316,00"
+                                                                  },
+                                            "remittanceInformationUnstructured":  "2505-333",
+                                            "raboDetailedTransactionType":  "633",
+                                            "raboTransactionTypeName":  "st",
+                                            "reasonCode":  "AG01",
+                                            "bankTransactionCode":  "PMNT-RCDT-ESCT",
+                                            "creditorAgent":  "RABONL2U",
+                                            "initiatingPartyName":  "CSV IMPORT",
+                                            "debtorAccount":  {
+                                                                  "iban":  "NL31RABO0300087233"
+                                                              },
+                                            "creditorAccount":  {
+                                                                    "iban":  "121937039310201",
+                                                                    "currency":  "EUR"
+                                                                },
+                                            "creditorName":  "Go Young Technology CO LTD",
+                                            "balanceAfterBooking":  {
+                                                                        "balanceAmount":  {
+                                                                                              "currency":  "EUR",
+                                                                                              "amount":  "3486665,43"
+                                                                                          },
+                                                                        "balanceType":  "InterimBooked"
+                                                                    }
+                                        },
+                                        {
+                                            "bookingDate":  "2025-08-29",
+                                            "valueDate":  "2025-08-29",
+                                            "raboBookingDateTime":  "2025-08-29T00:00:00.000000Z",
+                                            "entryReference":  "000000000000092010",
+                                            "transactionAmount":  {
+                                                                      "currency":  "EUR",
+                                                                      "amount":  "148826,92"
+                                                                  },
+                                            "remittanceInformationUnstructured":  "",
+                                            "raboDetailedTransactionType":  "633",
+                                            "raboTransactionTypeName":  "st",
+                                            "reasonCode":  "AG01",
+                                            "bankTransactionCode":  "PMNT-RCDT-ESCT",
+                                            "creditorAgent":  "RABONL2U",
+                                            "initiatingPartyName":  "CSV IMPORT",
+                                            "debtorAccount":  {
+                                                                  "iban":  "NL31RABO0300087233"
+                                                              },
+                                            "balanceAfterBooking":  {
+                                                                        "balanceAmount":  {
+                                                                                              "currency":  "EUR",
+                                                                                              "amount":  "3337838,51"
+                                                                                          },
+                                                                        "balanceType":  "InterimBooked"
+                                                                    }
+                                        },
+                                        {
+                                            "bookingDate":  "2025-08-29",
+                                            "valueDate":  "2025-08-29",
+                                            "raboBookingDateTime":  "2025-08-29T00:00:00.000000Z",
+                                            "entryReference":  "000000000000092011",
+                                            "transactionAmount":  {
+                                                                      "currency":  "EUR",
+                                                                      "amount":  "2079,22"
+                                                                  },
+                                            "remittanceInformationUnstructured":  "",
+                                            "raboDetailedTransactionType":  "633",
+                                            "raboTransactionTypeName":  "st",
+                                            "reasonCode":  "AG01",
+                                            "bankTransactionCode":  "PMNT-RCDT-ESCT",
+                                            "creditorAgent":  "RABONL2U",
+                                            "initiatingPartyName":  "CSV IMPORT",
+                                            "debtorAccount":  {
+                                                                  "iban":  "NL31RABO0300087233"
+                                                              },
+                                            "balanceAfterBooking":  {
+                                                                        "balanceAmount":  {
+                                                                                              "currency":  "EUR",
+                                                                                              "amount":  "3335759,29"
+                                                                                          },
+                                                                        "balanceType":  "InterimBooked"
+                                                                    }
+                                        },
+                                        {
+                                            "bookingDate":  "2025-08-29",
+                                            "valueDate":  "2025-08-29",
+                                            "raboBookingDateTime":  "2025-08-29T00:00:00.000000Z",
+                                            "entryReference":  "000000000000092012",
+                                            "transactionAmount":  {
+                                                                      "currency":  "EUR",
+                                                                      "amount":  "246329,02"
+                                                                  },
+                                            "remittanceInformationUnstructured":  "",
+                                            "raboDetailedTransactionType":  "633",
+                                            "raboTransactionTypeName":  "st",
+                                            "reasonCode":  "AG01",
+                                            "bankTransactionCode":  "PMNT-RCDT-ESCT",
+                                            "creditorAgent":  "RABONL2U",
+                                            "initiatingPartyName":  "CSV IMPORT",
+                                            "debtorAccount":  {
+                                                                  "iban":  "NL31RABO0300087233"
+                                                              },
+                                            "balanceAfterBooking":  {
+                                                                        "balanceAmount":  {
+                                                                                              "currency":  "EUR",
+                                                                                              "amount":  "3089430,27"
+                                                                                          },
+                                                                        "balanceType":  "InterimBooked"
+                                                                    }
+                                        },
+                                        {
+                                            "bookingDate":  "2025-08-29",
+                                            "valueDate":  "2025-08-29",
+                                            "raboBookingDateTime":  "2025-08-29T00:00:00.000000Z",
+                                            "entryReference":  "000000000000092013",
+                                            "transactionAmount":  {
+                                                                      "currency":  "EUR",
+                                                                      "amount":  "9,00"
+                                                                  },
+                                            "remittanceInformationUnstructured":  "",
+                                            "raboDetailedTransactionType":  "633",
+                                            "raboTransactionTypeName":  "st",
+                                            "reasonCode":  "AG01",
+                                            "bankTransactionCode":  "PMNT-RCDT-ESCT",
+                                            "creditorAgent":  "RABONL2U",
+                                            "initiatingPartyName":  "CSV IMPORT",
+                                            "debtorAccount":  {
+                                                                  "iban":  "NL31RABO0300087233"
+                                                              },
+                                            "balanceAfterBooking":  {
+                                                                        "balanceAmount":  {
+                                                                                              "currency":  "EUR",
+                                                                                              "amount":  "3089421,27"
+                                                                                          },
+                                                                        "balanceType":  "InterimBooked"
+                                                                    }
+                                        },
+                                        {
+                                            "bookingDate":  "2025-08-29",
+                                            "valueDate":  "2025-08-29",
+                                            "raboBookingDateTime":  "2025-08-29T00:00:00.000000Z",
+                                            "entryReference":  "000000000000092014",
+                                            "transactionAmount":  {
+                                                                      "currency":  "EUR",
+                                                                      "amount":  "1652069,00"
+                                                                  },
+                                            "remittanceInformationUnstructured":  "",
+                                            "raboDetailedTransactionType":  "633",
+                                            "raboTransactionTypeName":  "st",
+                                            "reasonCode":  "AG01",
+                                            "bankTransactionCode":  "PMNT-RCDT-ESCT",
+                                            "creditorAgent":  "RABONL2U",
+                                            "initiatingPartyName":  "CSV IMPORT",
+                                            "debtorAccount":  {
+                                                                  "iban":  "NL31RABO0300087233"
+                                                              },
+                                            "balanceAfterBooking":  {
+                                                                        "balanceAmount":  {
+                                                                                              "currency":  "EUR",
+                                                                                              "amount":  "1437352,27"
+                                                                                          },
+                                                                        "balanceType":  "InterimBooked"
+                                                                    }
+                                        },
+                                        {
+                                            "bookingDate":  "2025-08-29",
+                                            "valueDate":  "2025-08-29",
+                                            "raboBookingDateTime":  "2025-08-29T00:00:00.000000Z",
+                                            "entryReference":  "000000000000092015",
+                                            "transactionAmount":  {
+                                                                      "currency":  "EUR",
+                                                                      "amount":  "214,80"
+                                                                  },
+                                            "remittanceInformationUnstructured":  "",
+                                            "raboDetailedTransactionType":  "633",
+                                            "raboTransactionTypeName":  "st",
+                                            "reasonCode":  "AG01",
+                                            "bankTransactionCode":  "PMNT-RCDT-ESCT",
+                                            "creditorAgent":  "RABONL2U",
+                                            "initiatingPartyName":  "CSV IMPORT",
+                                            "debtorAccount":  {
+                                                                  "iban":  "NL31RABO0300087233"
+                                                              },
+                                            "balanceAfterBooking":  {
+                                                                        "balanceAmount":  {
+                                                                                              "currency":  "EUR",
+                                                                                              "amount":  "1437137,47"
+                                                                                          },
+                                                                        "balanceType":  "InterimBooked"
+                                                                    }
+                                        },
+                                        {
+                                            "bookingDate":  "2025-08-29",
+                                            "valueDate":  "2025-08-29",
+                                            "raboBookingDateTime":  "2025-08-29T00:00:00.000000Z",
+                                            "entryReference":  "000000000000092016",
+                                            "transactionAmount":  {
+                                                                      "currency":  "EUR",
+                                                                      "amount":  "420,47"
+                                                                  },
+                                            "remittanceInformationUnstructured":  "",
+                                            "raboDetailedTransactionType":  "633",
+                                            "raboTransactionTypeName":  "st",
+                                            "reasonCode":  "AG01",
+                                            "bankTransactionCode":  "PMNT-RCDT-ESCT",
+                                            "creditorAgent":  "RABONL2U",
+                                            "initiatingPartyName":  "CSV IMPORT",
+                                            "debtorAccount":  {
+                                                                  "iban":  "NL31RABO0300087233"
+                                                              },
+                                            "balanceAfterBooking":  {
+                                                                        "balanceAmount":  {
+                                                                                              "currency":  "EUR",
+                                                                                              "amount":  "1436717,00"
+                                                                                          },
+                                                                        "balanceType":  "InterimBooked"
+                                                                    }
+                                        },
+                                        {
+                                            "bookingDate":  "2025-08-29",
+                                            "valueDate":  "2025-08-29",
+                                            "raboBookingDateTime":  "2025-08-29T00:00:00.000000Z",
+                                            "entryReference":  "000000000000092017",
+                                            "transactionAmount":  {
+                                                                      "currency":  "EUR",
+                                                                      "amount":  "54,31"
+                                                                  },
+                                            "remittanceInformationUnstructured":  "",
+                                            "raboDetailedTransactionType":  "633",
+                                            "raboTransactionTypeName":  "st",
+                                            "reasonCode":  "AG01",
+                                            "bankTransactionCode":  "PMNT-RCDT-ESCT",
+                                            "creditorAgent":  "RABONL2U",
+                                            "initiatingPartyName":  "CSV IMPORT",
+                                            "debtorAccount":  {
+                                                                  "iban":  "NL31RABO0300087233"
+                                                              },
+                                            "balanceAfterBooking":  {
+                                                                        "balanceAmount":  {
+                                                                                              "currency":  "EUR",
+                                                                                              "amount":  "1436662,69"
+                                                                                          },
+                                                                        "balanceType":  "InterimBooked"
+                                                                    }
+                                        },
+                                        {
+                                            "bookingDate":  "2025-08-29",
+                                            "valueDate":  "2025-08-29",
+                                            "raboBookingDateTime":  "2025-08-29T00:00:00.000000Z",
+                                            "entryReference":  "000000000000092018",
+                                            "transactionAmount":  {
+                                                                      "currency":  "EUR",
+                                                                      "amount":  "3676,81"
+                                                                  },
+                                            "remittanceInformationUnstructured":  "",
+                                            "raboDetailedTransactionType":  "633",
+                                            "raboTransactionTypeName":  "st",
+                                            "reasonCode":  "AG01",
+                                            "bankTransactionCode":  "PMNT-RCDT-ESCT",
+                                            "creditorAgent":  "RABONL2U",
+                                            "initiatingPartyName":  "CSV IMPORT",
+                                            "debtorAccount":  {
+                                                                  "iban":  "NL31RABO0300087233"
+                                                              },
+                                            "balanceAfterBooking":  {
+                                                                        "balanceAmount":  {
+                                                                                              "currency":  "EUR",
+                                                                                              "amount":  "1432985,88"
+                                                                                          },
+                                                                        "balanceType":  "InterimBooked"
+                                                                    }
+                                        },
+                                        {
+                                            "bookingDate":  "2025-08-29",
+                                            "valueDate":  "2025-08-29",
+                                            "raboBookingDateTime":  "2025-08-29T00:00:00.000000Z",
+                                            "entryReference":  "000000000000092019",
+                                            "transactionAmount":  {
+                                                                      "currency":  "EUR",
+                                                                      "amount":  "1600,00"
+                                                                  },
+                                            "remittanceInformationUnstructured":  "ICO TRF. NL31RABO0300087233 NAAR NL30RABO0100929567",
+                                            "raboDetailedTransactionType":  "633",
+                                            "raboTransactionTypeName":  "st",
+                                            "reasonCode":  "AG01",
+                                            "bankTransactionCode":  "PMNT-RCDT-ESCT",
+                                            "creditorAgent":  "RABONL2U",
+                                            "initiatingPartyName":  "CSV IMPORT",
+                                            "debtorAccount":  {
+                                                                  "iban":  "NL31RABO0300087233"
+                                                              },
+                                            "creditorAccount":  {
+                                                                    "iban":  "NL30RABO0100929567",
+                                                                    "currency":  "EUR"
+                                                                },
+                                            "creditorName":  "Center Parcs Development B.V.",
+                                            "balanceAfterBooking":  {
+                                                                        "balanceAmount":  {
+                                                                                              "currency":  "EUR",
+                                                                                              "amount":  "1431385,88"
+                                                                                          },
+                                                                        "balanceType":  "InterimBooked"
+                                                                    }
+                                        },
+                                        {
+                                            "bookingDate":  "2025-08-29",
+                                            "valueDate":  "2025-08-29",
+                                            "raboBookingDateTime":  "2025-08-29T00:00:00.000000Z",
+                                            "entryReference":  "000000000000092020",
+                                            "transactionAmount":  {
+                                                                      "currency":  "EUR",
+                                                                      "amount":  "61,70"
+                                                                  },
+                                            "remittanceInformationUnstructured":  "Rabo Smart Pay omzet bijschrijving Transacties van: 2025-08-28 Verkpnt_00203158 20250829_1",
+                                            "raboDetailedTransactionType":  "633",
+                                            "raboTransactionTypeName":  "st",
+                                            "reasonCode":  "AG01",
+                                            "bankTransactionCode":  "PMNT-RCDT-ESCT",
+                                            "creditorAgent":  "RABONL2U",
+                                            "initiatingPartyName":  "CSV IMPORT",
+                                            "creditorAccount":  {
+                                                                    "iban":  "NL31RABO0300087233",
+                                                                    "currency":  "EUR"
+                                                                },
+                                            "debtorAccount":  {
+                                                                  "iban":  "NL73RABO0350800502"
+                                                              },
+                                            "debtorName":  "Rabobank Smart Pay",
+                                            "balanceAfterBooking":  {
+                                                                        "balanceAmount":  {
+                                                                                              "currency":  "EUR",
+                                                                                              "amount":  "1431447,58"
+                                                                                          },
+                                                                        "balanceType":  "InterimBooked"
+                                                                    }
+                                        },
+                                        {
+                                            "bookingDate":  "2025-08-29",
+                                            "valueDate":  "2025-08-29",
+                                            "raboBookingDateTime":  "2025-08-29T00:00:00.000000Z",
+                                            "entryReference":  "000000000000092021",
+                                            "transactionAmount":  {
+                                                                      "currency":  "EUR",
+                                                                      "amount":  "610250,88"
+                                                                  },
+                                            "remittanceInformationUnstructured":  "Clearing P8 2025 Crednr. 50387",
+                                            "raboDetailedTransactionType":  "633",
+                                            "raboTransactionTypeName":  "st",
+                                            "reasonCode":  "AG01",
+                                            "bankTransactionCode":  "PMNT-RCDT-ESCT",
+                                            "creditorAgent":  "RABONL2U",
+                                            "initiatingPartyName":  "CSV IMPORT",
+                                            "creditorAccount":  {
+                                                                    "iban":  "NL31RABO0300087233",
+                                                                    "currency":  "EUR"
+                                                                },
+                                            "debtorAccount":  {
+                                                                  "iban":  "NL83RABO0318379333"
+                                                              },
+                                            "debtorName":  "Albron CP Nederland B.V.",
+                                            "balanceAfterBooking":  {
+                                                                        "balanceAmount":  {
+                                                                                              "currency":  "EUR",
+                                                                                              "amount":  "2041698,46"
+                                                                                          },
+                                                                        "balanceType":  "InterimBooked"
+                                                                    }
+                                        },
+                                        {
+                                            "bookingDate":  "2025-08-29",
+                                            "valueDate":  "2025-08-29",
+                                            "raboBookingDateTime":  "2025-08-29T00:00:00.000000Z",
+                                            "entryReference":  "000000000000092022",
+                                            "transactionAmount":  {
+                                                                      "currency":  "EUR",
+                                                                      "amount":  "38788,95"
+                                                                  },
+                                            "remittanceInformationUnstructured":  "NO.mdRpFs8zxsv5f9tR/ID.354803",
+                                            "raboDetailedTransactionType":  "633",
+                                            "raboTransactionTypeName":  "st",
+                                            "reasonCode":  "AG01",
+                                            "bankTransactionCode":  "PMNT-RCDT-ESCT",
+                                            "creditorAgent":  "RABONL2U",
+                                            "initiatingPartyName":  "CSV IMPORT",
+                                            "creditorAccount":  {
+                                                                    "iban":  "NL31RABO0300087233",
+                                                                    "currency":  "EUR"
+                                                                },
+                                            "debtorAccount":  {
+                                                                  "iban":  "NL15CITI2032301393"
+                                                              },
+                                            "debtorName":  "Booking.com B.V.",
+                                            "balanceAfterBooking":  {
+                                                                        "balanceAmount":  {
+                                                                                              "currency":  "EUR",
+                                                                                              "amount":  "2080487,41"
+                                                                                          },
+                                                                        "balanceType":  "InterimBooked"
+                                                                    }
+                                        },
+                                        {
+                                            "bookingDate":  "2025-08-29",
+                                            "valueDate":  "2025-08-29",
+                                            "raboBookingDateTime":  "2025-08-29T00:00:00.000000Z",
+                                            "entryReference":  "000000000000092023",
+                                            "transactionAmount":  {
+                                                                      "currency":  "EUR",
+                                                                      "amount":  "19658,92"
+                                                                  },
+                                            "remittanceInformationUnstructured":  "NO.unPRxlQTT2Se853t/ID.568593",
+                                            "raboDetailedTransactionType":  "633",
+                                            "raboTransactionTypeName":  "st",
+                                            "reasonCode":  "AG01",
+                                            "bankTransactionCode":  "PMNT-RCDT-ESCT",
+                                            "creditorAgent":  "RABONL2U",
+                                            "initiatingPartyName":  "CSV IMPORT",
+                                            "creditorAccount":  {
+                                                                    "iban":  "NL31RABO0300087233",
+                                                                    "currency":  "EUR"
+                                                                },
+                                            "debtorAccount":  {
+                                                                  "iban":  "NL15CITI2032301393"
+                                                              },
+                                            "debtorName":  "Booking.com B.V.",
+                                            "balanceAfterBooking":  {
+                                                                        "balanceAmount":  {
+                                                                                              "currency":  "EUR",
+                                                                                              "amount":  "2100146,33"
+                                                                                          },
+                                                                        "balanceType":  "InterimBooked"
+                                                                    }
+                                        },
+                                        {
+                                            "bookingDate":  "2025-08-29",
+                                            "valueDate":  "2025-08-29",
+                                            "raboBookingDateTime":  "2025-08-29T00:00:00.000000Z",
+                                            "entryReference":  "000000000000092024",
+                                            "transactionAmount":  {
+                                                                      "currency":  "EUR",
+                                                                      "amount":  "32,67"
+                                                                  },
+                                            "remittanceInformationUnstructured":  "ABN000738",
+                                            "raboDetailedTransactionType":  "633",
+                                            "raboTransactionTypeName":  "st",
+                                            "reasonCode":  "AG01",
+                                            "bankTransactionCode":  "PMNT-RCDT-ESCT",
+                                            "creditorAgent":  "RABONL2U",
+                                            "initiatingPartyName":  "CSV IMPORT",
+                                            "creditorAccount":  {
+                                                                    "iban":  "NL31RABO0300087233",
+                                                                    "currency":  "EUR"
+                                                                },
+                                            "debtorAccount":  {
+                                                                  "iban":  "NL02ABNA0462706141"
+                                                              },
+                                            "debtorName":  "GS1 NEDERLAND B V",
+                                            "balanceAfterBooking":  {
+                                                                        "balanceAmount":  {
+                                                                                              "currency":  "EUR",
+                                                                                              "amount":  "2100179,00"
+                                                                                          },
+                                                                        "balanceType":  "InterimBooked"
+                                                                    }
+                                        },
+                                        {
+                                            "bookingDate":  "2025-08-29",
+                                            "valueDate":  "2025-08-29",
+                                            "raboBookingDateTime":  "2025-08-29T00:00:00.000000Z",
+                                            "entryReference":  "000000000000092025",
+                                            "transactionAmount":  {
+                                                                      "currency":  "EUR",
+                                                                      "amount":  "300000,00"
+                                                                  },
+                                            "remittanceInformationUnstructured":  "ICO TRF. VAN NL31RABO0300087233 TO NL48RABO0300002343",
+                                            "raboDetailedTransactionType":  "633",
+                                            "raboTransactionTypeName":  "st",
+                                            "reasonCode":  "AG01",
+                                            "bankTransactionCode":  "PMNT-RCDT-ESCT",
+                                            "creditorAgent":  "RABONL2U",
+                                            "initiatingPartyName":  "CSV IMPORT",
+                                            "debtorAccount":  {
+                                                                  "iban":  "NL31RABO0300087233"
+                                                              },
+                                            "creditorAccount":  {
+                                                                    "iban":  "NL48RABO0300002343",
+                                                                    "currency":  "EUR"
+                                                                },
+                                            "creditorName":  "CENTER PARCS EUROPE BV/ Inz.Verhuur SSC/ T.a.v. W. Keemink",
+                                            "balanceAfterBooking":  {
+                                                                        "balanceAmount":  {
+                                                                                              "currency":  "EUR",
+                                                                                              "amount":  "1800179,00"
+                                                                                          },
+                                                                        "balanceType":  "InterimBooked"
+                                                                    }
+                                        },
+                                        {
+                                            "bookingDate":  "2025-08-29",
+                                            "valueDate":  "2025-08-29",
+                                            "raboBookingDateTime":  "2025-08-29T00:00:00.000000Z",
+                                            "entryReference":  "000000000000092026",
+                                            "transactionAmount":  {
+                                                                      "currency":  "EUR",
+                                                                      "amount":  "29851,99"
+                                                                  },
+                                            "remittanceInformationUnstructured":  "CPES082900001 SWEEPING RBCP/SWEEPNL06RABO0100902936 EURNL31RABO0300087233 EUR",
+                                            "raboDetailedTransactionType":  "633",
+                                            "raboTransactionTypeName":  "st",
+                                            "reasonCode":  "AG01",
+                                            "bankTransactionCode":  "PMNT-RCDT-ESCT",
+                                            "creditorAgent":  "RABONL2U",
+                                            "initiatingPartyName":  "CSV IMPORT",
+                                            "creditorAccount":  {
+                                                                    "iban":  "NL31RABO0300087233",
+                                                                    "currency":  "EUR"
+                                                                },
+                                            "debtorAccount":  {
+                                                                  "iban":  "NL06RABO0100902936"
+                                                              },
+                                            "debtorName":  "Center Parcs Netherlands B.V. inz. Port Zelande",
+                                            "balanceAfterBooking":  {
+                                                                        "balanceAmount":  {
+                                                                                              "currency":  "EUR",
+                                                                                              "amount":  "1830030,99"
+                                                                                          },
+                                                                        "balanceType":  "InterimBooked"
+                                                                    }
+                                        },
+                                        {
+                                            "bookingDate":  "2025-08-29",
+                                            "valueDate":  "2025-08-29",
+                                            "raboBookingDateTime":  "2025-08-29T00:00:00.000000Z",
+                                            "entryReference":  "000000000000092027",
+                                            "transactionAmount":  {
+                                                                      "currency":  "EUR",
+                                                                      "amount":  "22611,08"
+                                                                  },
+                                            "remittanceInformationUnstructured":  "CPES082900002 SWEEPING RBCP/SWEEPNL37RABO0100902960 EURNL31RABO0300087233 EUR",
+                                            "raboDetailedTransactionType":  "633",
+                                            "raboTransactionTypeName":  "st",
+                                            "reasonCode":  "AG01",
+                                            "bankTransactionCode":  "PMNT-RCDT-ESCT",
+                                            "creditorAgent":  "RABONL2U",
+                                            "initiatingPartyName":  "CSV IMPORT",
+                                            "creditorAccount":  {
+                                                                    "iban":  "NL31RABO0300087233",
+                                                                    "currency":  "EUR"
+                                                                },
+                                            "debtorAccount":  {
+                                                                  "iban":  "NL37RABO0100902960"
+                                                              },
+                                            "debtorName":  "Center Parcs Netherlands B.V. inz. Limburgse Peel",
+                                            "balanceAfterBooking":  {
+                                                                        "balanceAmount":  {
+                                                                                              "currency":  "EUR",
+                                                                                              "amount":  "1852642,07"
+                                                                                          },
+                                                                        "balanceType":  "InterimBooked"
+                                                                    }
+                                        },
+                                        {
+                                            "bookingDate":  "2025-08-29",
+                                            "valueDate":  "2025-08-29",
+                                            "raboBookingDateTime":  "2025-08-29T00:00:00.000000Z",
+                                            "entryReference":  "000000000000092028",
+                                            "transactionAmount":  {
+                                                                      "currency":  "EUR",
+                                                                      "amount":  "19386,50"
+                                                                  },
+                                            "remittanceInformationUnstructured":  "CPES082900003 SWEEPING RBCP/SWEEPNL84RABO0100902987 EURNL31RABO0300087233 EUR",
+                                            "raboDetailedTransactionType":  "633",
+                                            "raboTransactionTypeName":  "st",
+                                            "reasonCode":  "AG01",
+                                            "bankTransactionCode":  "PMNT-RCDT-ESCT",
+                                            "creditorAgent":  "RABONL2U",
+                                            "initiatingPartyName":  "CSV IMPORT",
+                                            "creditorAccount":  {
+                                                                    "iban":  "NL31RABO0300087233",
+                                                                    "currency":  "EUR"
+                                                                },
+                                            "debtorAccount":  {
+                                                                  "iban":  "NL84RABO0100902987"
+                                                              },
+                                            "debtorName":  "Center Parcs Netherlands B.V. inz. Park Zandvoort",
+                                            "balanceAfterBooking":  {
+                                                                        "balanceAmount":  {
+                                                                                              "currency":  "EUR",
+                                                                                              "amount":  "1872028,57"
+                                                                                          },
+                                                                        "balanceType":  "InterimBooked"
+                                                                    }
+                                        },
+                                        {
+                                            "bookingDate":  "2025-08-29",
+                                            "valueDate":  "2025-08-29",
+                                            "raboBookingDateTime":  "2025-08-29T00:00:00.000000Z",
+                                            "entryReference":  "000000000000092029",
+                                            "transactionAmount":  {
+                                                                      "currency":  "EUR",
+                                                                      "amount":  "31694,73"
+                                                                  },
+                                            "remittanceInformationUnstructured":  "CPES082900004 SWEEPING RBCP/SWEEPNL51RABO0300002386 EURNL31RABO0300087233 EUR",
+                                            "raboDetailedTransactionType":  "633",
+                                            "raboTransactionTypeName":  "st",
+                                            "reasonCode":  "AG01",
+                                            "bankTransactionCode":  "PMNT-RCDT-ESCT",
+                                            "creditorAgent":  "RABONL2U",
+                                            "initiatingPartyName":  "CSV IMPORT",
+                                            "creditorAccount":  {
+                                                                    "iban":  "NL31RABO0300087233",
+                                                                    "currency":  "EUR"
+                                                                },
+                                            "debtorAccount":  {
+                                                                  "iban":  "NL51RABO0300002386"
+                                                              },
+                                            "debtorName":  "Center Parcs Netherlands B.V. inz. Het Meerdal",
+                                            "balanceAfterBooking":  {
+                                                                        "balanceAmount":  {
+                                                                                              "currency":  "EUR",
+                                                                                              "amount":  "1903723,30"
+                                                                                          },
+                                                                        "balanceType":  "InterimBooked"
+                                                                    }
+                                        },
+                                        {
+                                            "bookingDate":  "2025-08-29",
+                                            "valueDate":  "2025-08-29",
+                                            "raboBookingDateTime":  "2025-08-29T00:00:00.000000Z",
+                                            "entryReference":  "000000000000092030",
+                                            "transactionAmount":  {
+                                                                      "currency":  "EUR",
+                                                                      "amount":  "40471,81"
+                                                                  },
+                                            "remittanceInformationUnstructured":  "CPES082900005 SWEEPING RBCP/SWEEPNL29RABO0300002394 EURNL31RABO0300087233 EUR",
+                                            "raboDetailedTransactionType":  "633",
+                                            "raboTransactionTypeName":  "st",
+                                            "reasonCode":  "AG01",
+                                            "bankTransactionCode":  "PMNT-RCDT-ESCT",
+                                            "creditorAgent":  "RABONL2U",
+                                            "initiatingPartyName":  "CSV IMPORT",
+                                            "creditorAccount":  {
+                                                                    "iban":  "NL31RABO0300087233",
+                                                                    "currency":  "EUR"
+                                                                },
+                                            "debtorAccount":  {
+                                                                  "iban":  "NL29RABO0300002394"
+                                                              },
+                                            "debtorName":  "Center Parcs Netherlands B.V. inz. De Huttenheugte",
+                                            "balanceAfterBooking":  {
+                                                                        "balanceAmount":  {
+                                                                                              "currency":  "EUR",
+                                                                                              "amount":  "1944195,11"
+                                                                                          },
+                                                                        "balanceType":  "InterimBooked"
+                                                                    }
+                                        },
+                                        {
+                                            "bookingDate":  "2025-08-29",
+                                            "valueDate":  "2025-08-29",
+                                            "raboBookingDateTime":  "2025-08-29T00:00:00.000000Z",
+                                            "entryReference":  "000000000000092031",
+                                            "transactionAmount":  {
+                                                                      "currency":  "EUR",
+                                                                      "amount":  "46208,84"
+                                                                  },
+                                            "remittanceInformationUnstructured":  "CPES082900006 SWEEPING RBCP/SWEEPNL39RABO0300002408 EURNL31RABO0300087233 EUR",
+                                            "raboDetailedTransactionType":  "633",
+                                            "raboTransactionTypeName":  "st",
+                                            "reasonCode":  "AG01",
+                                            "bankTransactionCode":  "PMNT-RCDT-ESCT",
+                                            "creditorAgent":  "RABONL2U",
+                                            "initiatingPartyName":  "CSV IMPORT",
+                                            "creditorAccount":  {
+                                                                    "iban":  "NL31RABO0300087233",
+                                                                    "currency":  "EUR"
+                                                                },
+                                            "debtorAccount":  {
+                                                                  "iban":  "NL39RABO0300002408"
+                                                              },
+                                            "debtorName":  "Center Parcs Netherlands B.V. inz. De Kempervennen",
+                                            "balanceAfterBooking":  {
+                                                                        "balanceAmount":  {
+                                                                                              "currency":  "EUR",
+                                                                                              "amount":  "1990403,95"
+                                                                                          },
+                                                                        "balanceType":  "InterimBooked"
+                                                                    }
+                                        },
+                                        {
+                                            "bookingDate":  "2025-08-29",
+                                            "valueDate":  "2025-08-29",
+                                            "raboBookingDateTime":  "2025-08-29T00:00:00.000000Z",
+                                            "entryReference":  "000000000000092032",
+                                            "transactionAmount":  {
+                                                                      "currency":  "EUR",
+                                                                      "amount":  "38897,92"
+                                                                  },
+                                            "remittanceInformationUnstructured":  "CPES082900007 SWEEPING RBCP/SWEEPNL92RABO0300002424 EURNL31RABO0300087233 EUR",
+                                            "raboDetailedTransactionType":  "633",
+                                            "raboTransactionTypeName":  "st",
+                                            "reasonCode":  "AG01",
+                                            "bankTransactionCode":  "PMNT-RCDT-ESCT",
+                                            "creditorAgent":  "RABONL2U",
+                                            "initiatingPartyName":  "CSV IMPORT",
+                                            "creditorAccount":  {
+                                                                    "iban":  "NL31RABO0300087233",
+                                                                    "currency":  "EUR"
+                                                                },
+                                            "debtorAccount":  {
+                                                                  "iban":  "NL92RABO0300002424"
+                                                              },
+                                            "debtorName":  "Center Parcs Netherlands B.V. inz. De Eemhof",
+                                            "balanceAfterBooking":  {
+                                                                        "balanceAmount":  {
+                                                                                              "currency":  "EUR",
+                                                                                              "amount":  "2029301,87"
+                                                                                          },
+                                                                        "balanceType":  "InterimBooked"
+                                                                    }
+                                        },
+                                        {
+                                            "bookingDate":  "2025-08-29",
+                                            "valueDate":  "2025-08-29",
+                                            "raboBookingDateTime":  "2025-08-29T00:00:00.000000Z",
+                                            "entryReference":  "000000000000092033",
+                                            "transactionAmount":  {
+                                                                      "currency":  "EUR",
+                                                                      "amount":  "23541,72"
+                                                                  },
+                                            "remittanceInformationUnstructured":  "CPES082900008 SWEEPING RBCP/SWEEPNL70RABO0300002432 EURNL31RABO0300087233 EUR",
+                                            "raboDetailedTransactionType":  "633",
+                                            "raboTransactionTypeName":  "st",
+                                            "reasonCode":  "AG01",
+                                            "bankTransactionCode":  "PMNT-RCDT-ESCT",
+                                            "creditorAgent":  "RABONL2U",
+                                            "initiatingPartyName":  "CSV IMPORT",
+                                            "creditorAccount":  {
+                                                                    "iban":  "NL31RABO0300087233",
+                                                                    "currency":  "EUR"
+                                                                },
+                                            "debtorAccount":  {
+                                                                  "iban":  "NL70RABO0300002432"
+                                                              },
+                                            "debtorName":  "Center Parcs Netherlands B.V. inz. Het Heijderbos",
+                                            "balanceAfterBooking":  {
+                                                                        "balanceAmount":  {
+                                                                                              "currency":  "EUR",
+                                                                                              "amount":  "2052843,59"
+                                                                                          },
+                                                                        "balanceType":  "InterimBooked"
+                                                                    }
+                                        },
+                                        {
+                                            "bookingDate":  "2025-08-29",
+                                            "valueDate":  "2025-08-29",
+                                            "raboBookingDateTime":  "2025-08-29T00:00:00.000000Z",
+                                            "entryReference":  "000000000000092034",
+                                            "transactionAmount":  {
+                                                                      "currency":  "EUR",
+                                                                      "amount":  "28484,86"
+                                                                  },
+                                            "remittanceInformationUnstructured":  "CPES082900010 CC100924530/300087233",
+                                            "raboDetailedTransactionType":  "633",
+                                            "raboTransactionTypeName":  "st",
+                                            "reasonCode":  "AG01",
+                                            "bankTransactionCode":  "PMNT-RCDT-ESCT",
+                                            "creditorAgent":  "RABONL2U",
+                                            "initiatingPartyName":  "CSV IMPORT",
+                                            "creditorAccount":  {
+                                                                    "iban":  "NL31RABO0300087233",
+                                                                    "currency":  "EUR"
+                                                                },
+                                            "debtorAccount":  {
+                                                                  "iban":  "NL35RABO0100924530"
+                                                              },
+                                            "debtorName":  "Center Parcs Netherlands N.V.",
+                                            "balanceAfterBooking":  {
+                                                                        "balanceAmount":  {
+                                                                                              "currency":  "EUR",
+                                                                                              "amount":  "2081328,45"
+                                                                                          },
+                                                                        "balanceType":  "InterimBooked"
+                                                                    }
+                                        },
+                                        {
+                                            "bookingDate":  "2025-08-29",
+                                            "valueDate":  "2025-08-29",
+                                            "raboBookingDateTime":  "2025-08-29T00:00:00.000000Z",
+                                            "entryReference":  "000000000000092035",
+                                            "transactionAmount":  {
+                                                                      "currency":  "EUR",
+                                                                      "amount":  "86,29"
+                                                                  },
+                                            "remittanceInformationUnstructured":  "CPES082900016 CC100929567/300087233",
+                                            "raboDetailedTransactionType":  "633",
+                                            "raboTransactionTypeName":  "st",
+                                            "reasonCode":  "AG01",
+                                            "bankTransactionCode":  "PMNT-RCDT-ESCT",
+                                            "creditorAgent":  "RABONL2U",
+                                            "initiatingPartyName":  "CSV IMPORT",
+                                            "creditorAccount":  {
+                                                                    "iban":  "NL31RABO0300087233",
+                                                                    "currency":  "EUR"
+                                                                },
+                                            "debtorAccount":  {
+                                                                  "iban":  "NL30RABO0100929567"
+                                                              },
+                                            "debtorName":  "Center Parcs Development B.V.",
+                                            "balanceAfterBooking":  {
+                                                                        "balanceAmount":  {
+                                                                                              "currency":  "EUR",
+                                                                                              "amount":  "2081414,74"
+                                                                                          },
+                                                                        "balanceType":  "InterimBooked"
+                                                                    }
+                                        },
+                                        {
+                                            "bookingDate":  "2025-08-29",
+                                            "valueDate":  "2025-08-29",
+                                            "raboBookingDateTime":  "2025-08-29T00:00:00.000000Z",
+                                            "entryReference":  "000000000000092036",
+                                            "transactionAmount":  {
+                                                                      "currency":  "EUR",
+                                                                      "amount":  "35330,79"
+                                                                  },
+                                            "remittanceInformationUnstructured":  "CPES082900013 CC300031319/300087233",
+                                            "raboDetailedTransactionType":  "633",
+                                            "raboTransactionTypeName":  "st",
+                                            "reasonCode":  "AG01",
+                                            "bankTransactionCode":  "PMNT-RCDT-ESCT",
+                                            "creditorAgent":  "RABONL2U",
+                                            "initiatingPartyName":  "CSV IMPORT",
+                                            "creditorAccount":  {
+                                                                    "iban":  "NL31RABO0300087233",
+                                                                    "currency":  "EUR"
+                                                                },
+                                            "debtorAccount":  {
+                                                                  "iban":  "NL98RABO0300031319"
+                                                              },
+                                            "debtorName":  "Center Parcs Europe N.V.",
+                                            "balanceAfterBooking":  {
+                                                                        "balanceAmount":  {
+                                                                                              "currency":  "EUR",
+                                                                                              "amount":  "2116745,53"
+                                                                                          },
+                                                                        "balanceType":  "InterimBooked"
+                                                                    }
+                                        },
+                                        {
+                                            "bookingDate":  "2025-08-29",
+                                            "valueDate":  "2025-08-29",
+                                            "raboBookingDateTime":  "2025-08-29T00:00:00.000000Z",
+                                            "entryReference":  "000000000000092037",
+                                            "transactionAmount":  {
+                                                                      "currency":  "EUR",
+                                                                      "amount":  "301,97"
+                                                                  },
+                                            "remittanceInformationUnstructured":  "CPES082900009 CC100924530/300087233",
+                                            "raboDetailedTransactionType":  "633",
+                                            "raboTransactionTypeName":  "st",
+                                            "reasonCode":  "AG01",
+                                            "bankTransactionCode":  "PMNT-RCDT-ESCT",
+                                            "creditorAgent":  "RABONL2U",
+                                            "initiatingPartyName":  "CSV IMPORT",
+                                            "creditorAccount":  {
+                                                                    "iban":  "NL31RABO0300087233",
+                                                                    "currency":  "EUR"
+                                                                },
+                                            "debtorAccount":  {
+                                                                  "iban":  "NL35RABO0100924530"
+                                                              },
+                                            "debtorName":  "Center Parcs Netherlands N.V.",
+                                            "balanceAfterBooking":  {
+                                                                        "balanceAmount":  {
+                                                                                              "currency":  "EUR",
+                                                                                              "amount":  "2117047,50"
+                                                                                          },
+                                                                        "balanceType":  "InterimBooked"
+                                                                    }
+                                        },
+                                        {
+                                            "bookingDate":  "2025-08-29",
+                                            "valueDate":  "2025-08-29",
+                                            "raboBookingDateTime":  "2025-08-29T00:00:00.000000Z",
+                                            "entryReference":  "000000000000092038",
+                                            "transactionAmount":  {
+                                                                      "currency":  "EUR",
+                                                                      "amount":  "82890,82"
+                                                                  },
+                                            "remittanceInformationUnstructured":  "CPES082900011 CC300002343/300087233",
+                                            "raboDetailedTransactionType":  "633",
+                                            "raboTransactionTypeName":  "st",
+                                            "reasonCode":  "AG01",
+                                            "bankTransactionCode":  "PMNT-RCDT-ESCT",
+                                            "creditorAgent":  "RABONL2U",
+                                            "initiatingPartyName":  "CSV IMPORT",
+                                            "creditorAccount":  {
+                                                                    "iban":  "NL31RABO0300087233",
+                                                                    "currency":  "EUR"
+                                                                },
+                                            "debtorAccount":  {
+                                                                  "iban":  "NL48RABO0300002343"
+                                                              },
+                                            "debtorName":  "Center Parcs Europe N.V.",
+                                            "balanceAfterBooking":  {
+                                                                        "balanceAmount":  {
+                                                                                              "currency":  "EUR",
+                                                                                              "amount":  "2199938,32"
+                                                                                          },
+                                                                        "balanceType":  "InterimBooked"
+                                                                    }
+                                        },
+                                        {
+                                            "bookingDate":  "2025-08-29",
+                                            "valueDate":  "2025-08-29",
+                                            "raboBookingDateTime":  "2025-08-29T00:00:00.000000Z",
+                                            "entryReference":  "000000000000092039",
+                                            "transactionAmount":  {
+                                                                      "currency":  "EUR",
+                                                                      "amount":  "143720,24"
+                                                                  },
+                                            "remittanceInformationUnstructured":  "CPES082900012 CC300002343/300087233",
+                                            "raboDetailedTransactionType":  "633",
+                                            "raboTransactionTypeName":  "st",
+                                            "reasonCode":  "AG01",
+                                            "bankTransactionCode":  "PMNT-RCDT-ESCT",
+                                            "creditorAgent":  "RABONL2U",
+                                            "initiatingPartyName":  "CSV IMPORT",
+                                            "creditorAccount":  {
+                                                                    "iban":  "NL31RABO0300087233",
+                                                                    "currency":  "EUR"
+                                                                },
+                                            "debtorAccount":  {
+                                                                  "iban":  "NL48RABO0300002343"
+                                                              },
+                                            "debtorName":  "Center Parcs Europe N.V.",
+                                            "balanceAfterBooking":  {
+                                                                        "balanceAmount":  {
+                                                                                              "currency":  "EUR",
+                                                                                              "amount":  "2343658,56"
+                                                                                          },
+                                                                        "balanceType":  "InterimBooked"
+                                                                    }
+                                        },
+                                        {
+                                            "bookingDate":  "2025-08-29",
+                                            "valueDate":  "2025-08-29",
+                                            "raboBookingDateTime":  "2025-08-29T00:00:00.000000Z",
+                                            "entryReference":  "000000000000092040",
+                                            "transactionAmount":  {
+                                                                      "currency":  "EUR",
+                                                                      "amount":  "561,50"
+                                                                  },
+                                            "remittanceInformationUnstructured":  "CPES082900014 CC330208888/300087233",
+                                            "raboDetailedTransactionType":  "633",
+                                            "raboTransactionTypeName":  "st",
+                                            "reasonCode":  "AG01",
+                                            "bankTransactionCode":  "PMNT-RCDT-ESCT",
+                                            "creditorAgent":  "RABONL2U",
+                                            "initiatingPartyName":  "CSV IMPORT",
+                                            "creditorAccount":  {
+                                                                    "iban":  "NL31RABO0300087233",
+                                                                    "currency":  "EUR"
+                                                                },
+                                            "debtorAccount":  {
+                                                                  "iban":  "NL12RABO0330208888"
+                                                              },
+                                            "debtorName":  "Center Parcs Europe N.V.",
+                                            "balanceAfterBooking":  {
+                                                                        "balanceAmount":  {
+                                                                                              "currency":  "EUR",
+                                                                                              "amount":  "2344220,06"
+                                                                                          },
+                                                                        "balanceType":  "InterimBooked"
+                                                                    }
+                                        },
+                                        {
+                                            "bookingDate":  "2025-08-29",
+                                            "valueDate":  "2025-08-29",
+                                            "raboBookingDateTime":  "2025-08-29T00:00:00.000000Z",
+                                            "entryReference":  "000000000000092041",
+                                            "transactionAmount":  {
+                                                                      "currency":  "EUR",
+                                                                      "amount":  "51207,33"
+                                                                  },
+                                            "remittanceInformationUnstructured":  "CPES082900015 CC330208888/300087233",
+                                            "raboDetailedTransactionType":  "633",
+                                            "raboTransactionTypeName":  "st",
+                                            "reasonCode":  "AG01",
+                                            "bankTransactionCode":  "PMNT-RCDT-ESCT",
+                                            "creditorAgent":  "RABONL2U",
+                                            "initiatingPartyName":  "CSV IMPORT",
+                                            "creditorAccount":  {
+                                                                    "iban":  "NL31RABO0300087233",
+                                                                    "currency":  "EUR"
+                                                                },
+                                            "debtorAccount":  {
+                                                                  "iban":  "NL12RABO0330208888"
+                                                              },
+                                            "debtorName":  "Center Parcs Europe N.V.",
+                                            "balanceAfterBooking":  {
+                                                                        "balanceAmount":  {
+                                                                                              "currency":  "EUR",
+                                                                                              "amount":  "2395427,39"
+                                                                                          },
+                                                                        "balanceType":  "InterimBooked"
+                                                                    }
+                                        }
+                                    ],
+                         "_links":  {
+                                        "account":  "/accounts/596434776_19667308",
+                                        "next":  null
+                                    }
+                     }
+}

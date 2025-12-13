@@ -1,0 +1,83 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>CAMT.053 File Comparison Report</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; background-color: #f5f5f5; }
+        .container { max-width: 1200px; margin: 0 auto; background-color: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+        h1 { color: #2c3e50; border-bottom: 3px solid #3498db; padding-bottom: 10px; }
+        h2 { color: #34495e; margin-top: 30px; border-left: 4px solid #3498db; padding-left: 15px; }
+        .summary { background-color: #ecf0f1; padding: 15px; border-radius: 5px; margin: 20px 0; }
+        .summary-item { display: inline-block; margin: 10px 20px; }
+        .summary-number { font-size: 24px; font-weight: bold; display: block; }
+        .good { color: #27ae60; }
+        .bad { color: #e74c3c; }
+        .warning { color: #f39c12; }
+        .neutral { color: #34495e; }
+        table { width: 100%; border-collapse: collapse; margin: 15px 0; }
+        th, td { padding: 12px; text-align: left; border-bottom: 1px solid #ddd; }
+        th { background-color: #3498db; color: white; }
+        .match { background-color: #d5f4e6; }
+        .no-match { background-color: #f8d7da; }
+        .missing { background-color: #fff3cd; }
+        .transaction { margin: 15px 0; padding: 15px; border: 1px solid #ddd; border-radius: 5px; }
+        .transaction.error { border-left: 5px solid #e74c3c; background-color: #fdf2f2; }
+        .transaction.missing { border-left: 5px solid #f39c12; background-color: #fffbf0; }
+        .transaction.good { border-left: 5px solid #27ae60; background-color: #f0fff4; }
+        .differences { margin-top: 10px; }
+        .difference { background-color: #fff; padding: 5px; margin: 2px 0; border-radius: 3px; border-left: 3px solid #e74c3c; }
+        .note { font-style: italic; color: #7f8c8d; font-size: 0.9em; }
+        .generated { color: #9b59b6; font-weight: bold; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>CAMT.053 File Comparison Report</h1>
+        
+        <div class="summary">
+            <h2>Summary</h2>
+            <div class="summary-item">
+                <span class="summary-number neutral">1705</span>
+                Original Transactions
+            </div>
+            <div class="summary-item">
+                <span class="summary-number neutral">1705</span>
+                Generated Transactions
+            </div>
+            <div class="summary-item">
+                <span class="summary-number good">1705</span>
+                Matching
+            </div>
+            <div class="summary-item">
+                <span class="summary-number bad">0</span>
+                Missing
+            </div>
+            <div class="summary-item">
+                <span class="summary-number warning">0</span>
+                Extra
+            </div>
+            <div class="summary-item">
+                <span class="summary-number warning">1</span>
+                With Differences
+            </div>
+        </div>
+
+        <h2>Header Comparison</h2>
+        <table>
+            <tr><th>Field</th><th>Original</th><th>Generated</th><th>Match</th></tr><tr class='match'><td>Account IBAN</td><td>NL48RABO0300002343</td><td>NL48RABO0300002343</td><td>True</td></tr><tr class='match'><td>Account Currency</td><td>EUR</td><td>EUR</td><td>True</td></tr><tr class='match'><td>Account Name</td><td>Center Parcs Europe B.V</td><td>Center Parcs Europe B.V</td><td>True</td></tr></table><h2>Balance Comparison</h2><div class='transaction good'><strong>PRCD Balance</strong><br/>Original: 540498.84 | Generated: 540498.84<br/></div><div class='transaction good'><strong>OPBD Balance</strong><br/>Original: 540498.84 | Generated: 540498.84<br/></div><div class='transaction good'><strong>CLBD Balance</strong><br/>Original: 111173.90 | Generated: 111173.90<br/></div><div class='transaction good'><strong>CLAV Balance</strong><br/>Original: 111173.90 | Generated: 111173.90<br/></div><div class='transaction good'><strong>FWAV Balance</strong><br/>Original: 111173.90 | Generated: 111173.90<br/></div><div class='transaction good'><strong>FWAV Balance</strong><br/>Original: 111173.90 | Generated: 111173.90<br/></div><div class='transaction good'><strong>FWAV Balance</strong><br/>Original: 111173.90 | Generated: 111173.90<br/></div><div class='transaction good'><strong>FWAV Balance</strong><br/>Original: 111173.90 | Generated: 111173.90<br/></div><h2>Transaction Comparison</h2><p><strong>Total problematic transactions:</strong> 4</p><div class='transaction error'><strong>NtryRef: 2911595</strong> - Differences found<div class='differences'><div class='difference'>BookingDate: Orig=2025-10-06, Gen=2025-10-05</div></div></div>        
+        <div style="margin-top: 40px; padding: 20px; background-color: #ecf0f1; border-radius: 5px;">
+            <h3>Legend</h3>
+            <p><span class="good">Green</span> = Perfect Match</p>
+            <p><span class="bad">Red</span> = Missing or Significant Difference</p>
+            <p><span class="warning">Orange</span> = Minor Difference or Generated Field</p>
+            <p><strong>Note:</strong> Generated fields (timestamps, IDs) are expected to be different</p>
+        </div>
+        
+        <div style="margin-top: 20px; text-align: center; color: #7f8c8d;">
+            <p>Report generated on 2025-10-30 16:06:24</p>
+            <p>Original: camt053 - 20251006 - origineel.xml</p>
+            <p>Generated: camt053 - 20251006 - generated.xml</p>
+        </div>
+    </div>
+</body>
+</html>

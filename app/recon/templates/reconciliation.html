@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reconciliation - Reconciliation Tool</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css" rel="stylesheet">
+    <link href="/recon/static/css/style.css" rel="stylesheet">
+</head>
+<body>
+    {% if current_user.is_authenticated %}
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="{{ url_for('recon.dashboard') }}">
+                <i class="bi bi-receipt"></i> Reconciliation Tool
+            </a>
+            <a class="btn btn-sm btn-outline-light ms-2" href="{{ url_for('shared.dashboard') }}">
+                <i class="bi bi-house"></i> CashApp Home
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item">
+                        <a class="nav-link {% if request.endpoint == 'dashboard' %}active{% endif %}" href="{{ url_for('recon.dashboard') }}">
+                            <i class="bi bi-speedometer2"></i> Dashboard
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link {% if request.endpoint == 'payments' %}active{% endif %}" href="{{ url_for('recon.payments') }}">
+                            <i class="bi bi-credit-card"></i> Payments
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link {% if request.endpoint == 'reconciliation' %}active{% endif %}" href="{{ url_for('recon.reconciliation') }}">
+                            <i class="bi bi-arrow-left-right"></i> Reconciliation
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link {% if request.endpoint == 'import_data' or request.endpoint == 'import_history' %}active{% endif %}" href="{{ url_for('recon.import_data') }}">
+                            <i class="bi bi-upload"></i> Import
+                        </a>
+                    </li>
+                    {% if current_user.is_admin %}
+                    <li class="nav-item">
+                        <a class="nav-link {% if request.endpoint == 'settings' %}active{% endif %}" href="{{ url_for('recon.settings') }}">
+                            <i class="bi bi-gear"></i> Settings
+                        </a>
+                    </li>
+                    {% endif %}
+                </ul>
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <span class="navbar-text me-3">
+                            <i class="bi bi-person-circle"></i> {{ current_user.username }}
+                            {% if current_user.is_admin %}
+                            <span class="badge bg-danger">Admin</span>
+                            {% endif %}
+                        </span>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('shared.logout') }}">
+                            <i class="bi bi-box-arrow-right"></i> Logout
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    {% endif %}
+
+    <div class="container-fluid mt-4">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+                    {{ message }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                </div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+
+        <h1 class="mb-4"><i class="bi bi-arrow-left-right"></i> Reconciliation</h1>
+
+<!-- Date Range Filter -->
+<div class="card mb-4">
+    <div class="card-header">
+        <h5><i class="bi bi-calendar-range"></i> Date Range</h5>
+    </div>
+    <div class="card-body">
+        <form method="GET" class="row g-3">
+            <div class="col-md-4">
+                <label>Start Date</label>
+                <input type="date" name="start_date" class="form-control" value="{{ start_date }}">
+            </div>
+            <div class="col-md-4">
+                <label>End Date</label>
+                <input type="date" name="end_date" class="form-control" value="{{ end_date }}">
+            </div>
+            <div class="col-md-4">
+                <label>&nbsp;</label>
+                <button type="submit" class="btn btn-primary w-100">
+                    <i class="bi bi-search"></i> Update
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- Summary Cards -->
+<div class="row mb-4">
+    <div class="col-md-3">
+        <div class="card text-white bg-primary">
+            <div class="card-body">
+                <h6 class="card-title">Total Worldline</h6>
+                <h2>{{ summary.total_worldline|format_number }}</h2>
+                <small>{{ start_date|format_date }} - {{ end_date|format_date }}</small>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card text-white bg-success">
+            <div class="card-body">
+                <h6 class="card-title">Matched</h6>
+                <h2>{{ summary.total_matched|format_number }}</h2>
+                <small>
+                    {% if summary.total_worldline > 0 %}
+                    {{ ((summary.total_matched / summary.total_worldline) * 100)|round(1) }}% match rate
+                    {% else %}
+                    N/A
+                    {% endif %}
+                </small>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card text-white bg-warning">
+            <div class="card-body">
+                <h6 class="card-title">Open Exceptions</h6>
+                <h2>{{ summary.open_exceptions|format_number }}</h2>
+                <small>Require attention</small>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card text-white bg-info">
+            <div class="card-body">
+                <h6 class="card-title">Resolved</h6>
+                <h2>{{ summary.resolved_exceptions|format_number }}</h2>
+                <small>Exceptions resolved</small>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Unmatched Transactions -->
+<div class="card mb-4">
+    <div class="card-header">
+        <h5><i class="bi bi-exclamation-triangle"></i> Unmatched Worldline Payments ({{ unmatched|length }})</h5>
+    </div>
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-striped table-hover table-sm">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>REF</th>
+                        <th>Pay Date</th>
+                        <th class="text-end">Amount</th>
+                        <th>Brand</th>
+                        <th>Merchant</th>
+                        <th>Owner</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for payment in unmatched[:50] %}
+                    <tr>
+                        <td><small>{{ payment.id }}</small></td>
+                        <td><small>{{ payment.ref }}</small></td>
+                        <td>{{ payment.paydate|format_date }}</td>
+                        <td class="text-end"><strong>{{ payment.total|format_currency }}</strong></td>
+                        <td>{{ payment.brand }}</td>
+                        <td><small>{{ payment.merchref }}</small></td>
+                        <td>{{ payment.owner }}</td>
+                        <td>
+                            <button class="btn btn-sm btn-outline-primary" title="Find Match">
+                                <i class="bi bi-search"></i>
+                            </button>
+                        </td>
+                    </tr>
+                    {% else %}
+                    <tr>
+                        <td colspan="8" class="text-center text-muted">
+                            <i class="bi bi-check-circle"></i> All transactions matched!
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        {% if unmatched|length > 50 %}
+        <div class="alert alert-info">
+            Showing first 50 of {{ unmatched|length }} unmatched payments
+        </div>
+        {% endif %}
+    </div>
+</div>
+
+<!-- Open Exceptions -->
+<div class="card">
+    <div class="card-header">
+        <h5><i class="bi bi-flag"></i> Open Exceptions ({{ exceptions|length }})</h5>
+    </div>
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-striped table-hover table-sm">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Source</th>
+                        <th>Record ID</th>
+                        <th>Type</th>
+                        <th>Date</th>
+                        <th class="text-end">Amount</th>
+                        <th>Description</th>
+                        <th>Status</th>
+                        <th>Created</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for exc in exceptions %}
+                    <tr>
+                        <td>{{ exc.exception_id }}</td>
+                        <td>{{ exc.source_name }}</td>
+                        <td><small>{{ exc.record_id }}</small></td>
+                        <td>
+                            <span class="badge bg-secondary">{{ exc.exception_type }}</span>
+                        </td>
+                        <td>{{ exc.exception_date|format_date }}</td>
+                        <td class="text-end">{{ exc.amount|format_currency }}</td>
+                        <td><small>{{ exc.description or '' }}</small></td>
+                        <td>
+                            <span class="badge bg-warning">{{ exc.status }}</span>
+                        </td>
+                        <td>{{ exc.created_at|format_datetime }}</td>
+                    </tr>
+                    {% else %}
+                    <tr>
+                        <td colspan="9" class="text-center text-muted">
+                            <i class="bi bi-check-circle"></i> No open exceptions
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    
+</body>
+</html>

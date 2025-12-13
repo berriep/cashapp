@@ -1,0 +1,332 @@
+{% extends "base.html" %}
+
+{% block title %}Payments - Reconciliation Tool{% endblock %}
+
+{% block content %}
+<h1 class="mb-4"><i class="bi bi-credit-card"></i> Worldline Payments</h1>
+
+<!-- Filters -->
+<div class="card mb-4">
+    <div class="card-header">
+        <h5><i class="bi bi-funnel"></i> Filters</h5>
+    </div>
+    <div class="card-body">
+        <form method="GET" action="{{ url_for('payments') }}">
+            <div class="row">
+                <div class="col-md-2">
+                    <label>Start Date</label>
+                    <input type="date" name="start_date" class="form-control" value="{{ filters.start_date or '' }}">
+                </div>
+                <div class="col-md-2">
+                    <label>End Date</label>
+                    <input type="date" name="end_date" class="form-control" value="{{ filters.end_date or '' }}">
+                </div>
+                <div class="col-md-2">
+                    <label>Brand</label>
+                    <input type="text" name="brand" class="form-control" placeholder="MasterCard, Visa..." value="{{ filters.brand or '' }}">
+                </div>
+                <div class="col-md-2">
+                    <label>Merchant</label>
+                    <input type="text" name="merchref" class="form-control" placeholder="Merchant ref" value="{{ filters.merchref or '' }}">
+                </div>
+                <div class="col-md-2">
+                    <label>REF</label>
+                    <input type="text" name="ref" class="form-control" placeholder="Reference..." value="{{ filters.ref or '' }}">
+                </div>
+                <div class="col-md-2">
+                    <label>Search (ID, Owner...)</label>
+                    <input type="text" name="search" class="form-control" placeholder="General search..." value="{{ filters.search or '' }}">
+                </div>
+                <div class="col-md-1">
+                    <label>&nbsp;</label>
+                    <button type="submit" class="btn btn-primary w-100"><i class="bi bi-search"></i></button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- Results -->
+<div class="card">
+    <div class="card-header d-flex justify-content-between align-items-center">
+        <h5><i class="bi bi-list-ul"></i> Payments ({{ total_count|format_number }} records)</h5>
+        <div>
+            Page {{ page }} of {{ total_pages }}
+        </div>
+    </div>
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-striped table-hover table-sm">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Pay Date</th>
+                        <th>REF</th>
+                        <th>Order</th>
+                        <th>Status</th>
+                        <th>Owner</th>
+                        <th>Country</th>
+                        <th class="text-end">Amount</th>
+                        <th>Brand</th>
+                        <th>Merchant</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for payment in payments %}
+                    <tr class="payment-row" style="cursor: pointer;" data-payment-id="{{ payment.id }}" data-paydate="{{ payment.paydate }}">
+                        <td><small>{{ payment.id }}</small></td>
+                        <td>{{ payment.paydate|format_date }}</td>
+                        <td><small>{{ payment.ref }}</small></td>
+                        <td>{{ payment.order }}</td>
+                        <td>
+                            <span class="badge bg-{% if payment.status == '9' %}success{% else %}secondary{% endif %}">
+                                {{ payment.status }}
+                            </span>
+                        </td>
+                        <td>{{ payment.owner or '' }}</td>
+                        <td>{{ payment.country or '' }}</td>
+                        <td class="text-end"><strong>{{ payment.total|format_currency }}</strong></td>
+                        <td>{{ payment.brand or '' }}</td>
+                        <td><small>{{ payment.merchref or '' }}</small></td>
+                    </tr>
+                    {% else %}
+                    <tr>
+                        <td colspan="10" class="text-center text-muted">No payments found</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Pagination -->
+        {% if total_pages > 1 %}
+        <nav>
+            <ul class="pagination justify-content-center">
+                <li class="page-item {% if page <= 1 %}disabled{% endif %}">
+                    <a class="page-link" href="?page={{ page - 1 }}&per_page={{ per_page }}{% if filters.start_date %}&start_date={{ filters.start_date }}{% endif %}{% if filters.end_date %}&end_date={{ filters.end_date }}{% endif %}{% if filters.brand %}&brand={{ filters.brand }}{% endif %}{% if filters.merchref %}&merchref={{ filters.merchref }}{% endif %}">Previous</a>
+                </li>
+                {% for p in range(1, total_pages + 1) %}
+                    {% if p == page or p == 1 or p == total_pages or (p >= page - 2 and p <= page + 2) %}
+                    <li class="page-item {% if p == page %}active{% endif %}">
+                        <a class="page-link" href="?page={{ p }}&per_page={{ per_page }}{% if filters.start_date %}&start_date={{ filters.start_date }}{% endif %}{% if filters.end_date %}&end_date={{ filters.end_date }}{% endif %}{% if filters.brand %}&brand={{ filters.brand }}{% endif %}{% if filters.merchref %}&merchref={{ filters.merchref }}{% endif %}">{{ p }}</a>
+                    </li>
+                    {% elif p == page - 3 or p == page + 3 %}
+                    <li class="page-item disabled"><span class="page-link">...</span></li>
+                    {% endif %}
+                {% endfor %}
+                <li class="page-item {% if page >= total_pages %}disabled{% endif %}">
+                    <a class="page-link" href="?page={{ page + 1 }}&per_page={{ per_page }}{% if filters.start_date %}&start_date={{ filters.start_date }}{% endif %}{% if filters.end_date %}&end_date={{ filters.end_date }}{% endif %}{% if filters.brand %}&brand={{ filters.brand }}{% endif %}{% if filters.merchref %}&merchref={{ filters.merchref }}{% endif %}">Next</a>
+                </li>
+            </ul>
+        </nav>
+        {% endif %}
+    </div>
+</div>
+
+<!-- Payment Details Modal -->
+<div class="modal fade" id="paymentDetailsModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-fullscreen-lg-down" style="max-width: 95%; width: 1600px;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Payment Details</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body" id="paymentDetailsContent" style="max-height: 80vh; overflow-y: auto;">
+                <!-- Content will be loaded here -->
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+// Add click event listeners to all payment rows
+document.addEventListener('DOMContentLoaded', function() {
+    document.querySelectorAll('.payment-row').forEach(function(row) {
+        row.addEventListener('click', function() {
+            showPaymentDetails(this);
+        });
+    });
+});
+
+function showPaymentDetails(row) {
+    const paymentId = row.dataset.paymentId;
+    const paydate = row.dataset.paydate;
+    
+    // Show loading state
+    document.getElementById('paymentDetailsContent').innerHTML = '<div class="text-center p-5"><div class="spinner-border" role="status"><span class="visually-hidden">Loading...</span></div></div>';
+    const modal = new bootstrap.Modal(document.getElementById('paymentDetailsModal'));
+    modal.show();
+    
+    // Fetch payment details via AJAX
+    fetch(`/api/payment/${encodeURIComponent(paymentId)}/${paydate}`)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error(`HTTP ${response.status}`);
+            }
+            return response.json();
+        })
+        .then(payment => {
+            if (!payment || payment.error) {
+                document.getElementById('paymentDetailsContent').innerHTML = '<div class="alert alert-danger">Payment not found</div>';
+                return;
+            }
+            
+            const formatCurrency = (val) => val ? `€${parseFloat(val).toFixed(2)}` : '-';
+            const formatDate = (val) => val || '-';
+            const getValue = (val) => val || '-';
+            
+            const p = {
+                id: getValue(payment.id),
+                ref: getValue(payment.ref),
+                order: getValue(payment.order),
+                status: getValue(payment.status),
+                paydate: formatDate(payment.paydate),
+                paydatetime: formatDate(payment.paydatetime),
+                orderdatetime: formatDate(payment.orderdatetime),
+                method: getValue(payment.method),
+                brand: getValue(payment.brand),
+                subbrand: getValue(payment.subbrand),
+                card: getValue(payment.card),
+                bincard: getValue(payment.bincard),
+                owner: getValue(payment.owner),
+                facname1: getValue(payment.facname1),
+                country: getValue(payment.country),
+                rec_ipaddr: getValue(payment.rec_ipaddr),
+                total: formatCurrency(payment.total),
+                cur: getValue(payment.cur),
+                ship: formatCurrency(payment.ship),
+                tax: formatCurrency(payment.tax),
+                merchref: getValue(payment.merchref),
+                batchref: getValue(payment.batchref),
+                desc: getValue(payment.desc),
+                accept: getValue(payment.accept),
+                lib: getValue(payment.lib),
+                source_file: getValue(payment.source_file),
+                created_at: formatDate(payment.created_at),
+                ncid: getValue(payment.ncid),
+                ncster: getValue(payment.ncster),
+                cie: getValue(payment.cie),
+                expdate: getValue(payment.expdate),
+                uid: getValue(payment.uid),
+                struct: getValue(payment.struct),
+                fileid: getValue(payment.fileid),
+                action: getValue(payment.action),
+                userid: getValue(payment.userid),
+                refid: getValue(payment.refid),
+                refkind: getValue(payment.refkind),
+                eci: getValue(payment.eci),
+                cccty: getValue(payment.cccty),
+                ipcty: getValue(payment.ipcty),
+                cvccheck: getValue(payment.cvccheck),
+                aavcheck: getValue(payment.aavcheck),
+                vc: getValue(payment.vc),
+                alias: getValue(payment.alias),
+                fraud_type: getValue(payment.fraud_type)
+            };
+            
+            const statusBadge = p.status === '9' ? 'success' : 'secondary';
+    
+    const content = `
+        <div class="row">
+            <div class="col-md-6">
+                <h6 class="text-primary"><i class="bi bi-info-circle"></i> Transaction Info</h6>
+                <table class="table table-sm table-bordered">
+                    <tr><th width="40%">ID:</th><td>${p.id}</td></tr>
+                    <tr><th>Reference:</th><td>${p.ref}</td></tr>
+                    <tr><th>Order:</th><td>${p.order}</td></tr>
+                    <tr><th>Status:</th><td><span class="badge bg-${statusBadge}">${p.status}</span></td></tr>
+                    <tr><th>Payment Date:</th><td>${p.paydate}</td></tr>
+                    <tr><th>Payment DateTime:</th><td>${p.paydatetime}</td></tr>
+                    <tr><th>Order DateTime:</th><td>${p.orderdatetime}</td></tr>
+                </table>
+                
+                <h6 class="text-primary mt-3"><i class="bi bi-credit-card"></i> Payment Method</h6>
+                <table class="table table-sm table-bordered">
+                    <tr><th width="40%">Method:</th><td>${p.method}</td></tr>
+                    <tr><th>Brand:</th><td>${p.brand}</td></tr>
+                    <tr><th>Sub-brand:</th><td>${p.subbrand}</td></tr>
+                    <tr><th>Card:</th><td>${p.card}</td></tr>
+                    <tr><th>BIN:</th><td>${p.bincard}</td></tr>
+                    <tr><th>Expire Date:</th><td>${p.expdate}</td></tr>
+                </table>
+                
+                <h6 class="text-primary mt-3"><i class="bi bi-shield-check"></i> Security</h6>
+                <table class="table table-sm table-bordered">
+                    <tr><th width="40%">ECI:</th><td>${p.eci}</td></tr>
+                    <tr><th>CVC Check:</th><td>${p.cvccheck}</td></tr>
+                    <tr><th>AAV Check:</th><td>${p.aavcheck}</td></tr>
+                    <tr><th>VC:</th><td>${p.vc}</td></tr>
+                    <tr><th>Fraud Type:</th><td>${p.fraud_type}</td></tr>
+                </table>
+            </div>
+            
+            <div class="col-md-6">
+                <h6 class="text-primary"><i class="bi bi-person"></i> Customer Info</h6>
+                <table class="table table-sm table-bordered">
+                    <tr><th width="40%">Owner:</th><td>${p.owner}</td></tr>
+                    <tr><th>Name:</th><td>${p.facname1}</td></tr>
+                    <tr><th>Country:</th><td>${p.country}</td></tr>
+                    <tr><th>Card Country:</th><td>${p.cccty}</td></tr>
+                    <tr><th>IP Country:</th><td>${p.ipcty}</td></tr>
+                    <tr><th>IP Address:</th><td>${p.rec_ipaddr}</td></tr>
+                    <tr><th>Alias:</th><td>${p.alias}</td></tr>
+                </table>
+                
+                <h6 class="text-primary mt-3"><i class="bi bi-currency-euro"></i> Financial</h6>
+                <table class="table table-sm table-bordered">
+                    <tr><th width="40%">Total:</th><td><strong>${p.total} ${p.cur}</strong></td></tr>
+                    <tr><th>Shipping:</th><td>${p.ship}</td></tr>
+                    <tr><th>Tax:</th><td>${p.tax}</td></tr>
+                </table>
+                
+                <h6 class="text-primary mt-3"><i class="bi bi-shop"></i> Merchant</h6>
+                <table class="table table-sm table-bordered">
+                    <tr><th width="40%">Merchant Ref:</th><td>${p.merchref}</td></tr>
+                    <tr><th>Batch Ref:</th><td>${p.batchref}</td></tr>
+                    <tr><th>User ID:</th><td>${p.userid}</td></tr>
+                </table>
+            </div>
+        </div>
+        
+        ${p.desc ? `
+        <div class="row mt-3">
+            <div class="col-12">
+                <h6 class="text-primary"><i class="bi bi-file-text"></i> Description</h6>
+                <p class="text-muted border p-2 rounded">${p.desc}</p>
+            </div>
+        </div>
+        ` : ''}
+        
+        <div class="row mt-3">
+            <div class="col-12">
+                <h6 class="text-primary"><i class="bi bi-gear"></i> Technical Details</h6>
+                <table class="table table-sm table-bordered">
+                    <tr><th width="20%">Accept:</th><td>${p.accept}</td></tr>
+                    <tr><th>Library:</th><td>${p.lib}</td></tr>
+                    <tr><th>NC ID:</th><td>${p.ncid}</td></tr>
+                    <tr><th>NC Ster:</th><td>${p.ncster}</td></tr>
+                    <tr><th>CIE:</th><td>${p.cie}</td></tr>
+                    <tr><th>UID:</th><td>${p.uid}</td></tr>
+                    <tr><th>Struct:</th><td>${p.struct}</td></tr>
+                    <tr><th>File ID:</th><td>${p.fileid}</td></tr>
+                    <tr><th>Action:</th><td>${p.action}</td></tr>
+                    <tr><th>Ref ID:</th><td>${p.refid}</td></tr>
+                    <tr><th>Ref Kind:</th><td>${p.refkind}</td></tr>
+                    <tr><th>Source File:</th><td><small>${p.source_file}</small></td></tr>
+                    <tr><th>Created:</th><td>${p.created_at}</td></tr>
+                </table>
+            </div>
+        </div>
+    `;
+    
+            document.getElementById('paymentDetailsContent').innerHTML = content;
+        })
+        .catch(error => {
+            console.error('Error loading payment details:', error);
+            document.getElementById('paymentDetailsContent').innerHTML = '<div class="alert alert-danger">Error loading payment details</div>';
+        });
+}
+</script>
+{% endblock %}

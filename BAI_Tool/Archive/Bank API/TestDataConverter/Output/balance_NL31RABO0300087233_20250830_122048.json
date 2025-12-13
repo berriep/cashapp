@@ -1,0 +1,42 @@
+﻿{
+    "account":  {
+                    "iban":  "NL31RABO0300087233",
+                    "currency":  "EUR"
+                },
+    "piggyBanks":  [
+                       {
+                           "piggyBankBalance":  "20000.00",
+                           "piggyBankName":  "Car"
+                       },
+                       {
+                           "piggyBankBalance":  "10000.00",
+                           "piggyBankName":  "Vacation"
+                       }
+                   ],
+    "balances":  [
+                     {
+                         "lastChangeDateTime":  "2025-08-30T14:07:17Z",
+                         "balanceAmount":  {
+                                               "currency":  "EUR",
+                                               "amount":  "-225351,98"
+                                           },
+                         "balanceType":  "expected"
+                     },
+                     {
+                         "balanceAmount":  {
+                                               "currency":  "EUR",
+                                               "amount":  "-191549,18"
+                                           },
+                         "balanceType":  "closingBooked",
+                         "referenceDate":  "2025-08-30"
+                     },
+                     {
+                         "lastChangeDateTime":  "2025-08-30T00:00:00Z",
+                         "balanceAmount":  {
+                                               "currency":  "EUR",
+                                               "amount":  "-214084,38"
+                                           },
+                         "balanceType":  "interimBooked"
+                     }
+                 ]
+}

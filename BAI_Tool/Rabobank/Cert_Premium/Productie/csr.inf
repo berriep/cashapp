@@ -1,0 +1,24 @@
+[Version]
+Signature="$Windows NT$"
+
+[NewRequest]
+; Subject met jouw KvK-gegevens
+Subject = "C=NL, S=Zuid-Holland, L=Capelle aan den IJssel, O=Center Parcs Europe B.V., OU=IT, CN=api.rabobank.centerparcs.nl"
+
+KeySpec = 1
+KeyLength = 2048
+Exportable = TRUE        ; private key kan naar PFX geëxporteerd worden
+MachineKeySet = TRUE
+SMIME = FALSE
+PrivateKeyArchive = FALSE
+UserProtected = FALSE
+UseExistingKeySet = FALSE
+ProviderName = "Microsoft RSA SChannel Cryptographic Provider"
+ProviderType = 12
+RequestType = PKCS10
+KeyUsage = 0xa0
+
+[Extensions]
+; Subject Alternative Name (SAN)
+2.5.29.17 = "{text}"
+_continue_ = "dns=api.rabobank.centerparcs.nl"

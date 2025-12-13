@@ -1,0 +1,57 @@
+{
+  "account": {
+    "currency": "EUR",
+    "iban": "NL52RABO0125618484"
+  },
+  "transactions": {
+    "_links": {
+      "account": "/accounts/Wp-xhZMGEWRIIgVjPwTC1aKJJ0VCRZ_4bScUVXof7e0"
+    },
+    "booked": [
+      {
+        "transactionId": "TX2025083101",
+        "bookingDate": "2025-08-31",
+        "valueDate": "2025-08-31",
+        "transactionAmount": {
+          "amount": "2500.00",
+          "currency": "EUR"
+        },
+        "creditorName": "Salary Payment Corp",
+        "remittanceInformationUnstructured": "Monthly salary August 2025"
+      },
+      {
+        "transactionId": "TX2025083102", 
+        "bookingDate": "2025-08-31",
+        "valueDate": "2025-08-31",
+        "transactionAmount": {
+          "amount": "-150.00",
+          "currency": "EUR"
+        },
+        "debtorName": "Grocery Store XYZ",
+        "remittanceInformationUnstructured": "Weekly groceries"
+      },
+      {
+        "transactionId": "TX2025083103",
+        "bookingDate": "2025-08-31", 
+        "valueDate": "2025-08-31",
+        "transactionAmount": {
+          "amount": "-89.50",
+          "currency": "EUR"
+        },
+        "debtorName": "Utilities Company",
+        "remittanceInformationUnstructured": "Electric bill August"
+      },
+      {
+        "transactionId": "TX2025083104",
+        "bookingDate": "2025-08-31",
+        "valueDate": "2025-08-31", 
+        "transactionAmount": {
+          "amount": "-1010.50",
+          "currency": "EUR"
+        },
+        "debtorName": "Rent Management",
+        "remittanceInformationUnstructured": "Apartment rent September"
+      }
+    ]
+  }
+}

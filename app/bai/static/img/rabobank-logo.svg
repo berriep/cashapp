@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 30" width="120" height="30">
+  <!-- Rabobank blue background -->
+  <rect width="120" height="30" fill="#002D72" rx="3"/>
+  <!-- White text -->
+  <text x="60" y="21" font-family="Arial, Helvetica, sans-serif" font-size="16" font-weight="bold" fill="#FFFFFF" text-anchor="middle">Rabobank</text>
+</svg>

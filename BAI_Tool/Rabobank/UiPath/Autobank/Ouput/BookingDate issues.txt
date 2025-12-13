@@ -1,0 +1,51 @@
+The core issue concerns the booking date, which differs between the original CAMT.053 file and the JSON we retrieve via the API.
+For all transactions the dates match correctly, except for transactions where the raboBookingDateTime (in UTC) falls on the previous calendar day.
+
+Concrete Case – IBAN NL48RABO0300002343 (Entry Reference: 2911595)
+
+Time zone conversion:
+
+raboBookingDateTime: 2025-10-05T22:08:03Z (UTC)
+→ 2025-10-06 00:08:03 (Europe/Amsterdam)
+
+Resultaten:
+- Original Rabobank CAMT.053: `<BookgDt><Dt>2025-10-06</Dt></BookgDt>`
+- BAI Json:   "bookingDate": "2025-10-05"
+- Generated CAMT.053: `<BookgDt><Dt>2025-10-05</Dt></BookgDt>`
+ 
+
+Key Question
+How is it possible that the bookingDate in the JSON differs from the BookgDt in the original CAMT.053 file for the same entry?
+This issue occurred in both samples for 2025-10-06 and 2025-10-08.
+To be clear: in both cases, the balances, the number of positive and negative transactions, the amounts, and the total transaction count were identical.
+Only the booking date differed.
+
+Example 1: 
+Original: camt053 - 20251006 - origineel.xml
+Generated: camt053 - 20251006 - generated.xml
+Json: t_NL48RABO0300002343_315f1c1d-aee2-402f-9f4e-6ddf5cb5a8f7_2025-10-05_20251022_124706.json
+comparison_report_20251006.html
+
+Entry:
+NtryRef: 2911595 - Differences found
+BookingDate: Orig=2025-10-06, Gen=2025-10-05, json=2025-10-05
+
+
+Example 2:
+Original: Camt053 - 20251008 - origineel.xml
+Generated: Camt053 - 20251008 - generated.xml
+Json: t_NL48RABO0300002343_036b833c-efd3-4f2d-be9c-69595f255996_2025-10-07_20251022_124720.json
+comparison_report_20251008.html
+
+Entries:
+NtryRef: 2914087 - Differences found
+BookingDate: Orig=2025-10-08, Gen=2025-10-07, json=2025-10-07
+
+NtryRef: 2914088 - Differences found
+BookingDate: Orig=2025-10-08, Gen=2025-10-07, json=2025-10-07
+
+NtryRef: 2914089 - Differences found
+BookingDate: Orig=2025-10-08, Gen=2025-10-07, json=2025-10-07
+
+NtryRef: 2914090 - Differences found
+BookingDate: Orig=2025-10-08, Gen=2025-10-07, json=2025-10-07

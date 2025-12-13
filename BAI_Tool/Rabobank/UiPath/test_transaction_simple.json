@@ -1,0 +1,44 @@
+{
+  "account": {
+    "iban": "NL31RABO0300087233",
+    "currency": "EUR"
+  },
+  "transactions": {
+    "booked": [
+      {
+        "bookingDate": "2025-10-06",
+        "valueDate": "2025-10-06",
+        "transactionAmount": {
+          "currency": "EUR",
+          "value": "-125.50"
+        },
+        "creditorName": "Test Creditor BV",
+        "creditorAccount": {
+          "iban": "NL91ABNA0417164300"
+        },
+        "remittanceInformationUnstructured": "Test payment 1",
+        "bankTransactionCode": "PMNT",
+        "entryReference": "TEST001",
+        "raboBookingDateTime": "2025-10-06T10:30:00.000+02:00",
+        "raboDetailedTransactionType": "Betaling"
+      },
+      {
+        "bookingDate": "2025-10-07",
+        "valueDate": "2025-10-07",
+        "transactionAmount": {
+          "currency": "EUR",
+          "value": "500.00"
+        },
+        "debtorName": "Test Debtor",
+        "debtorAccount": {
+          "iban": "NL12INGB0001234567"
+        },
+        "remittanceInformationUnstructured": "Test incoming payment",
+        "bankTransactionCode": "PMNT",
+        "entryReference": "TEST002",
+        "raboBookingDateTime": "2025-10-07T14:15:00.000+02:00",
+        "raboDetailedTransactionType": "Ontvangst"
+      }
+    ]
+  }
+}
