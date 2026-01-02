@@ -97,15 +97,19 @@
             <table class="table table-sm table-hover" id="reconciliationTable">
                 <thead class="table-light">
                     <tr>
-                        <th>IBAN</th>
+                        <th style="cursor: pointer;" onclick="sortTable(0, 'text')">
+                            IBAN <i class="bi bi-arrow-down-up" id="sort-icon-0"></i>
+                        </th>
                         <th>Owner</th>
-                        <th>Date</th>
+                        <th style="cursor: pointer;" onclick="sortTable(2, 'date')">
+                            Date <i class="bi bi-arrow-down-up" id="sort-icon-2"></i>
+                        </th>
                         <th>Status</th>
                         <th>API Status</th>
-                        <th class="text-end">Opening</th>
                         <th class="text-end">Credit</th>
                         <th class="text-end">Debit</th>
                         <th class="text-end">TX Count</th>
+                        <th class="text-end">Opening</th>
                         <th class="text-end">Closing</th>
                         <th class="text-end">Expected</th>
                         <th class="text-end">Difference</th>
@@ -149,12 +153,12 @@
                                 T: {{ row.transactions_status }}
                             </span>
                         </td>
-                        <td class="text-end">€ {{ row.opening_balance|nl_currency }}</td>
                         <td class="text-end text-success">€ {{ row.pos_tx_sum|nl_currency }}</td>
                         <td class="text-end text-danger">€ {{ row.neg_tx_sum|nl_currency }}</td>
                         <td class="text-end">
                             <span class="badge bg-info">{{ row.transaction_count }}</span>
                         </td>
+                        <td class="text-end">€ {{ row.opening_balance|nl_currency }}</td>
                         <td class="text-end"><strong>€ {{ row.closing_balance|nl_currency }}</strong></td>
                         <td class="text-end">€ {{ row.expected_closing|nl_currency }}</td>
                         <td class="text-end {% if row.difference|float|abs > 0.01 %}text-danger fw-bold{% endif %}">
@@ -173,6 +177,72 @@
 
 {% block scripts %}
 <script>
+let sortDirections = {}; // Track sort direction for each column
+
+function sortTable(columnIndex, dataType) {
+    const table = document.getElementById('reconciliationTable');
+    const tbody = table.querySelector('tbody');
+    const rows = Array.from(tbody.querySelectorAll('tr'));
+    
+    // Determine sort direction
+    const currentDirection = sortDirections[columnIndex] || 'asc';
+    const newDirection = currentDirection === 'asc' ? 'desc' : 'asc';
+    sortDirections[columnIndex] = newDirection;
+    
+    // Sort rows
+    rows.sort((a, b) => {
+        let aValue = a.cells[columnIndex].textContent.trim();
+        let bValue = b.cells[columnIndex].textContent.trim();
+        
+        // Handle different data types
+        if (dataType === 'date') {
+            // Parse DD-MM-YYYY format
+            const parseDate = (str) => {
+                const parts = str.split('-');
+                if (parts.length === 3) {
+                    return new Date(parts[2], parts[1] - 1, parts[0]);
+                }
+                return new Date(0);
+            };
+            aValue = parseDate(aValue);
+            bValue = parseDate(bValue);
+        } else if (dataType === 'text') {
+            aValue = aValue.toLowerCase();
+            bValue = bValue.toLowerCase();
+        }
+        
+        if (aValue < bValue) return newDirection === 'asc' ? -1 : 1;
+        if (aValue > bValue) return newDirection === 'asc' ? 1 : -1;
+        return 0;
+    });
+    
+    // Clear tbody and append sorted rows
+    tbody.innerHTML = '';
+    rows.forEach(row => tbody.appendChild(row));
+    
+    // Update sort icons
+    document.querySelectorAll('[id^="sort-icon-"]').forEach(icon => {
+        icon.className = 'bi bi-arrow-down-up';
+    });
+    const icon = document.getElementById(`sort-icon-${columnIndex}`);
+    if (icon) {
+        icon.className = newDirection === 'asc' ? 'bi bi-arrow-up' : 'bi bi-arrow-down';
+    }
+}
+
+// Initialize: Sort by date descending on page load
+document.addEventListener('DOMContentLoaded', function() {
+    const table = document.getElementById('reconciliationTable');
+    const tbody = table.querySelector('tbody');
+    const rows = tbody.querySelectorAll('tr');
+    
+    // Only sort if there's actual data (not error or empty messages)
+    if (rows.length > 0 && rows[0].cells.length > 3) {
+        sortDirections[2] = 'asc'; // Set to asc so it will flip to desc
+        sortTable(2, 'date');
+    }
+});
+
 function filterByStatus(status, element) {
     const table = document.getElementById('reconciliationTable');
     const rows = table.querySelectorAll('tbody tr');
@@ -216,7 +286,10 @@ function exportToCSV() {
     // Headers
     const headers = [];
     table.querySelectorAll('thead tr th').forEach(th => {
-        headers.push(th.textContent.trim());
+        let headerText = th.textContent.trim();
+        // Remove sort icons from headers
+        headerText = headerText.replace(/↕|↑|↓/g, '').trim();
+        headers.push(headerText);
     });
     csv.push(headers.join(';'));
     
@@ -227,6 +300,8 @@ function exportToCSV() {
             // Remove HTML tags and badges, keep only text
             let text = td.textContent.trim();
             text = text.replace(/\s+/g, ' '); // Remove extra whitespace
+            text = text.replace(/€/g, ''); // Remove euro sign
+            text = text.trim(); // Remove leading/trailing spaces after euro removal
             row.push(text);
         });
         if (row.length > 0) {

@@ -147,7 +147,7 @@
                         <th><input type="text" class="form-control form-control-sm" id="filter-description" placeholder="Filter description..."></th>
                         <th></th>
                         <th><input type="text" class="form-control form-control-sm" id="filter-e2e" placeholder="Filter E2E ID..."></th>
-                        <th><input type="text" class="form-control form-control-sm" id="filter-amount" placeholder="Filter amount (>, <, =)..."></th>
+                        <th><input type="text" class="form-control form-control-sm" id="filter-amount" placeholder="Filter amount (>, <, =)..." title="Examples: >1000 (above 1000), <-5000 (below -5000), =-500 (exact -500). Use comma or dot: >1.234,56 or >1234.56"></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -308,15 +308,19 @@ function applyTextFilters() {
             // Extract numeric value from formatted amount (e.g., "€ 1.234,56" -> 1234.56)
             const numericValue = parseFloat(amountText.replace(/[^0-9,-]/g, '').replace('.', '').replace(',', '.'));
             
+            // Normalize filter input: accept both comma and dot as decimal separator
+            // Convert comma to dot for parseFloat: "1.234,56" or "1234,56" -> 1234.56
+            let normalizedFilter = filter.replace(/\./g, '').replace(',', '.');
+            
             // Check for comparison operators
             if (filter.startsWith('>')) {
-                const compareValue = parseFloat(filter.substring(1).trim());
+                const compareValue = parseFloat(normalizedFilter.substring(1).trim());
                 return !isNaN(compareValue) && numericValue > compareValue;
             } else if (filter.startsWith('<')) {
-                const compareValue = parseFloat(filter.substring(1).trim());
+                const compareValue = parseFloat(normalizedFilter.substring(1).trim());
                 return !isNaN(compareValue) && numericValue < compareValue;
             } else if (filter.startsWith('=')) {
-                const compareValue = parseFloat(filter.substring(1).trim());
+                const compareValue = parseFloat(normalizedFilter.substring(1).trim());
                 return !isNaN(compareValue) && Math.abs(numericValue - compareValue) < 0.01;
             } else {
                 // Default: wildcard text matching

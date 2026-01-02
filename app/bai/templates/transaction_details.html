@@ -81,10 +81,10 @@
                             <tr>
                                 <th></th>
                                 <th></th>
-                                <th><input type="text" class="form-control form-control-sm" id="filter-amount" placeholder="Filter amount (>, <, =)..."></th>
+                                <th><input type="text" class="form-control form-control-sm" id="filter-amount" placeholder="Filter amount (>, <, =)..." title="Examples: >1000 (above 1000), <-5000 (below -5000), =-500 (exact -500). Use comma or dot: >1.234,56 or >1234.56"></th>
                                 <th><input type="text" class="form-control form-control-sm" id="filter-counterparty" placeholder="Filter counterparty..."></th>
                                 <th><input type="text" class="form-control form-control-sm" id="filter-description" placeholder="Filter description..."></th>
-                                <th></th>
+                                <th><input type="text" class="form-control form-control-sm" id="filter-type" placeholder="Filter type..."></th>
                                 <th><input type="text" class="form-control form-control-sm" id="filter-reference" placeholder="Filter reference..."></th>
                             </tr>
                         </thead>
@@ -102,7 +102,7 @@
                                             {# Credit - toon debtor #}
                                             {% if tx.debtor_iban %}
                                                 <div class="small">
-                                                    <code>{{ tx.debtor_iban }}</code><br>
+                                                    {{ tx.debtor_iban }}<br>
                                                     <span class="text-muted">{{ tx.debtor_name or '-' }}</span>
                                                 </div>
                                             {% else %}
@@ -112,7 +112,7 @@
                                             {# Debit - toon creditor #}
                                             {% if tx.creditor_iban %}
                                                 <div class="small">
-                                                    <code>{{ tx.creditor_iban }}</code><br>
+                                                    {{ tx.creditor_iban }}<br>
                                                     <span class="text-muted">{{ tx.creditor_name or '-' }}</span>
                                                 </div>
                                             {% else %}
@@ -126,7 +126,7 @@
                                         </div>
                                     </td>
                                     <td>
-                                        <span class="badge bg-info small">{{ tx.rabo_detailed_transaction_type or tx.rabo_transaction_type_name or 'Unknown' }}</span>
+                                        <span class="badge bg-info small">{{ tx.rabo_transaction_type_name or tx.rabo_detailed_transaction_type or 'Unknown' }}</span>
                                     </td>
                                     <td>
                                         <div class="small text-muted">
@@ -184,6 +184,7 @@ function applyTextFilters() {
     const amountFilter = document.getElementById('filter-amount').value.toLowerCase();
     const counterpartyFilter = document.getElementById('filter-counterparty').value.toLowerCase();
     const descriptionFilter = document.getElementById('filter-description').value.toLowerCase();
+    const typeFilter = document.getElementById('filter-type').value.toLowerCase();
     const referenceFilter = document.getElementById('filter-reference').value.toLowerCase();
     
     const rows = document.querySelectorAll('.transaction-row');
@@ -195,6 +196,7 @@ function applyTextFilters() {
         const amountText = cells[2].textContent.toLowerCase();
         const counterpartyText = cells[3].textContent.toLowerCase();
         const descriptionText = cells[4].textContent.toLowerCase();
+        const typeText = cells[5].textContent.toLowerCase();
         const referenceText = cells[6].textContent.toLowerCase();
         
         // Helper function to match with wildcard support
@@ -217,15 +219,19 @@ function applyTextFilters() {
             // Extract numeric value from formatted amount (e.g., "€ 1.234,56" -> 1234.56)
             const numericValue = parseFloat(amountText.replace(/[^0-9,-]/g, '').replace('.', '').replace(',', '.'));
             
+            // Normalize filter input: accept both comma and dot as decimal separator
+            // Convert comma to dot for parseFloat: "1.234,56" or "1234,56" -> 1234.56
+            let normalizedFilter = filter.replace(/\./g, '').replace(',', '.');
+            
             // Check for comparison operators
             if (filter.startsWith('>')) {
-                const compareValue = parseFloat(filter.substring(1).trim());
+                const compareValue = parseFloat(normalizedFilter.substring(1).trim());
                 return !isNaN(compareValue) && numericValue > compareValue;
             } else if (filter.startsWith('<')) {
-                const compareValue = parseFloat(filter.substring(1).trim());
+                const compareValue = parseFloat(normalizedFilter.substring(1).trim());
                 return !isNaN(compareValue) && numericValue < compareValue;
             } else if (filter.startsWith('=')) {
-                const compareValue = parseFloat(filter.substring(1).trim());
+                const compareValue = parseFloat(normalizedFilter.substring(1).trim());
                 return !isNaN(compareValue) && Math.abs(numericValue - compareValue) < 0.01;
             } else {
                 // Default: wildcard text matching
@@ -237,6 +243,7 @@ function applyTextFilters() {
             matchesAmountFilter(amountText, amountFilter) &&
             matchesFilter(counterpartyText, counterpartyFilter) &&
             matchesFilter(descriptionText, descriptionFilter) &&
+            matchesFilter(typeText, typeFilter) &&
             matchesFilter(referenceText, referenceFilter);
         
         if (matches) {
@@ -252,7 +259,7 @@ function applyTextFilters() {
 
 // Add event listeners to filter inputs
 document.addEventListener('DOMContentLoaded', function() {
-    ['filter-amount', 'filter-counterparty', 'filter-description', 'filter-reference'].forEach(id => {
+    ['filter-amount', 'filter-counterparty', 'filter-description', 'filter-type', 'filter-reference'].forEach(id => {
         const input = document.getElementById(id);
         if (input) {
             input.addEventListener('input', applyTextFilters);

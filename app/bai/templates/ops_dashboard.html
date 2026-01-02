@@ -14,7 +14,7 @@
         }
         
         #ops-flow-container {
-            height: 650px;
+            height: 450px;
             border: 1px solid #e5e7eb;
             border-radius: 8px;
             background: #fafbfc;
@@ -56,6 +56,12 @@
             border-bottom: 2px solid #e9ecef;
             font-weight: 600;
         }
+        
+        /* Smaller zoom controls */
+        .react-flow__controls {
+            transform: scale(0.8);
+            transform-origin: bottom left;
+        }
     </style>
 </head>
 <body>
@@ -94,6 +100,59 @@
             </div>
 
 
+        </div>
+
+        <!-- Database Health Statistics -->
+        <div class="row mt-3">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h5 class="mb-0">
+                            <i class="bi bi-speedometer2"></i> Database Performance
+                        </h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="row" id="db-stats-container">
+                            <div class="col-md-2">
+                                <div class="text-center">
+                                    <small class="text-muted">Index Hit Rate</small>
+                                    <h3 class="mb-0" id="stat-index-rate">-</h3>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="text-center">
+                                    <small class="text-muted">Cache Hit Rate</small>
+                                    <h3 class="mb-0" id="stat-cache-rate">-</h3>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="text-center">
+                                    <small class="text-muted">Dead Rows</small>
+                                    <h3 class="mb-0" id="stat-dead-rows">-</h3>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="text-center">
+                                    <small class="text-muted">Partitions Filled</small>
+                                    <h3 class="mb-0" id="stat-partitions">-</h3>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="text-center">
+                                    <small class="text-muted">Active Connections</small>
+                                    <h3 class="mb-0" id="stat-connections">-</h3>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="text-center">
+                                    <small class="text-muted">Database Size</small>
+                                    <h3 class="mb-0" id="stat-db-size">-</h3>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 

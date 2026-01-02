@@ -81,12 +81,11 @@
         const healthColors = {
             'green': '#10b981',
             'yellow': '#f59e0b',
-            'red': '#ef4444'
+            'red': '#ef4444',
+            'grey': '#9ca3af'
         };
         
         const bankBorderColor = healthColors[data.bank_input.health];
-        const bnpBorderColor = healthColors[data.bank_bnp.health];
-        const dbBorderColor = healthColors[data.bank_db.health];
         const cashappBorderColor = healthColors[data.cashapp_processing.health];
         const autobankBorderColor = healthColors[data.autobank_output.health];
         const globesBorderColor = healthColors[data.globes_output.health];
@@ -96,9 +95,9 @@
                 id: 'bank_rabo',
                 type: 'custom',
                 data: { 
-                    label: `Rabobank\n\nTransactions: ${data.bank_input.tx_count}/${data.bank_input.expected}\nBalances: ${data.bank_input.bal_count}/${data.bank_input.expected}\nMatch: ${data.bank_input.match_count}/${data.bank_input.expected}\n\nLast Update: ${data.bank_input.last_update}`
+                    label: `Rabobank\nTransactions: ${data.bank_input.tx_count}/${data.bank_input.expected}\nBalances: ${data.bank_input.bal_count}/${data.bank_input.expected}\nMatch: ${data.bank_input.match_count}/${data.bank_input.expected}\n\nLast Update: ${data.bank_input.last_update}`
                 },
-                position: { x: 50, y: 50 },
+                position: { x: 50, y: 200 },
                 sourcePosition: 'right',
                 style: {
                     background: '#ffffff',
@@ -117,58 +116,10 @@
                 }
             },
             {
-                id: 'bank_bnp',
-                type: 'custom',
-                data: { 
-                    label: `BNP Paribas\n\nTransactions: ${data.bank_bnp.tx_count}/${data.bank_bnp.expected}\nBalances: ${data.bank_bnp.bal_count}/${data.bank_bnp.expected}\nMatch: ${data.bank_bnp.match_count}/${data.bank_bnp.expected}\n\nLast Update: ${data.bank_bnp.last_update}`
-                },
-                position: { x: 50, y: 230 },
-                sourcePosition: 'right',
-                style: {
-                    background: '#ffffff',
-                    border: `2px solid ${bnpBorderColor}`,
-                    borderRadius: '4px',
-                    padding: '16px 20px',
-                    width: 240,
-                    minHeight: '140px',
-                    fontSize: '12px',
-                    textAlign: 'left',
-                    fontFamily: 'system-ui, -apple-system, sans-serif',
-                    fontWeight: '400',
-                    boxShadow: '0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.08)',
-                    whiteSpace: 'pre-line',
-                    color: '#1f2937'
-                }
-            },
-            {
-                id: 'bank_db',
-                type: 'custom',
-                data: { 
-                    label: `Deutsche Bank\n\nTransactions: ${data.bank_db.tx_count}/${data.bank_db.expected}\nBalances: ${data.bank_db.bal_count}/${data.bank_db.expected}\nMatch: ${data.bank_db.match_count}/${data.bank_db.expected}\n\nLast Update: ${data.bank_db.last_update}`
-                },
-                position: { x: 50, y: 410 },
-                sourcePosition: 'right',
-                style: {
-                    background: '#ffffff',
-                    border: `2px solid ${dbBorderColor}`,
-                    borderRadius: '4px',
-                    padding: '16px 20px',
-                    width: 240,
-                    minHeight: '140px',
-                    fontSize: '12px',
-                    textAlign: 'left',
-                    fontFamily: 'system-ui, -apple-system, sans-serif',
-                    fontWeight: '400',
-                    boxShadow: '0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.08)',
-                    whiteSpace: 'pre-line',
-                    color: '#1f2937'
-                }
-            },
-            {
                 id: 'cashapp_bai',
                 type: 'custom',
                 data: { 
-                    label: `BAI Database\n\nTransactions (Yesterday): ${data.cashapp_processing.total_day.toLocaleString()}\nStatus: ${data.cashapp_processing.status}\nLast Sync: ${data.cashapp_processing.last_sync}` 
+                    label: `BAI Database\nTransactions (Yesterday): ${data.cashapp_processing.total_day.toLocaleString()}\nStatus: ${data.cashapp_processing.status}\nLast Sync: ${data.cashapp_processing.last_sync}` 
                 },
                 position: { x: 380, y: 200 },
                 sourcePosition: 'right',
@@ -192,7 +143,7 @@
                 id: 'autobank',
                 type: 'custom',
                 data: { 
-                    label: `Autobank\n\nRabobank: ${data.autobank_output.rabo_accounts}/${data.autobank_output.rabo_total}\n\nStatus: ${data.autobank_output.status}` 
+                    label: `Autobank\nRabobank: ${data.autobank_output.rabo_accounts}/${data.autobank_output.rabo_total}\nSuccess: ${data.autobank_output.success_data}\nNo Transactions: ${data.autobank_output.success_no_data}\nError: ${data.autobank_output.failed}\n\nStatus: ${data.autobank_output.status}` 
                 },
                 position: { x: 730, y: 80 },
                 targetPosition: 'left',
@@ -215,7 +166,7 @@
                 id: 'globes',
                 type: 'custom',
                 data: { 
-                    label: `Globes\n\nRabobank: ${data.globes_output.rabo_accounts}/${data.globes_output.rabo_total}\n\nStatus: ${data.globes_output.rabo_accounts === 0 ? 'No Export' : data.globes_output.status}` 
+                    label: `Globes\nRabobank: ${data.globes_output.rabo_accounts}/${data.globes_output.rabo_total}\n\nStatus: ${data.globes_output.status}` 
                 },
                 position: { x: 730, y: 270 },
                 targetPosition: 'left',
@@ -237,15 +188,83 @@
         ];
     }
 
-    function createEdges(data) {
-        const bankHealthy = data.bank_input.health === 'green';
-        const bnpHealthy = data.bank_bnp.health === 'green';
-        const dbHealthy = data.bank_db.health === 'green';
+    function updateDatabaseStats(dbHealth) {
+        if (!dbHealth) return;
         
+        // Index hit rate with color
+        const indexRate = dbHealth.index_hit_rate || 0;
+        const indexRateEl = document.getElementById('stat-index-rate');
+        if (indexRateEl) {
+            indexRateEl.textContent = indexRate.toFixed(1) + '%';
+            if (indexRate > 90) {
+                indexRateEl.className = 'mb-0 text-success';
+            } else if (indexRate > 70) {
+                indexRateEl.className = 'mb-0 text-warning';
+            } else {
+                indexRateEl.className = 'mb-0 text-danger';
+            }
+        }
+        
+        // Cache hit rate with color
+        const cacheRate = dbHealth.cache_hit_ratio || 0;
+        const cacheRateEl = document.getElementById('stat-cache-rate');
+        if (cacheRateEl) {
+            cacheRateEl.textContent = cacheRate.toFixed(1) + '%';
+            if (cacheRate > 95) {
+                cacheRateEl.className = 'mb-0 text-success';
+            } else if (cacheRate > 85) {
+                cacheRateEl.className = 'mb-0 text-warning';
+            } else {
+                cacheRateEl.className = 'mb-0 text-danger';
+            }
+        }
+        
+        // Dead rows with color
+        const deadRows = dbHealth.dead_rows || 0;
+        const deadRowsEl = document.getElementById('stat-dead-rows');
+        if (deadRowsEl) {
+            deadRowsEl.textContent = deadRows.toLocaleString();
+            if (deadRows < 1000) {
+                deadRowsEl.className = 'mb-0 text-success';
+            } else if (deadRows < 5000) {
+                deadRowsEl.className = 'mb-0 text-warning';
+            } else {
+                deadRowsEl.className = 'mb-0 text-danger';
+            }
+        }
+        
+        // Partitions filled
+        const filledPartitions = dbHealth.filled_partitions || 0;
+        const totalPartitions = dbHealth.total_partitions || 0;
+        const partitionsEl = document.getElementById('stat-partitions');
+        if (partitionsEl) {
+            partitionsEl.textContent = filledPartitions + '/' + totalPartitions;
+            partitionsEl.className = 'mb-0';
+        }
+        
+        // Active connections
+        const activeConn = dbHealth.active_connections || 0;
+        const totalConn = dbHealth.total_connections || 0;
+        const connEl = document.getElementById('stat-connections');
+        if (connEl) {
+            connEl.textContent = activeConn + '/' + totalConn;
+            connEl.className = 'mb-0';
+        }
+        
+        // Database size
+        const dbSizeEl = document.getElementById('stat-db-size');
+        if (dbSizeEl) {
+            dbSizeEl.textContent = dbHealth.db_size || 'N/A';
+            dbSizeEl.className = 'mb-0';
+        }
+    }
+
+    function createEdges(data) {
         const healthColors = {
             'green': '#10b981',
             'yellow': '#f59e0b',
-            'red': '#ef4444'
+            'red': '#ef4444',
+            'grey': '#9ca3af'
         };
         
         return [
@@ -257,30 +276,6 @@
                 animated: false,
                 style: { 
                     stroke: healthColors[data.bank_input.health],
-                    strokeWidth: 2,
-                    strokeDasharray: '5,5'
-                }
-            },
-            {
-                id: 'e_bnp',
-                source: 'bank_bnp',
-                target: 'cashapp_bai',
-                type: 'bezier',
-                animated: false,
-                style: { 
-                    stroke: healthColors[data.bank_bnp.health],
-                    strokeWidth: 2,
-                    strokeDasharray: '5,5'
-                }
-            },
-            {
-                id: 'e_db',
-                source: 'bank_db',
-                target: 'cashapp_bai',
-                type: 'bezier',
-                animated: false,
-                style: { 
-                    stroke: healthColors[data.bank_db.health],
                     strokeWidth: 2,
                     strokeDasharray: '5,5'
                 }
@@ -370,6 +365,10 @@
 
                 ReactDOM.render(flowElement, container);
                 console.log('OPS Dashboard ' + (isAutoRefresh ? 'refreshed' : 'initialized') + ' successfully');
+                
+                // Update database stats
+                updateDatabaseStats(data.database_health);
+                
                 isRefreshing = false;
             })
             .catch(error => {

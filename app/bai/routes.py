@@ -29,35 +29,8 @@ def nl_currency_filter(value):
 @login_required
 @require_bai_access
 def dashboard():
-    """Main dashboard"""
-    days = request.args.get('days', 7, type=int)
-    
-    try:
-        # Get summary data
-        transaction_summary = db.get_transaction_summary(days=days)
-        balance_data = db.get_balance_data(days=days)
-        data_quality = db.get_data_quality_status(days=days)
-        missing_days = db.get_missing_days(days=30)
-        
-        return render_template('bai_dashboard.html',
-            transaction_summary=transaction_summary,
-            balance_data=balance_data,
-            data_quality=data_quality,
-            missing_days=missing_days,
-            current_date=datetime.now(),
-            selected_days=days
-        )
-    except Exception as e:
-        flash(f'Error loading dashboard: {str(e)}', 'danger')
-        return render_template('bai_dashboard.html', 
-            error=str(e),
-            current_date=datetime.now(),
-            transaction_summary=[],
-            balance_data=[],
-            data_quality=[],
-            missing_days=[],
-            selected_days=days
-        )
+    """Main dashboard - redirects to reconciliation report"""
+    return redirect(url_for('bai.reconciliation_report'))
 
 @bai_bp.route('/ops-dashboard')
 @login_required
@@ -301,6 +274,217 @@ def reconciliation_report():
             selected_iban=iban_filter
         )
 
+@bai_bp.route('/exports/status')
+@login_required
+@require_bai_access
+def export_status():
+    """Export status page - shows bai_exports_audit_log"""
+    page = request.args.get('page', 1, type=int)
+    per_page = 50
+    
+    # Get filter parameters
+    iban_filter = request.args.get('iban', '')
+    format_filter = request.args.get('format', '')
+    date_from = request.args.get('date_from', '')
+    date_to = request.args.get('date_to', '')
+    
+    try:
+        # Build WHERE clause based on filters
+        where_conditions = []
+        query_params = []
+        
+        if iban_filter:
+            where_conditions.append("iban = %s")
+            query_params.append(iban_filter)
+        
+        if format_filter:
+            where_conditions.append("export_format = %s")
+            query_params.append(format_filter)
+        
+        if date_from:
+            where_conditions.append("closingdate >= %s")
+            query_params.append(date_from)
+        
+        if date_to:
+            where_conditions.append("closingdate <= %s")
+            query_params.append(date_to)
+        
+        where_clause = " WHERE " + " AND ".join(where_conditions) if where_conditions else ""
+        
+        # Query export audit log with pagination and filters
+        query = f"""
+            SELECT 
+                id,
+                timestamp,
+                bank,
+                iban,
+                destination,
+                export_format,
+                closingdate,
+                filename,
+                outputfilepath,
+                record_count,
+                success,
+                error_message,
+                caller_id
+            FROM rpa_data.bai_exports_audit_log
+            {where_clause}
+            ORDER BY timestamp DESC
+            LIMIT %s OFFSET %s
+        """
+        offset = (page - 1) * per_page
+        query_params.extend([per_page, offset])
+        logs = db.execute_query(query, tuple(query_params))
+        
+        # Get total count with filters
+        count_query = f"SELECT COUNT(*) as total FROM rpa_data.bai_exports_audit_log{where_clause}"
+        total_result = db.execute_query(count_query, tuple(query_params[:-2])) if where_conditions else db.execute_query(count_query)
+        total_records = total_result[0]['total'] if total_result else 0
+        total_pages = (total_records + per_page - 1) // per_page
+        
+        # Get unique IBANs and formats for filter dropdowns
+        ibans_query = "SELECT DISTINCT iban FROM rpa_data.bai_exports_audit_log WHERE iban IS NOT NULL ORDER BY iban"
+        formats_query = "SELECT DISTINCT export_format FROM rpa_data.bai_exports_audit_log WHERE export_format IS NOT NULL ORDER BY export_format"
+        
+        ibans = [row['iban'] for row in db.execute_query(ibans_query)]
+        formats = [row['export_format'] for row in db.execute_query(formats_query)]
+        
+        # Get status counts with filters
+        status_query = f"""
+            SELECT 
+                SUM(CASE WHEN success = TRUE AND (record_count > 0 OR record_count IS NULL) THEN 1 ELSE 0 END) as success_count,
+                SUM(CASE WHEN success = TRUE AND record_count = 0 THEN 1 ELSE 0 END) as success_no_tx_count,
+                SUM(CASE WHEN success = FALSE THEN 1 ELSE 0 END) as failed_count
+            FROM rpa_data.bai_exports_audit_log
+            {where_clause}
+        """
+        status_result = db.execute_query(status_query, tuple(query_params[:-2])) if where_conditions else db.execute_query(status_query)
+        success_count = status_result[0]['success_count'] if status_result else 0
+        success_no_tx_count = status_result[0]['success_no_tx_count'] if status_result else 0
+        failed_count = status_result[0]['failed_count'] if status_result else 0
+        
+        return render_template('export_status.html',
+            logs=logs,
+            page=page,
+            total_pages=total_pages,
+            total_records=total_records,
+            ibans=ibans,
+            formats=formats,
+            selected_iban=iban_filter,
+            selected_format=format_filter,
+            selected_date_from=date_from,
+            selected_date_to=date_to,
+            success_count=success_count,
+            success_no_tx_count=success_no_tx_count,
+            failed_count=failed_count
+        )
+    except Exception as e:
+        flash(f'Error loading export status: {str(e)}', 'danger')
+        return render_template('export_status.html', logs=[], page=1, total_pages=0, total_records=0, ibans=[], formats=[])
+
+@bai_bp.route('/exports/config', methods=['GET', 'POST'])
+@login_required
+@require_bai_access
+def export_config():
+    """Export configuration page - shows bai_exports table"""
+    if request.method == 'POST':
+        try:
+            action = request.form.get('action', 'create')
+            
+            if action == 'update':
+                # Update existing config
+                config_id = request.form.get('id')
+                enabled = request.form.get('enabled') == 'on'
+                exportformatversion = request.form.get('exportformatversion')
+                outputpath = request.form.get('outputpath')
+                fileprefix = request.form.get('fileprefix')
+                fileextension = request.form.get('fileextension')
+                includedate = request.form.get('includedate') == 'on'
+                dateformat = request.form.get('dateformat')
+                
+                update_query = """
+                    UPDATE rpa_data.bai_exports 
+                    SET enabled = %s, exportformatversion = %s, outputpath = %s, 
+                        fileprefix = %s, fileextension = %s, includedate = %s, 
+                        dateformat = %s, updatedat = NOW()
+                    WHERE id = %s
+                """
+                db.execute_query(update_query, (
+                    enabled, exportformatversion, outputpath, fileprefix, 
+                    fileextension, includedate, dateformat, config_id
+                ))
+                
+                flash('Export configuration updated successfully!', 'success')
+            else:
+                # Create new config
+                enabled = request.form.get('enabled') == 'on'
+                bank = request.form.get('bank')
+                iban = request.form.get('iban')
+                exportformat = request.form.get('exportformat')
+                exportformatversion = request.form.get('exportformatversion')
+                destination = request.form.get('destination')
+                outputpath = request.form.get('outputpath')
+                fileprefix = request.form.get('fileprefix')
+                fileextension = request.form.get('fileextension')
+                includedate = request.form.get('includedate') == 'on'
+                dateformat = request.form.get('dateformat')
+                
+                insert_query = """
+                    INSERT INTO rpa_data.bai_exports 
+                    (enabled, bank, iban, exportformat, exportformatversion, destination, 
+                     outputpath, fileprefix, fileextension, includedate, dateformat, createdat, updatedat)
+                    VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, NOW(), NOW())
+                """
+                db.execute_query(insert_query, (
+                    enabled, bank, iban, exportformat, exportformatversion, destination,
+                    outputpath, fileprefix, fileextension, includedate, dateformat
+                ))
+                
+                flash('Export configuration created successfully!', 'success')
+            
+            return redirect(url_for('bai.export_config'))
+        except Exception as e:
+            flash(f'Error saving export config: {str(e)}', 'danger')
+    
+    try:
+        # Query export configurations
+        query = """
+            SELECT 
+                id,
+                enabled,
+                bank,
+                iban,
+                exportformat,
+                exportformatversion,
+                destination,
+                outputpath,
+                fileprefix,
+                fileextension,
+                includedate,
+                dateformat,
+                createdat,
+                updatedat
+            FROM rpa_data.bai_exports
+            ORDER BY bank, iban
+        """
+        configs = db.execute_query(query)
+        
+        # Get unique banks and IBANs for dropdowns
+        banks_query = "SELECT DISTINCT bank FROM rpa_data.bai_exports_audit_log WHERE bank IS NOT NULL ORDER BY bank"
+        ibans_query = "SELECT DISTINCT iban FROM rpa_data.bai_exports_audit_log WHERE iban IS NOT NULL ORDER BY iban"
+        
+        banks = [row['bank'] for row in db.execute_query(banks_query)]
+        ibans = [row['iban'] for row in db.execute_query(ibans_query)]
+        
+        return render_template('export_config.html',
+            configs=configs,
+            banks=banks,
+            ibans=ibans
+        )
+    except Exception as e:
+        flash(f'Error loading export config: {str(e)}', 'danger')
+        return render_template('export_config.html', configs=[], banks=[], ibans=[])
+
 @bai_bp.route('/api/transaction-chart')
 @login_required
 @require_bai_access
@@ -468,6 +652,127 @@ def ops_status():
         last_sync = sync_data[0]['last_sync'] if sync_data and sync_data[0]['last_sync'] else None
         last_update_str = last_sync.strftime('%H:%M') if last_sync else 'N/A'
         
+        # Get Autobank export data (live)
+        # First get total configured exports
+        autobank_total_query = """
+            SELECT COUNT(1) as total_exports
+            FROM rpa_data.bai_exports
+            WHERE destination = 'Autobank'
+                AND enabled = true
+        """
+        autobank_total_data = db.execute_query(autobank_total_query)
+        autobank_total = autobank_total_data[0]['total_exports'] if autobank_total_data else 0
+        
+        # Get successful exports from audit log
+        autobank_status_query = """
+            SELECT 
+                COUNT(DISTINCT iban) FILTER (WHERE success = true AND record_count > 0) as success_with_data,
+                COUNT(DISTINCT iban) FILTER (WHERE success = true AND record_count = 0) as success_no_data,
+                COUNT(DISTINCT iban) FILTER (WHERE success = false) as failed,
+                MAX(timestamp) as last_created
+            FROM rpa_data.bai_exports_audit_log
+            WHERE destination = 'Autobank'
+                AND timestamp::date = CURRENT_DATE - INTERVAL '1 day'
+        """
+        autobank_data = db.execute_query(autobank_status_query)
+        
+        if autobank_data and autobank_data[0]:
+            autobank_success_data = autobank_data[0]['success_with_data'] or 0
+            autobank_success_no_data = autobank_data[0]['success_no_data'] or 0
+            autobank_failed = autobank_data[0]['failed'] or 0
+            autobank_success = autobank_success_data + autobank_success_no_data
+            autobank_last_export = autobank_data[0]['last_created']
+            autobank_last_export_str = autobank_last_export.strftime('%H:%M') if autobank_last_export else 'N/A'
+        else:
+            autobank_success_data = 0
+            autobank_success_no_data = 0
+            autobank_failed = 0
+            autobank_success = 0
+            autobank_last_export_str = 'N/A'
+        
+        # Determine Autobank health
+        if autobank_success == autobank_total and autobank_total > 0:
+            autobank_health = 'green'
+            autobank_status = 'Complete'
+        elif autobank_success > 0:
+            autobank_health = 'yellow'
+            autobank_status = 'Partial'
+        else:
+            autobank_health = 'red'
+            autobank_status = 'No Export'
+        
+        # Get database health statistics
+        db_health_query = """
+            SELECT 
+                SUM(seq_scan) as sequential_scans,
+                SUM(idx_scan) as index_scans,
+                ROUND(SUM(idx_scan)::numeric / NULLIF(SUM(seq_scan + idx_scan), 0) * 100, 1) as index_hit_rate_pct,
+                SUM(n_dead_tup) as total_dead_rows,
+                SUM(n_live_tup) as total_live_rows,
+                COUNT(*) as table_count
+            FROM pg_stat_user_tables
+            WHERE schemaname = 'rpa_data'
+        """
+        db_health_data = db.execute_query(db_health_query)
+        
+        # Get database size
+        db_size_query = "SELECT pg_size_pretty(pg_database_size(current_database())) as db_size"
+        db_size_data = db.execute_query(db_size_query)
+        
+        # Get active connections
+        db_conn_query = """
+            SELECT 
+                COUNT(*) FILTER (WHERE state = 'active') as active_connections,
+                COUNT(*) as total_connections
+            FROM pg_stat_activity 
+            WHERE datname = current_database()
+        """
+        db_conn_data = db.execute_query(db_conn_query)
+        
+        # Get cache hit ratio
+        db_cache_query = """
+            SELECT 
+                ROUND(sum(blks_hit)::numeric / NULLIF(sum(blks_hit) + sum(blks_read), 0) * 100, 2) as cache_hit_ratio
+            FROM pg_stat_database
+            WHERE datname = current_database()
+        """
+        db_cache_data = db.execute_query(db_cache_query)
+        
+        # Get partition info for bai_rabobank_transactions
+        db_partition_query = """
+            SELECT 
+                COUNT(*) as total_partitions,
+                COUNT(*) FILTER (WHERE n_live_tup > 0) as filled_partitions,
+                SUM(n_live_tup) as total_partition_rows
+            FROM pg_stat_user_tables
+            WHERE schemaname = 'rpa_data'
+            AND (relname = 'bai_rabobank_transactions' OR relname LIKE 'bai_rabobank_transactions_%')
+        """
+        db_partition_data = db.execute_query(db_partition_query)
+        
+        if db_health_data and db_health_data[0]:
+            db_stats = db_health_data[0]
+            db_index_hit_rate = float(db_stats['index_hit_rate_pct']) if db_stats['index_hit_rate_pct'] else 0
+            db_dead_rows = db_stats['total_dead_rows'] or 0
+            db_seq_scans = db_stats['sequential_scans'] or 0
+            db_idx_scans = db_stats['index_scans'] or 0
+            db_live_rows = db_stats['total_live_rows'] or 0
+            db_table_count = db_stats['table_count'] or 0
+        else:
+            db_index_hit_rate = 0
+            db_dead_rows = 0
+            db_seq_scans = 0
+            db_idx_scans = 0
+            db_live_rows = 0
+            db_table_count = 0
+        
+        db_size = db_size_data[0]['db_size'] if db_size_data and db_size_data[0] else 'N/A'
+        db_active_conn = db_conn_data[0]['active_connections'] if db_conn_data and db_conn_data[0] else 0
+        db_total_conn = db_conn_data[0]['total_connections'] if db_conn_data and db_conn_data[0] else 0
+        db_cache_hit = float(db_cache_data[0]['cache_hit_ratio']) if db_cache_data and db_cache_data[0] and db_cache_data[0]['cache_hit_ratio'] else 0
+        db_total_partitions = db_partition_data[0]['total_partitions'] if db_partition_data and db_partition_data[0] else 0
+        db_filled_partitions = db_partition_data[0]['filled_partitions'] if db_partition_data and db_partition_data[0] else 0
+        
         return jsonify({
             'bank_input': {
                 'source': 'Rabobank',
@@ -506,20 +811,37 @@ def ops_status():
                 'health': cashapp_health
             },
             'autobank_output': {
-                'rabo_accounts': 2,
-                'rabo_total': 3,
-                'last_export': 'N/A',
-                'status': 'Partial',
-                'health': 'yellow',
-                'message': 'Rabobank: 2/3 accounts'
+                'rabo_accounts': autobank_success,
+                'rabo_total': autobank_total,
+                'success_data': autobank_success_data,
+                'success_no_data': autobank_success_no_data,
+                'failed': autobank_failed,
+                'last_export': autobank_last_export_str,
+                'status': autobank_status,
+                'health': autobank_health,
+                'message': f'Rabobank: {autobank_success}/{autobank_total} accounts'
             },
             'globes_output': {
                 'rabo_accounts': 0,
                 'rabo_total': 28,
                 'last_export': 'N/A',
-                'status': 'No Export',
-                'health': 'red',
+                'status': 'Not Enabled Yet',
+                'health': 'grey',
                 'message': 'Rabobank: 0/28 accounts'
+            },
+            'database_health': {
+                'index_hit_rate': db_index_hit_rate,
+                'dead_rows': db_dead_rows,
+                'live_rows': db_live_rows,
+                'sequential_scans': db_seq_scans,
+                'index_scans': db_idx_scans,
+                'table_count': db_table_count,
+                'db_size': db_size,
+                'active_connections': db_active_conn,
+                'total_connections': db_total_conn,
+                'cache_hit_ratio': db_cache_hit,
+                'total_partitions': db_total_partitions,
+                'filled_partitions': db_filled_partitions
             },
             'timestamp': datetime.now().isoformat()
         })

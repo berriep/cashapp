@@ -279,6 +279,11 @@ def generate_bank_statement_pdf(summary, transactions):
         # Description - use Paragraph for wrapping
         description = tx.get('description', '') or ''
         
+        # Add End to End ID if available
+        end_to_end_id = tx.get('end_to_end_id', '')
+        if end_to_end_id:
+            description = f"{description}<br/><font size='7' color='#6B7F68'><i>End to End: {end_to_end_id}</i></font>"
+        
         # Format amount with color (Center Parcs orange-red for negative, green for positive)
         amount = tx.get('transaction_amount', 0)
         amount_text = format_currency(amount)
